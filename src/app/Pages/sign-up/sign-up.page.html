@@ -17,8 +17,7 @@
     <img src="../../../assets/logo_THP1.png">
 </div>
 
-<div class="ion-padding">
-
+<div class="ion-padding" >
   <form class="ion-padding">
 
     <div class="wrap-input">
@@ -26,13 +25,13 @@
     </div>
 
     <div class="wrap-input">
-   <input class="input" type="text" name="user-email" placeholder="Email">
+   <input class="input" type="text" name="user-email" placeholder="Email" #email>
   
     </div>
 
     <div class="wrap-input">
-      <input class="input" type="password" name="user-password" placeholder="Password">
-     
+      <input class="input" type="password" name="user-password" placeholder="Password" #password>
+      
        </div>
 
     <div class="wrap-input">
@@ -40,7 +39,7 @@
     </div> 
 
     <div class="container-form-btn">
-      <button class="form-btn custom-font">
+      <button class="form-btn custom-font" (click)="signUp(email,password)">
       SignUp
       </button>
     </div>   
@@ -54,6 +53,6 @@
 
 <ion-footer class="ion-no-border">
 	<ion-toolbar>
-		<p class="ion-text-center custom-font">Already have an account? <a href="">Sign In</a></p>
+		<p class="ion-text-center custom-font">Already have an account? <a routerLink="/login">Sign In</a></p>
 	</ion-toolbar>
 </ion-footer>
