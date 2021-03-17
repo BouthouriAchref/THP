@@ -7,13 +7,13 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  options = {
+  sliderConfig = {
     centeredSlides: true,
-    slidesPerView: 1,
     spaceBetween: -60,
+    slidesPerView: 1.1,
   };
 
-  categories = {
+  categoriesSliderConfig = {
     slidesPerView: 2.5,
   };
 

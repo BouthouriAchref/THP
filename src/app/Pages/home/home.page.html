@@ -36,7 +36,7 @@
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col size="12">
-        <ion-slides [options]="options">
+        <ion-slides [options]="sliderConfig">
 
           <ion-slide>
             <ion-card class="card">
@@ -58,7 +58,46 @@
               </ion-card-content>
             </ion-card>
           </ion-slide>
+          <ion-slide>
+            <ion-card class="card">
+              <ion-card-content class="ion-text-left">
 
+                <div class="img-wrapper">
+                  <ion-img src="../../assets/banna.jpg"></ion-img>
+                </div>
+                
+                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
+                <ion-card-subtitle>Some description here</ion-card-subtitle>
+                <ion-card-subtitle>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star-outline"></ion-icon>
+                </ion-card-subtitle>
+              </ion-card-content>
+            </ion-card>
+          </ion-slide>
+          <ion-slide>
+            <ion-card class="card">
+              <ion-card-content class="ion-text-left">
+
+                <div class="img-wrapper">
+                  <ion-img src="../../assets/taher.jpg"></ion-img>
+                </div>
+                
+                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
+                <ion-card-subtitle>Some description here</ion-card-subtitle>
+                <ion-card-subtitle>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star-outline"></ion-icon>
+                </ion-card-subtitle>
+              </ion-card-content>
+            </ion-card>
+          </ion-slide>
          
         </ion-slides>
       </ion-col>
@@ -88,7 +127,7 @@
     <ion-grid class="ion-no-padding">
       <ion-row>
         <ion-col size="12">
-          <ion-slides [options]="categories">
+          <ion-slides [options]="categoriesSliderConfig">
   
             <ion-slide>
               <ion-card class="category" color="danger">
@@ -193,7 +232,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col size="12">
-            <ion-slides [options]="options">
+            <ion-slides [options]="sliderConfig">
     
               <ion-slide>
                 <ion-card class="card">

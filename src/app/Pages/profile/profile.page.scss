@@ -4,9 +4,11 @@ ion-content {
 
 .header {
     height: 110px;
-    background:url('../../../assets/mosquee.jpg');
     width: 100%;
     padding-top: 1px;
+    background-blend-mode: color-burn;
+    background-size: 10px;
+    
 }
 
 .header h2 {
@@ -99,3 +101,15 @@ ion-card-content {
     }
   
   }
+
+
+
+.couverture{
+    min-height: 110px;
+    height: 100%;
+    width: 100%;
+    padding-top: 1px;
+    background-blend-mode: color-burn;
+    background-size: cover;
+    
+}

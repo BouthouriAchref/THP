@@ -14,10 +14,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { environment } from '../environments/environment';
-import { EditProfilePipe } from './Pages/edit-profile.pipe';
 
 @NgModule({
-  declarations: [AppComponent, EditProfilePipe],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
