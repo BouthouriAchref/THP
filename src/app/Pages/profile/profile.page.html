@@ -1,12 +1,15 @@
 <ion-header class="ion-no-border">
   <ion-item lines="Categories">
-
+    <ion-buttons>
+      <ion-button routerLink="/menu/home">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-label>
-      <h1>Taher Robbana</h1>
+      <h1></h1>
     </ion-label>
   </ion-item>
 </ion-header>
-
 <ion-content>
   <ion-header class="ion-no-border">
     <div style="background:url('../../../assets/museum.jpg'),rgb(0 0 0 / 50%);" class="couverture">
@@ -32,7 +35,7 @@
     <ion-grid class="ion-no-padding">
       <ion-label>
         <br>
-        <h1>Taher Robbana</h1>
+        <h1>{{USER?.FullName}}</h1>
         <h3>
           <ion-icon name="person-circle-outline"></ion-icon> taherrobbana
         </h3>
@@ -151,5 +154,5 @@
     </ion-row>
   </ion-grid>
   <br>
-  <ion-button expand="block">CREATE A NEW PLACES</ion-button>
+  <ion-button expand="block">creat a new place</ion-button>
 </ion-content>

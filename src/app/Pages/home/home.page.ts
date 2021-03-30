@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,19 @@ export class HomePage {
     slidesPerView: 2.5,
   };
 
-  constructor() {}
+  public categories = [];
+  public places = [];
+
+  constructor(private data: DataService) {}
+
+  ngOnInit() {
+    //throw new Error('Method not implemented.');
+    this.categories = this.data.getCategories();
+    this.places = this.data.getPlaces();
+    for (let place of this.places){
+      place.noteArray.length  = place.note; 
+      place.noteArray2.length  = ( 5 - place.note );
+    }    
+  }
 
 }

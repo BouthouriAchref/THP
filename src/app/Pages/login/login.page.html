@@ -18,18 +18,19 @@
   </div>
 
   <div class="ion-padding">
-    <form class="ion-padding">
+    <form class="ion-padding" [formGroup]="credentialsForm"  >
 
       <div class="wrap-input">
-        <input class="input" type="text" name="user-email" placeholder="Email" #email>
+        <input class="input" type="text" name="user-email" placeholder="Email" #email formControlName="email">
       </div>
 
       <div class="wrap-input">
-        <input class="input" type="password" name="password" placeholder="Password" #password>
+        <input class="input" type="password" name="password" placeholder="Password" #password formControlName="password">
       </div>
 
       <div class="container-form-btn">
-        <button class="form-btn custom-font" (click)="logIn(email,password)">Login</button>
+        <!-- <button class="form-btn custom-font" type="submit" (click)="onSubmit()" [disabled]="!credentialsForm.valid">Login</button> -->
+        <button class="form-btn custom-font" (click)="onSubmit()">Login</button>
       </div>
 
       <div class="row">

@@ -1,5 +1,7 @@
 {
   "name": "TunisiaHP",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

@@ -114,7 +114,20 @@
   border-radius: 50%;
   text-decoration: none;
   margin: 5px 2px;
+  background-color: #28333b;
   margin-top: 125px;
   margin-left: 20px;
+}
+.fa-google:before {
+  content: "\f1a0";
+  color: white;
+}
+.fa-facebook-f:before, .fa-facebook:before {
+  content: "\f09a";
+  color: white;
+}
+.fa-apple:before {
+  content: "\f179";
+  color: white;
 }
 

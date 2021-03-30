@@ -1,0 +1,24 @@
+{
+    "categories": [
+        {
+            "id": "1",
+            "name":"beach",
+            "image":"../../assets/beach.jpg"
+        },
+        {
+            "id": "2",
+            "name":"forest",
+            "image":"../../assets/forest.jpg"
+        },
+        {
+            "id": "3",
+            "name":"mountain",
+            "image":"../../assets/mountain.jpg"
+        },
+        {
+            "id": "4",
+            "name":"lake",
+            "image":"../../assets/lake.jpg"
+        }
+    ]
+}

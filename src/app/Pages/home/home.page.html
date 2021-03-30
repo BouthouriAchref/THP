@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-item lines="Categories">
     <ion-avatar slot="end">
-      <img src="https://yt3.ggpht.com/a-/AOh14GjThP6xpdHXuwV9tVt7wMvBIytCfvZm4N_BkN1MrA=s288-c-k-c0xffffffff-no-rj-mo">
+      <img src="../../../assets/taher.jpg" routerLink="/menu/profile">
     </ion-avatar>
     <ion-label>
       <h2>Find, </h2>
@@ -11,10 +11,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
 <div class="ion-padding wrapper">
-
-  <ion-searchbar></ion-searchbar>
+  <ion-buttons>
+    <ion-searchbar></ion-searchbar>
+    <ion-button>
+      <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
 
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-align-items-baseline">
@@ -38,75 +41,26 @@
       <ion-col size="12">
         <ion-slides [options]="sliderConfig">
 
-          <ion-slide>
+          <ion-slide *ngFor="let place of places">
             <ion-card class="card">
               <ion-card-content class="ion-text-left">
-
                 <div class="img-wrapper">
-                  <ion-img src="../../assets/museum.jpg"></ion-img>
+                  <ion-img src="{{place.image}}"></ion-img>
                 </div>
-                
-                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
-                <ion-card-subtitle>Some description here</ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
+                <ion-card-title class="title">{{place.title}}</ion-card-title>
+                <ion-card-subtitle>{{place.description.substring(0, 205)}}...</ion-card-subtitle>
+                <ion-card-subtitle >
+                  <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
+                  <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
                 </ion-card-subtitle>
               </ion-card-content>
             </ion-card>
           </ion-slide>
-          <ion-slide>
-            <ion-card class="card">
-              <ion-card-content class="ion-text-left">
-
-                <div class="img-wrapper">
-                  <ion-img src="../../assets/banna.jpg"></ion-img>
-                </div>
-                
-                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
-                <ion-card-subtitle>Some description here</ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
-                </ion-card-subtitle>
-              </ion-card-content>
-            </ion-card>
-          </ion-slide>
-          <ion-slide>
-            <ion-card class="card">
-              <ion-card-content class="ion-text-left">
-
-                <div class="img-wrapper">
-                  <ion-img src="../../assets/taher.jpg"></ion-img>
-                </div>
-                
-                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
-                <ion-card-subtitle>Some description here</ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
-                </ion-card-subtitle>
-              </ion-card-content>
-            </ion-card>
-          </ion-slide>
-         
         </ion-slides>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
   <div class="ion-padding-horizontal wrapper">
-  
     <ion-grid class="ion-no-padding">
       <ion-row class="ion-align-items-baseline">
         <ion-col size="6">
@@ -121,54 +75,11 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  
     </div>
-  
     <ion-grid class="ion-no-padding">
       <ion-row>
         <ion-col size="12">
-          <ion-slides [options]="categoriesSliderConfig">
-  
-            <ion-slide>
-              <ion-card class="category" color="danger">
-                <ion-card-header class="ion-text-center">
-                  <ion-icon src="assets/dish.svg"></ion-icon>
-                  <ion-card-title>Food</ion-card-title>
-                  <ion-card-subtitle>Something here</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </ion-slide>
-
-            <ion-slide>
-              <ion-card class="category" color="primary">
-                <ion-card-header class="ion-text-center">
-                  <ion-icon src="assets/cocktail.svg"></ion-icon>
-                  <ion-card-title>Drink</ion-card-title>
-                  <ion-card-subtitle>Something here</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </ion-slide>
-
-            <ion-slide>
-              <ion-card class="category" color="warning">
-                <ion-card-header class="ion-text-center">
-                  <ion-icon src="assets/burger.svg"></ion-icon>
-                  <ion-card-title>Burger</ion-card-title>
-                  <ion-card-subtitle>Something here</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </ion-slide>
-
-            <ion-slide>
-              <ion-card class="category" color="success">
-                <ion-card-header class="ion-text-center">
-                  <ion-icon src="assets/pizza.svg"></ion-icon>
-                  <ion-card-title>Pizza</ion-card-title>
-                  <ion-card-subtitle>Something here</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </ion-slide>
-
+          <!-- <ion-slides [options]="categoriesSliderConfig">
             <ion-slide>
               <ion-card class="category" color="tertiary">
                 <ion-card-header class="ion-text-center">
@@ -178,7 +89,6 @@
                 </ion-card-header>
               </ion-card>
             </ion-slide>
-
             <ion-slide>
               <ion-card class="category" color="danger">
                 <ion-card-header class="ion-text-center">
@@ -188,30 +98,21 @@
                 </ion-card-header>
               </ion-card>
             </ion-slide>
-
-            <ion-slide>
-              <ion-card class="category" color="secondary">
-                <ion-card-header class="ion-text-center">
-                  <ion-icon src="assets/noodle.svg"></ion-icon>
-                  <ion-card-title>Noodle</ion-card-title>
-                  <ion-card-subtitle>Something here</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </ion-slide>
-
-            
-
-            
-  
-          </ion-slides>
+          </ion-slides> -->
+          <div class="category-slider ion-padding-start">
+            <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+              <ion-slide *ngFor="let category of categories">
+                <ion-col>
+                  <h4>{{ category.name }}</h4>
+                  <img src="{{ category.image }}" />
+                </ion-col>
+              </ion-slide>
+            </ion-slides>
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>
-
-
-
     <div class="ion-padding-horizontal wrapper">
-    
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-align-items-baseline">
           <ion-col size="6">
@@ -226,42 +127,30 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    
       </div>
-    
       <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col size="12">
             <ion-slides [options]="sliderConfig">
-    
-              <ion-slide>
+              <ion-slide *ngFor="let place of places">
                 <ion-card class="card">
                   <ion-card-content class="ion-text-left">
-    
                     <div class="img-wrapper">
-                      <ion-img src="https://images.pexels.com/photos/109275/pexels-photo-109275.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"></ion-img>
+                      <ion-img src="{{place.image}}"></ion-img>
                     </div>
-                    
-                    <ion-card-title class="title">Some Awesome Title</ion-card-title>
-                    <ion-card-subtitle>Some description here</ion-card-subtitle>
-                    <ion-card-subtitle>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
+                    <ion-card-title class="title">{{place.title}}</ion-card-title>
+                    <ion-card-subtitle>{{place.description.substring(0, 200)}}...</ion-card-subtitle>
+                    <ion-card-subtitle >
+                      <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
+                      <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
                     </ion-card-subtitle>
                   </ion-card-content>
                 </ion-card>
               </ion-slide>
-
-    
+              
             </ion-slides>
           </ion-col>
         </ion-row>
       </ion-grid>
-    
-
-
 </ion-content>
 
