@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TunisiaHiddenPlaces</string>
+    <string name="title_activity_main">TunisiaHiddenPlaces</string>
+    <string name="package_name">com.thp.app</string>
+    <string name="custom_url_scheme">com.thp.app</string>
+    <string name="facebook_app_id">947551922650714</string>
+    <string name="fb_login_protocol_scheme">947551922650714</string>
+</resources>

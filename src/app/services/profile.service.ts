@@ -11,6 +11,10 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   findUserById(id){
-    return this.http.get(`${this.url}/api/user/${id}`)
+    return this.http.get(`${this.url}/api/Auth/user/${id}`)
+  }
+
+  updateAvatar(id){
+    return this.http.put(`${this.url}/api/Auth/user/upload/`,id)
   }
 }

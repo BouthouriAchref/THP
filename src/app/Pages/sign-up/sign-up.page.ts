@@ -20,6 +20,7 @@ export class SignUpPage implements OnInit {
 
   ngOnInit() {
     this.credentialsForm = this.formBuilder.group({
+      fullname: new FormControl('',[Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password:new FormControl ('', [Validators.required, Validators.minLength(6)]),
       ConfirmPassword:new FormControl ('', [Validators.required, Validators.minLength(6)]),
@@ -28,8 +29,11 @@ export class SignUpPage implements OnInit {
 
   register(){
     this.authService.register(this.credentialsForm.value).subscribe(res =>{
-      this.authService.login(this.credentialsForm.value).subscribe();
-      this.router.navigate(['menu/profile']);
+      console.log(this.credentialsForm.value);
+      this.authService.login(this.credentialsForm.value).subscribe(res => {
+        this.router.navigate(['menu/profile']);
+      });
+      
     });
   }
 

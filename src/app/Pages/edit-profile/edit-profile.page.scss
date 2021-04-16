@@ -3,13 +3,10 @@ ion-content {
   }
 
 .header {
-    height: 110px;
-    //background:url('../../../assets/museum.jpg'),rgb(0 0 0 / 50%);
+    height: 206px;
+    background-color: #ff3838;
     width: 100%;
     padding-top: 1px;
-    background-blend-mode: color-burn;
-    background-size: 10px;
-
     
     
 }
@@ -40,33 +37,27 @@ ion-content {
 .img-box {
     border-radius: 50%;
     overflow: hidden;
-    height: 90px;
-    width: 90px;
-    position: relative;
-    
+    height: 130px;
+    width: 130px;
 }
 
 .border-white {
-    border: white solid 3px;
+    border: white solid 4px;
     border-radius: 50%;
     width: fit-content;
 }
 
-.border-blue {
-    border: 4px solid #ff3838;
+.border-red {
+    border: 7px solid #ff5757;
     border-radius: 50%;
     width: fit-content;
 }
 
 .flex {
     display: flex;
-    justify-content: right;
-    margin-top: -30px;
-    margin-left: 20px;
-    margin-bottom: -72px;
-
+    justify-content: center;
+    margin-top: -76px;
 }
-
 .abs {
     margin-left: 60px;   
 }
@@ -110,8 +101,8 @@ ion-card-content {
 .i1 {
     color: white;
     position: absolute;
-    top: 27%;
-    left: 23%;
+    top: 23%;
+    left: 44%;
     font-size: 30px;
 }
 

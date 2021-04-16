@@ -1,24 +1,53 @@
-<ion-header class="ion-no-border">
-  <ion-item lines="Categories">
-    <ion-buttons>
-      <ion-button routerLink="/menu/profile">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-label>
-      <h1>Edit your profile</h1>
-    </ion-label>
-    <div class="abs">
-      <ion-button shape="round">Save</ion-button>
-    </div>
-  </ion-item>
+<ion-content>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</ion-header>
-<ion-content>
-  <ion-header class="ion-no-border">
+
+  <div class="header">
+    <ion-buttons class="space-between">
+      <ion-button style="color: white;" routerLink="/menu/profile">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      <div class="abs">
+        <ion-button style="color: white;">
+          <ion-icon slot="icon-only" name="save"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-buttons>
+    <h2>Taher Robbana</h2>
+
+    
+  </div>
+    <div class="flex">
+      <div class="border-red">
+        <div class="border-white">
+          <div class="img-box">
+            <ion-buttons class="i1">
+              <ion-button>
+                <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+            <div>
+              <img src="../../../assets/taher.jpg">
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <ion-header class="ion-no-border">
     <div style="background:url('../../../assets/museum.jpg'),rgb(0 0 0 / 50%);" class="couverture">
-    <!-- <div style="background:url('../../../assets/{{profileImg.name}}'),rgb(0 0 0 / 50%);" class="couverture"> -->
     </div>
     <div class="flex">
       <div class="box-border">
@@ -46,8 +75,8 @@
         </div>
       </div>
     </div>
-  </ion-header>
-  <br><br><br>
+  </ion-header> -->
+
   <div class="ion-padding wrapper">
     <ion-grid class="ion-no-padding">
       <ion-label>

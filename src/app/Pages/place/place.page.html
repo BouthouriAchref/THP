@@ -1,61 +1,190 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>place</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
-</ion-content> -->
-<ion-header class="ion-no-border">
-  <ion-item lines="Categories">
-    <ion-buttons>
-      <ion-button>
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+  <div class="image-slider">
+    <ion-buttons >
+      <!-- <ion-icon name="arrow-back-outline" routerLink="/menu/home"></ion-icon> -->
+      
+      <ion-button style="width: 70px; height: 70px; ">
+        <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="arrow-back-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button style="width: 70px; height: 70px; ">
+        <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="heart-circle" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-label>
-      <h1>Taher Robbana</h1>
-    </ion-label>
-  </ion-item>
-</ion-header>
-
-<ion-content>
-  <ion-header class="ion-no-border">
-    <div style="background:url('../../../assets/museum.jpg')" class="couverture">
-      <!-- <div style="background:url('../../../assets/{{profileImg.name}}'),rgb(0 0 0 / 50%);" class="couverture"> -->
-      </div>
-    <div class="flex">
-      <!-- <div class="box-border"> -->
-        <!-- <div class="border-white"> -->
-          <!-- <div class="img-box"> -->
-            
-            <ion-buttons class="i1">
-              <ion-button>
-                <ion-icon slot="icon-only" name="heart-circle-outline"></ion-icon>
-              </ion-button>
-            </ion-buttons>
-
-            <button ion-button icon-start>
-              <ion-icon name="heart-circle-outline"></ion-icon>
-            </button>
-          <!-- </div> -->
-        <!-- </div> -->
-      <!-- </div> -->
-     
-    </div>
-  </ion-header>
-  <br><br><br>
-  <div class="ion-padding wrapper">
-    <ion-grid class="ion-no-padding">
-      <ion-label>
-        <br>
-        <h1>Taher Robbana</h1>
-        
-      </ion-label>
-    </ion-grid>
+    <ion-slides pager="true">
+      <ion-slide>
+        <img src="../../../assets/djerba.jpg" alt="">
+      </ion-slide>
+      <ion-slide>
+        <img src="../../../assets/Monastir.jpg" alt="">
+      </ion-slide>
+    </ion-slides>
   </div>
-  
+  <div class="profile-info">
+    <div class="user-info">
+      <div class="basic-info">
+        <h1>Djerba</h1>
+        <p>
+          <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+          <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+          <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+          <ion-icon name="star-half-outline" style="color: #f2994a; padding-right: 4px;"></ion-icon>
+          <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+        </p>
+        <p>
+          <ion-icon name="location-outline"></ion-icon>
+          Djerba, Tunisiaaaaa (500km)
+        </p>
+        <p>
+          <ion-icon name="search-outline"></ion-icon>
+          Beaches
+        </p>
+
+      </div>
+
+      
+    </div>
+    <div class="about-me">
+      <h1>Description</h1>
+      
+      <p *ngIf="!isSeeMore" (click) ="isSeeMore = true">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews').substring(0,200)}}
+        <span style="color: rgb(49, 52, 143);">... See more</span>
+        <span class="more-less"></span>
+      </p>
+      <p *ngIf="isSeeMore" (click) ="isSeeMore = false">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews')}}
+        <span class="more-less" style="color: rgb(49, 52, 143);"> See less</span>
+      </p>
 
 
+      <!-- <p style="white-space: break-spaces;" *ngIf="!seeMore" (click) ="seeMore = true">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews').substring(0,100)}}
+        <span style="color: rgb(0, 0, 0);">... See more</span>
+        <span class="more-less"></span>
+      </p>
+      <p style="white-space: break-spaces;" *ngIf="seeMore" (click) ="seeMore = false">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews')}}
+        <span class="more-less" style="color: rgb(0, 0, 0);"> See less</span>
+      </p>    -->
+      
+    </div>
+    <div class="about-me" >
+      <div>
+        <h1>Rating And Review</h1>
+        <ion-fab-button (click)="showAlert()">
+          <img src="../../../assets/rate3.png" >
+        </ion-fab-button>
+      </div>
+
+
+      <ion-list style="background: #f8f8fa; overflow-y: scroll; height: 400px;">
+        <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="../../../assets/beach.jpg" >
+          </ion-avatar>
+          <ion-label>
+            <h2 >Taher Robbana</h2>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <p style="white-space: break-spaces;" *ngIf="!seeMore" (click) ="seeMore = true">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews').substring(0,100)}}
+              <span style="color: rgb(0, 0, 0);">... See more</span>
+              <span class="more-less"></span>
+            </p>
+            <p style="white-space: break-spaces;" *ngIf="seeMore" (click) ="seeMore = false">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews')}}
+              <span class="more-less" style="color: rgb(0, 0, 0);"> See less</span>
+            </p>            
+            <h3>15/17/2020</h3>
+          </ion-label>
+        </ion-item>
+        </ion-card>
+        <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="../../../assets/beach.jpg" >
+          </ion-avatar>
+          <ion-label>
+            <h2 >Taher Robbana</h2>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <p style="white-space: break-spaces;" *ngIf="!seeMore" (click) ="seeMore = true">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews').substring(0,100)}}
+              <span style="color: rgb(0, 0, 0);">... See more</span>
+              <span class="more-less"></span>
+            </p>
+            <p style="white-space: break-spaces;" *ngIf="seeMore" (click) ="seeMore = false">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews')}}
+              <span class="more-less" style="color: rgb(0, 0, 0);"> See less</span>
+            </p>            
+            <h3>15/17/2020</h3>
+          </ion-label>
+        </ion-item>
+        </ion-card>
+        <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="../../../assets/beach.jpg" >
+          </ion-avatar>
+          <ion-label>
+            <h2 >Taher Robbana</h2>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+            <p style="white-space: break-spaces;" *ngIf="!seeMore" (click) ="seeMore = true">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews').substring(0,100)}}
+              <span style="color: rgb(0, 0, 0);">... See more</span>
+              <span class="more-less"></span>
+            </p>
+            <p style="white-space: break-spaces;" *ngIf="seeMore" (click) ="seeMore = false">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews')}}
+              <span class="more-less" style="color: rgb(0, 0, 0);"> See less</span>
+            </p>            
+            <h3>15/17/2020</h3>
+          </ion-label>
+        </ion-item>
+        </ion-card>
+        <ion-card>
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="../../../assets/taher.jpg" >
+            </ion-avatar>
+            <ion-label>
+              <h2 >Taher Robbana</h2>
+              <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+              <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+              <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+              <ion-icon name="star" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+              <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;" ></ion-icon>
+              <p style="white-space: break-spaces;" *ngIf="!seeMore" (click) ="seeMore = true">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews').substring(0,120)}}
+                <span style="color: rgb(0, 0, 0);">... See more</span>
+                <span class="more-less"></span>
+              </p>
+              <p style="white-space: break-spaces;" *ngIf="seeMore" (click) ="seeMore = false">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews')}}
+                <span class="more-less" style="color: rgb(0, 0, 0);"> See less</span>
+              </p>            
+              <h3>15/17/2020</h3>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+        </ion-list>
+    </div>
+    <div class="about-me" >
+      
+      <h1>Other Pictures</h1>
+      <div class="image-slider">
+
+        <ion-slides [options]="sliderConfig">
+          <ion-slide >
+            <img src="../../../assets/banna.jpg" alt="">
+          </ion-slide>
+          <ion-slide >
+            <img src="../../../assets/taher.jpg" alt="">
+          </ion-slide>
+          <ion-slide >
+            <img src="../../../assets/Tunis.jpg" alt="">
+          </ion-slide>
+        </ion-slides>
+      </div>
+    </div>
+  </div>
 </ion-content>

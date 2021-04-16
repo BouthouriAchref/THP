@@ -1,0 +1,63 @@
+<ion-header translucent="true">
+  <ion-toolbar color="primary">
+    <ion-title>Rate this place</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</ion-header>
+<!-- 
+<ion-content>
+  <div class="rating">
+    <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+    <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+    <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+    <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+    <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+    <br/>
+    <ion-button fill="outline" (click)="closeModal()" color="primary">Rate</ion-button>
+  </div>
+</ion-content> -->
+
+<ion-content>
+   <div class="et">
+
+    <div class="rating">
+      
+     
+    
+        
+        <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+        <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+        <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+        <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+        <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+         
+    </div>
+      
+      <!-- <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label> -->
+      <!-- <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label> -->
+      <!-- <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label> -->
+      <!-- <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label> -->
+      <!-- <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label> -->
+      
+      <br>
+
+      <form>
+        <div class="form-group">
+          <textarea style="resize: none;" class="form-control" rows="2" id="comment" placeholder="Write your review..."></textarea>
+        </div>
+      </form>
+
+      
+
+      <ion-button style="padding-left: none;" (click)="closeModal()" color="primary">Rate</ion-button>
+    </div>
+  
+  </ion-content> 
+  
+

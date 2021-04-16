@@ -46,7 +46,7 @@ ion-searchbar {
 ion-card-content {
   .img-wrapper {
     border-radius: 14px;
-    height: 200px;
+    height: 140px;
     overflow: hidden;
     margin-bottom: 8px;
   }
@@ -114,4 +114,23 @@ ion-badge {
           }
       }
   }
+}
+
+.border {
+  border: 2px solid #ff3838;
+  border-radius: 50%;
+  height: -webkit-fill-available;
+}
+
+.border_white {
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  height: -webkit-fill-available;
+}
+
+.img_box {
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  overflow: hidden;
 }

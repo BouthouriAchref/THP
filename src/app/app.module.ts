@@ -17,6 +17,13 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { Storage, IonicStorageModule } from '@ionic/storage';
+import { Camera } from '@ionic-native/camera/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx'
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { ImagesService } from './services/images.service';
+
+
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -39,13 +46,23 @@ export function jwtOptionsFactory(storage) {
         deps: [Storage]
       }
     })
-
+    //FireBase
     // AngularFireModule.initializeApp(environment.firebaseConfig),
     // AngularFireAuthModule,
     // AngularFireDatabaseModule,
     // AngularFireStorageModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    
+    Camera,
+    ImagesService,
+    FileTransfer,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    //SplashScreen,
+    //StatusBar
+ 
+
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -1,13 +1,88 @@
 <ion-header [translucent]="true">
-  <ion-buttons>
-    <ion-button routerLink="/menu/home">
-      <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-    </ion-button>
-    <ion-searchbar style="border-radius: 20px;"></ion-searchbar>  
-    <ion-button>
-      <ion-icon slot="icon-only" name="options-outline"></ion-icon>
-    </ion-button>
-  </ion-buttons>
+  <div>
+    <ion-buttons>
+      <ion-button routerLink="/menu/home">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      <ion-searchbar style="border-radius: 20px;"></ion-searchbar>  
+      <ion-button (click)='open()'>
+        <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- <div *ngIf ="isOpened"> -->
+      <ion-item *ngIf ="isOpened">
+        <ion-label>Categories</ion-label>
+        <ion-select placeholder="Select One" multiple="true" >
+          <ion-select-option value="Beach">Beach</ion-select-option>
+          <ion-select-option value="Forest">Forest</ion-select-option>
+          <ion-select-option value="Mountain">Mountain</ion-select-option>
+          <ion-select-option value="Lake">Lake</ion-select-option>
+        </ion-select>
+      </ion-item> 
+    <!-- </div> -->
+  </div>
+    <!-- <div> -->
+      <!-- <ion-list> -->
+        
+      
+        <!-- <ion-item>
+          <ion-label>Hair Color</ion-label>
+          <ion-select placeholder="Select One" value="brown" okText="Okay" cancelText="Dismiss">
+            <ion-select-option value="brown">Brown</ion-select-option>
+            <ion-select-option value="blonde">Blonde</ion-select-option>
+            <ion-select-option value="black">Black</ion-select-option>
+            <ion-select-option value="red">Red</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              Interface Options
+            </ion-label>
+          </ion-list-header>
+        
+          <ion-item>
+            <ion-label>Alert</ion-label>
+            <ion-select [interfaceOptions]="customAlertOptions" interface="alert" multiple="true" placeholder="Select One">
+              <ion-select-option value="bacon">Bacon</ion-select-option>
+              <ion-select-option value="olives">Black Olives</ion-select-option>
+              <ion-select-option value="xcheese">Extra Cheese</ion-select-option>
+              <ion-select-option value="peppers">Green Peppers</ion-select-option>
+              <ion-select-option value="mushrooms">Mushrooms</ion-select-option>
+              <ion-select-option value="onions">Onions</ion-select-option>
+              <ion-select-option value="pepperoni">Pepperoni</ion-select-option>
+              <ion-select-option value="pineapple">Pineapple</ion-select-option>
+              <ion-select-option value="sausage">Sausage</ion-select-option>
+              <ion-select-option value="Spinach">Spinach</ion-select-option>
+            </ion-select>
+          </ion-item>
+        
+          <ion-item>
+            <ion-label>Popover</ion-label>
+            <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select One">
+              <ion-select-option value="brown">Brown</ion-select-option>
+              <ion-select-option value="blonde">Blonde</ion-select-option>
+              <ion-select-option value="black">Black</ion-select-option>
+              <ion-select-option value="red">Red</ion-select-option>
+            </ion-select>
+          </ion-item>
+        
+          <ion-item>
+            <ion-label>Action Sheet</ion-label>
+            <ion-select [interfaceOptions]="customActionSheetOptions" interface="action-sheet" placeholder="Select One">
+              <ion-select-option value="red">Red</ion-select-option>
+              <ion-select-option value="purple">Purple</ion-select-option>
+              <ion-select-option value="yellow">Yellow</ion-select-option>
+              <ion-select-option value="orange">Orange</ion-select-option>
+              <ion-select-option value="green">Green</ion-select-option>
+            </ion-select>
+          </ion-item>
+        
+        </ion-list> --> 
+      
+      <!-- </ion-list> -->
+    <!-- </div> -->
 </ion-header>
 
 <ion-content [fullscreen]="true">

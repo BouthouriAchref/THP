@@ -4,7 +4,13 @@
 	<ion-toolbar>
     
 		<ion-title class="ion-text-center custom-font">Sign Up</ion-title>
+    <ion-buttons>
+      <ion-button routerLink="/menu/home">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 	</ion-toolbar>
+
 </ion-header>
 
 <ion-content fullscreen="true">
@@ -21,7 +27,7 @@
   <form class="ion-padding" [formGroup]="credentialsForm">
 
     <div class="wrap-input">
-    <input class="input" type="text" name="user-name" placeholder="Full Name">
+    <input class="input" type="text" name="user-name" placeholder="Full Name" formControlName="fullname">
     </div>
 
     <div class="wrap-input">

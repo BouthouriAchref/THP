@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, isPlatform, Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { environment } from 'src/environments/environment';
@@ -14,14 +14,14 @@ const ID_USER = 'id';
   providedIn: 'root'
 })
 export class AuthService {
-
-  url = environment.url;
   user = null;
+  url = environment.url;
   authenticationState = new BehaviorSubject(false);
-  constructor(private http: HttpClient, private helper: JwtHelperService, private storage: Storage, private plt: Platform, private alertController: AlertController) {
+  constructor(private http: HttpClient, private helper: JwtHelperService, private storage: Storage, private plt: Platform, private alertController: AlertController ) {
     this.plt.ready().then(() => {
       this.checkToken();
       this.logout();
+      
     
     });
   }
@@ -44,8 +44,17 @@ export class AuthService {
     });
   }
 
+  registerFb(credentials) {
+    return this.http.post(`${this.url}/api/Auth/register/facebook`, credentials).pipe(
+      catchError(e => {
+        this.showAlert(e.error.msg);
+        throw new Error(e);
+      })
+    );
+  }
+
   register(credentials) {
-    return this.http.post(`${this.url}/api/register`, credentials).pipe(
+    return this.http.post(`${this.url}/api/Auth/register`, credentials).pipe(
       catchError(e => {
         this.showAlert(e.error.msg);
         throw new Error(e);
@@ -54,7 +63,7 @@ export class AuthService {
   }
 
   login(credentials) {
-    return this.http.post(`${this.url}/api/login`, credentials).pipe(
+    return this.http.post(`${this.url}/api/Auth/login`, credentials).pipe(
       tap(res => {
         this.storage.set(ID_USER, res['id']);
         this.storage.set(TOKEN_KEY, res['token']);
@@ -76,7 +85,7 @@ export class AuthService {
   }
 
   getSpecialData() {
-    return this.http.get(`${this.url}/api/special`).pipe(
+    return this.http.get(`${this.url}/api/Auth/special`).pipe(
       catchError(e => {
         let status = e.status;
         if (status === 401) {
@@ -89,15 +98,18 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return this.authenticationState.value;
+    return this.authenticationState.getValue();
   }
 
   showAlert(msg) {
     let alert = this.alertController.create({
       message: msg,
-      header: 'Error',
+      header: 'Warning',
       buttons: ['OK']
     });
     alert.then(alert => alert.present());
   }
+
+
+ 
 }

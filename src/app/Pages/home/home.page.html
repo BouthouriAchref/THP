@@ -1,8 +1,46 @@
 <ion-header class="ion-no-border">
   <ion-item lines="Categories">
-    <ion-avatar slot="end">
-      <img src="../../../assets/taher.jpg" routerLink="/menu/profile">
+
+    
+    <!-- <ion-avatar slot="end" *ngIf="canActivate()">
+      <div class="border">
+        <img src="../../../assets/l.png" routerLink="/menu/profile">
+      </div>
+    </ion-avatar> -->
+
+    <ion-avatar slot="end" *ngIf="canActivate()">
+      <div class="border">
+        <div class="border_white">
+          <div class="img_box">
+            <img src="../../../assets/taher.jpg" routerLink="/menu/profile">
+          </div>
+        </div>
+      </div>
     </ion-avatar>
+
+   
+
+
+    <!-- <ion-avatar slot="end" *ngIf="canActivate()">
+      <div class="border">
+        <img src="../../../assets/l2.png" routerLink="/menu/profile">
+      </div>
+    </ion-avatar> -->
+    
+    <!-- <ion-avatar (click)="Logout()" slot="end" *ngIf="canActivate()">
+      <img src="../../../assets/dec2.png">
+    </ion-avatar> -->
+
+    <ion-avatar (click)="Logout()" slot="end" *ngIf="canActivate()">
+      <div class="border">
+        <div class="border_white">
+          <img src="../../../assets/dec2.png" routerLink="/login">
+        </div>
+      </div>
+    </ion-avatar>
+
+    <ion-button (click)="onClick()" slot="end" color="primary" *ngIf="!canActivate()">Sign in </ion-button>
+
     <ion-label>
       <h2>Find, </h2>
       <h1>Place near you !!</h1>
@@ -14,10 +52,39 @@
 <div class="ion-padding wrapper">
   <ion-buttons>
     <ion-searchbar></ion-searchbar>
-    <ion-button>
+    <ion-button (click)='open()'>
       <ion-icon slot="icon-only" name="options-outline"></ion-icon>
     </ion-button>
   </ion-buttons>
+    <div *ngIf ="isOpened">
+      <div class="row">
+        <div class="col-md-6">
+          <ion-item>
+            <ion-label>Categories</ion-label>
+            <ion-select placeholder="Categories" multiple="true" >
+              <ion-select-option value="Beach">Beach</ion-select-option>
+              <ion-select-option value="Forest">Forest</ion-select-option>
+              <ion-select-option value="Mountain">Mountain</ion-select-option>
+              <ion-select-option value="Lake">Lake</ion-select-option>
+            </ion-select>
+          </ion-item> 
+        </div>
+        <div class="col-md-6">
+          <ion-item>
+            <ion-label>Categories</ion-label>
+            <ion-select multiple="true" >
+              <ion-select-option value="Beach">Beach</ion-select-option>
+              <ion-select-option value="Forest">Forest</ion-select-option>
+              <ion-select-option value="Mountain">Mountain</ion-select-option>
+              <ion-select-option value="Lake">Lake</ion-select-option>
+            </ion-select>
+          </ion-item> 
+        </div>
+
+      </div>
+      
+
+  </div>
 
   <ion-grid class="ion-no-padding">
     <ion-row class="ion-align-items-baseline">
@@ -48,7 +115,7 @@
                   <ion-img src="{{place.image}}"></ion-img>
                 </div>
                 <ion-card-title class="title">{{place.title}}</ion-card-title>
-                <ion-card-subtitle>{{place.description.substring(0, 205)}}...</ion-card-subtitle>
+                <ion-card-subtitle>{{place.description.substring(0, 190)}}...</ion-card-subtitle>
                 <ion-card-subtitle >
                   <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
                   <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
@@ -139,7 +206,7 @@
                       <ion-img src="{{place.image}}"></ion-img>
                     </div>
                     <ion-card-title class="title">{{place.title}}</ion-card-title>
-                    <ion-card-subtitle>{{place.description.substring(0, 200)}}...</ion-card-subtitle>
+                    <ion-card-subtitle>{{place.description.substring(0, 190)}}...</ion-card-subtitle>
                     <ion-card-subtitle >
                       <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
                       <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>

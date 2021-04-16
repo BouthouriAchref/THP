@@ -8,10 +8,10 @@
 
 <ion-content fullscreen="true">
   
-  <svg class="back-blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- <svg class="back-blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     <path fill="#ED1C25"
       d="M68.6,-33.5C81.6,-17.2,79.6,13.8,65.7,37.6C51.8,61.3,25.9,77.8,2.1,76.6C-21.7,75.4,-43.5,56.5,-54.2,34.6C-65,12.7,-64.8,-12.3,-53.9,-27.4C-43,-42.4,-21.5,-47.6,3.2,-49.4C27.9,-51.2,55.7,-49.7,68.6,-33.5Z" transform="translate(110 120)" />
-  </svg>
+  </svg> -->
 
   <div class="row">
     <img src="../../../assets/logo_THP1.png">
@@ -33,12 +33,31 @@
         <button class="form-btn custom-font" (click)="onSubmit()">Login</button>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <button class="fa fa-facebook"></button>
         <button class="fa fa-google"></button>
         <button class="fa fa-apple"></button>
         
-      </div>
+      </div> -->
+
+      <ion-fab style="margin-top: 200px" vertical="center" horizontal="center" slot="fixed">
+        <ion-fab-button>
+          <ion-icon name="share"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+          <ion-fab-button><ion-icon name="logo-vimeo"></ion-icon></ion-fab-button>
+        </ion-fab-list>
+        <ion-fab-list side="bottom">
+          <ion-fab-button><ion-icon name="logo-facebook"></ion-icon></ion-fab-button>
+        </ion-fab-list>
+        <ion-fab-list side="start">
+          <ion-fab-button><ion-icon name="logo-instagram"></ion-icon></ion-fab-button>
+        </ion-fab-list>
+        <ion-fab-list side="end">
+          <ion-fab-button><ion-icon name="logo-twitter"></ion-icon></ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
+      
     </form>
   </div>
 

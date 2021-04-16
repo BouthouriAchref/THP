@@ -25,15 +25,16 @@ result :boolean =false;
   showAlert(msg) {
     let alert = this.alertController.create({
       message: msg,
-      header: 'Error',
+      header: 'Warning',
       buttons: [
+        {text:'Cancel'
+        },
         {text:'SignIn',
           handler : data =>{
             this.router.navigate(['login']);
           }
-        },
-        {text:'Annuler'
         }
+
       ]
     });
     alert.then(alert => alert.present());

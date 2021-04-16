@@ -1,16 +1,26 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PopUpService {
   properties = [];
+  url = environment.url;
+  constructor(private http: HttpClient) { 
 
-  constructor() { 
-    fetch('../../assets/places.json')
-    .then(res=>res.json())
-    .then(data=>{
-      this.properties=data.places;});
+  }
+
+  getAllPlaces(){
+    // return this.http.get(`${this.url}/api/Place/Places`)
+    return this.http.get<any>(
+     ` ${this.url}/api/Place/Places`)
+      .pipe(map(response => {
+        //console.log('___',response)
+        return response;
+      }));
   }
 
   makeCapitalPopup(place) {
@@ -18,7 +28,7 @@ export class PopUpService {
     return `
       <ion-buttons>
         <h1>
-          <b> ${place.title}</b>
+          <b> ${place.Name}</b>
         </h1>
         <ion-button>
           <ion-icon style=' font-size: 34px; color: #ff3838' name="heart-circle" [routerLink]="['/user/bob']"></ion-icon>
@@ -30,8 +40,11 @@ export class PopUpService {
 
       <ion-icon style='color: #f2994a' name='star' *ngFor='let n of [1 ,2 ,3 ,4, 5]'></ion-icon>
       <ion-icon style='color: #f2994a' name='star-outline'></ion-icon>
-      <p>${place.description}</p>
-      <img src='${place.image}' />
+      <p>${place.Description.substring(0, 100)}</p>
+     
+      
+
       `
+      // <ion-img src='${place?.Attachement.path}'></ion-img>
   }
 }
