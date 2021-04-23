@@ -13,7 +13,7 @@
         </ion-button>
       </div>
     </ion-buttons>
-    <h2>Taher Robbana</h2>
+    <h2>{{USER?.fullname}}</h2>
 
     
   </div>
@@ -23,11 +23,11 @@
           <div class="img-box">
             <ion-buttons class="i1">
               <ion-button>
-                <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+                <ion-icon slot="icon-only" name="camera-outline" (click)="takePicture(USER?.Avatar._id)"></ion-icon>
               </ion-button>
             </ion-buttons>
             <div>
-              <img src="../../../assets/taher.jpg">
+              <img [src]="USER?.Avatar.Path">
             </div>
           </div>
         </div>
@@ -35,16 +35,6 @@
     
 
   </div>
-
-
-
-
-
-
-
-
-
-
 
   <!-- <ion-header class="ion-no-border">
     <div style="background:url('../../../assets/museum.jpg'),rgb(0 0 0 / 50%);" class="couverture">
@@ -83,16 +73,12 @@
         <br>
         <form>
           <div class="form-group">
-            <label for="formGroupExampleInput">Update your name</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
-          </div>
-          <div class="form-group">
-            <label for="formGroupExampleInput2">Update your last name</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Last name">
+            <label for="formGroupExampleInput">Name</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" [placeholder]="USER?.fullname">
           </div>
           <div class="form-group">
             <label for="formGroupExampleInput2">Date of Birth</label>
-            <input class="form-control" type="date" id="example-date-input">
+            <input class="form-control" type="date" id="example-date-input" >
           </div>
         </form>
       </ion-label>

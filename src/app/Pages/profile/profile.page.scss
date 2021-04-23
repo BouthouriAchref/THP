@@ -4,7 +4,7 @@ ion-content {
 
   .header {
     height: 206px;
-    background-color: #ff3838;
+    background-color: #ed1c24;
     width: 100%;
     padding-top: 1px;
 }  
@@ -97,7 +97,7 @@ ion-content {
 ion-card-content {
     .img-wrapper {
       border-radius: 14px;
-      height: 200px;
+      height: 140px;
       overflow: hidden;
       margin-bottom: 8px;
     }
@@ -111,6 +111,10 @@ ion-card-content {
       padding-top:6px;
     }
   
+  }
+
+  #Crendential{
+      margin-top: -20px;
   }
 
 

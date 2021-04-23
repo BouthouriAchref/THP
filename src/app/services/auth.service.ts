@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertController, isPlatform, Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { environment } from 'src/environments/environment';
 import { tap, catchError } from 'rxjs/operators';
 
@@ -20,7 +20,7 @@ export class AuthService {
   constructor(private http: HttpClient, private helper: JwtHelperService, private storage: Storage, private plt: Platform, private alertController: AlertController ) {
     this.plt.ready().then(() => {
       this.checkToken();
-      this.logout();
+       //this.logout();
       
     
     });
@@ -64,9 +64,9 @@ export class AuthService {
 
   login(credentials) {
     return this.http.post(`${this.url}/api/Auth/login`, credentials).pipe(
-      tap(res => {
-        this.storage.set(ID_USER, res['id']);
-        this.storage.set(TOKEN_KEY, res['token']);
+      tap(async res => {
+        await this.storage.set(ID_USER, res['id']);
+        await this.storage.set(TOKEN_KEY, res['token']);
         this.user = this.helper.decodeToken(res['token']);
         this.authenticationState.next(true);
       }),
@@ -78,10 +78,13 @@ export class AuthService {
     );
   }
 
-  logout() {
-    this.storage.remove(TOKEN_KEY).then(() => {
-      this.authenticationState.next(false);
-    });
+  async logout() {
+    await this.storage.remove(ID_USER);
+    //console.log('this.storage.get(ID_USER);', await this.storage.get(ID_USER))
+    await this.storage.remove(TOKEN_KEY);
+    await this.storage.clear();
+    //console.log('this.storage.get(TOKEN_KEY));', await this.storage.get(TOKEN_KEY))
+    this.authenticationState.next(false);
   }
 
   getSpecialData() {
@@ -98,7 +101,7 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return this.authenticationState.getValue();
+    return this.authenticationState.value;
   }
 
   showAlert(msg) {

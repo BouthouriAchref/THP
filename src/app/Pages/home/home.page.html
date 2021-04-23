@@ -8,11 +8,11 @@
       </div>
     </ion-avatar> -->
 
-    <ion-avatar slot="end" *ngIf="canActivate()">
+    <ion-avatar slot="end" *ngIf="canActivate() || canActivatefb()">
       <div class="border">
         <div class="border_white">
           <div class="img_box">
-            <img src="../../../assets/taher.jpg" routerLink="/menu/profile">
+            <img [src]="USER?.Avatar?.Path" routerLink="/menu/profile">
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@
       <img src="../../../assets/dec2.png">
     </ion-avatar> -->
 
-    <ion-avatar (click)="Logout()" slot="end" *ngIf="canActivate()">
+    <ion-avatar (click)="Logout()" slot="end" *ngIf="canActivate() || canActivatefb()">
       <div class="border">
         <div class="border_white">
           <img src="../../../assets/dec2.png" routerLink="/login">
@@ -39,7 +39,7 @@
       </div>
     </ion-avatar>
 
-    <ion-button (click)="onClick()" slot="end" color="primary" *ngIf="!canActivate()">Sign in </ion-button>
+    <ion-button routerLink="/login" slot="end" color="primary" *ngIf="!canActivate() && !canActivatefb()">Sign in </ion-button>
 
     <ion-label>
       <h2>Find, </h2>
@@ -90,7 +90,7 @@
     <ion-row class="ion-align-items-baseline">
       <ion-col size="6">
         <h4 class="title">
-          Popular Dishes
+          Popular Places
         </h4>
       </ion-col>
       <ion-col size="6">
@@ -112,10 +112,10 @@
             <ion-card class="card">
               <ion-card-content class="ion-text-left">
                 <div class="img-wrapper">
-                  <ion-img src="{{place.image}}"></ion-img>
+                  <ion-img [src]="place.Attachement[0].Path"></ion-img>
                 </div>
-                <ion-card-title class="title">{{place.title}}</ion-card-title>
-                <ion-card-subtitle>{{place.description.substring(0, 190)}}...</ion-card-subtitle>
+                <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
                 <ion-card-subtitle >
                   <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
                   <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
@@ -184,7 +184,7 @@
         <ion-row class="ion-align-items-baseline">
           <ion-col size="6">
             <h4 class="title">
-              Recommended Drinks
+              Recommended Places
             </h4>
           </ion-col>
           <ion-col size="6">
@@ -198,15 +198,15 @@
       <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col size="12">
-            <ion-slides [options]="sliderConfig">
+            <ion-slides [options]="sliderConfig" style="margin-bottom: 20px;">
               <ion-slide *ngFor="let place of places">
                 <ion-card class="card">
                   <ion-card-content class="ion-text-left">
                     <div class="img-wrapper">
-                      <ion-img src="{{place.image}}"></ion-img>
+                      <ion-img  [src]="place.Attachement[0].Path"></ion-img>
                     </div>
-                    <ion-card-title class="title">{{place.title}}</ion-card-title>
-                    <ion-card-subtitle>{{place.description.substring(0, 190)}}...</ion-card-subtitle>
+                    <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                    <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
                     <ion-card-subtitle >
                       <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
                       <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>

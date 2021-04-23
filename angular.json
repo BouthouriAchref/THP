@@ -68,8 +68,8 @@
           "options": {
             "browserTarget": "app:build",
             "ssl": true,
-            "sslCert": "./ssl/cert.pem"
-            
+            "sslCert": "./ssl/cert.pem",
+            "sslKey": "./ssl/key.pem"
           },
           "configurations": {
             "production": {

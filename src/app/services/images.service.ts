@@ -10,7 +10,7 @@ export class ImagesService {
   constructor(private transfer: FileTransfer, private Http: HttpClient) { }
 
   getImage(id) {
-    return this.Http.get(`${this.url}api/Auth/user/getAvatar/${id}`);
+    return this.Http.get(`${this.url}api/Auth/user/getAvatar/${id}`)
   }
   
   uploadImage(img ,id){
