@@ -96,3 +96,8 @@
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #f2994a;  } 
+
+.form-control:focus {
+  border-color: #ff3838;
+  box-shadow: 0 0 0 0.2rem rgba(255, 56, 56, 0.25);
+} 

@@ -34,6 +34,7 @@
     "@ionic-native/status-bar": "^5.31.1",
     "@ionic/angular": "^5.5.2",
     "@ionic/storage": "^2.1.3",
+    "bootstrap-select-country": "^4.2.0",
     "esri-leaflet": "^3.0.1",
     "esri-leaflet-geocoder": "^3.0.0",
     "firebase": "^8.2.10",

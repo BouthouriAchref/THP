@@ -7,6 +7,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ImagesService } from 'src/app/services/images.service';
 import { FbService } from 'src/app/services/fb.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { AlertController, ModalController } from '@ionic/angular';
+import { CreatePlacePage } from '../create-place/create-place.page';
+
 const ID_USER = 'id';
 @Component({
   selector: 'app-profile',
@@ -21,7 +24,18 @@ export class ProfilePage implements OnInit {
     spaceBetween: -60,
     slidesPerView: 1.1,
   };
-  constructor(private Auth: AuthService,private profile: ProfileService,private helper: JwtHelperService, private router: Router,private route: ActivatedRoute,private imagesService: ImagesService ,private storage: Storage, private fb:FbService) 
+  constructor(
+    private Auth: AuthService,
+    private profile: ProfileService,
+    private helper: JwtHelperService, 
+    private router: Router,
+    private route: ActivatedRoute,
+    private imagesService: ImagesService ,
+    private storage: Storage, 
+    private fb:FbService,
+    public modalController: ModalController,
+    public alertController: AlertController
+    ) 
   { }
 
    
@@ -65,4 +79,38 @@ export class ProfilePage implements OnInit {
     this.Auth.logout();
   }
 
+
+  async addPlace(){
+    const modal = await this.modalController.create({
+      component: CreatePlacePage,
+      cssClass: 'dialog-modal',
+      componentProps:{
+        'id':"1",
+      }
+    });
+    return await modal.present();
+  }
+
+  async createPlace() {
+    const alert = await this.alertController.create({
+      header: 'Create a new Place',
+      message: 'Do you want to create a new place ?',
+      buttons: [
+        {
+          text:'Cancel',
+          role:'cancel',
+          cssClass: 'secondary',
+          handler : data =>{
+          }
+        },
+        {
+          text:'Yes',
+          handler : data =>{
+           this.addPlace();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 }

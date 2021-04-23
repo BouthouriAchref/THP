@@ -1,18 +1,30 @@
 <ion-content>
   <div class="image-slider">
-    <ion-buttons >
-      <!-- <ion-icon name="arrow-back-outline" routerLink="/menu/home"></ion-icon> -->
-      
+    <!-- <ion-buttons >      
       <ion-button style="width: 70px; height: 70px; ">
         <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="arrow-back-circle-outline" slot="icon-only"></ion-icon>
       </ion-button>
       <ion-button style="width: 70px; height: 70px; ">
         <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="heart-circle" slot="icon-only"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
+    <div class="header">
+      <ion-buttons class="space-between">
+        <ion-button style="color: white;" routerLink="/menu/profile">
+          <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+        </ion-button>
+        <div >
+          <ion-button (click)="Like()" [style]="like ? 'color: red;' : 'color: white;'">
+            <ion-icon slot="icon-only" name="heart"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-buttons>
+  
+      
+    </div>
     <ion-slides pager="true">
       <ion-slide>
-        <img src="../../../assets/djerba.jpg" alt="">
+        <img src="../../../assets/Djerba.jpg" alt="">
       </ion-slide>
       <ion-slide>
         <img src="../../../assets/Monastir.jpg" alt="">
@@ -65,9 +77,9 @@
       
     </div>
     <div class="about-me" >
-      <div>
+      <div class="space-between2"> 
         <h1>Rating And Review</h1>
-        <ion-fab-button (click)="showAlert()">
+        <ion-fab-button style="z-index: 2;" (click)="showAlert()">
           <img src="../../../assets/rate3.png" >
         </ion-fab-button>
       </div>

@@ -10,6 +10,7 @@ import { RatePage } from '../rate/rate.page';
 })
 
 export class PlacePage implements OnInit {
+  like: boolean = false;
   isSeeMore: boolean = false;
   seeMore: boolean = false;
   hobbies = ["camping","camping","camping","camping","campinglife","campingwithdogs","campingtrip","campingvibes"];
@@ -26,12 +27,16 @@ export class PlacePage implements OnInit {
   async addRate(){
     const modal = await this.modalController.create({
       component: RatePage,
-      cssClass: 'dialog-modal',
+      cssClass: 'dialog-modal2',
       componentProps:{
         'id':"1",
       }
     });
     return await modal.present();
+  }
+
+  Like(){
+    this.like = !this.like
   }
 
   async showAlert() {
@@ -40,16 +45,16 @@ export class PlacePage implements OnInit {
       message: 'If you are loving (or even hating) this place, an honest rating would really help to defame the place',
       buttons: [
         {
-          text:'Rate',
-          handler : data =>{
-           this.addRate();
-          }
-        },
-        {
           text:'Cancel',
           role:'cancel',
           cssClass: 'secondary',
           handler : data =>{
+          }
+        },
+        {
+          text:'Rate',
+          handler : data =>{
+           this.addRate();
           }
         }
       ]
@@ -62,10 +67,7 @@ export class PlacePage implements OnInit {
   ngOnInit() {
   }
 
-  getColor(i){
-    let colors = ["#ED93D5","#94DAEC","#FB6175","#EFBCFF","#F2D28A"];
-    return colors[i];
-  }
+  
 }
 
 

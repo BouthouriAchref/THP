@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
-import { element } from 'protractor';
 
 @Component({
-  selector: 'app-rate',
-  templateUrl: './rate.page.html',
-  styleUrls: ['./rate.page.scss'],
+  selector: 'app-create-place',
+  templateUrl: './create-place.page.html',
+  styleUrls: ['./create-place.page.scss'],
 })
-export class RatePage implements OnInit {
+export class CreatePlacePage implements OnInit {
   id: number;
+  
   constructor(
     private modalController: ModalController, 
     private navParams: NavParams

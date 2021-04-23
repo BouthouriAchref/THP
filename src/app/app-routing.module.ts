@@ -22,12 +22,17 @@ const routes: Routes = [
   {
     path: 'edit-profile',
     loadChildren: () => import('./Pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule),
-    canActivate: [AuthGuardService]
+    //canActivate: [AuthGuardService]
   },
   {
     path: 'rate',
     loadChildren: () => import('./Pages/rate/rate.module').then( m => m.RatePageModule)
+  },
+  {
+    path: 'create-place',
+    loadChildren: () => import('./pages/create-place/create-place.module').then( m => m.CreatePlacePageModule)
   }
+
 ];
 @NgModule({
   imports: [

@@ -1,0 +1,119 @@
+<ion-header translucent="true">
+  <ion-toolbar color="primary">
+    <ion-title>Create a new Place</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</ion-header>
+
+<ion-content>
+   <div class="et">
+    <form>
+      <!-- <div class="form-group">
+        <textarea style="resize: none;" class="form-control" rows="2" id="comment" placeholder="Write your review..."></textarea>
+      </div> -->
+      <div class="form-group">
+        <label for="exampleInputName">Name</label>
+        <input type="text" class="form-control" id="exampleInputName" placeholder="Enter the place's name">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputDescription">Description</label>
+        <textarea style="resize: none;" class="form-control" rows="2" id="comment" placeholder="Enter the place's description"></textarea>
+      </div>
+      
+      <!-- <div class="form-group">
+        <label for="exampleInputCategory">Category</label>
+        <select class="custom-select" required>
+          <option value="">Open </option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <div class="invalid-feedback">Example invalid custom select feedback</div>
+      </div> -->
+      <div class="form-group">
+        <label for="sel1">Category</label>
+        <select class="form-control" id="sel1">
+          <option>Choose Category</option>
+          <option>Beach</option>
+          <option>Forest</option>
+          <option>Mountain</option>
+          <option>Lake</option>
+          <option>Other ..</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputAddress">Address</label>
+        <input type="text" class="form-control" id="exampleInputAddress" placeholder="Enter the Address">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6" style="width: 40%;">
+          <label for="inputCity">City</label>
+          <input type="text" class="form-control" id="inputCity" placeholder="City">
+        </div>
+        <div class="form-group col-md-4" style="width: 35%;">
+          <label for="inputState">State</label>
+          <select id="inputState" class="form-control">
+            <option selected>Choose...</option>
+            <option>Tunis</option>
+            <option>Ariana</option>
+            <option>Ben Arous</option>
+            <option>Mannouba</option>
+            <option>Bizerte</option>
+            <option>Nabeul</option>
+            <option>Beja</option>
+            <option>Jendouba</option>
+            <option>Zaghouan</option>
+            <option>Siliana</option>
+            <option>Kef</option>
+            <option>Sousse</option>
+            <option>Monastir</option>
+            <option>Mahdia</option>
+            <option>Kasserine</option>
+            <option>Sidi Bouzid</option>
+            <option>Kairouan</option>
+            <option>Gafsa</option>
+            <option>Sfax</option>
+            <option>Gabes</option>
+            <option>Medenine</option>
+            <option>Tozeur</option>
+            <option>Kebili</option>
+            <option>Ttataouine</option>
+          </select>
+        </div>
+        <div class="form-group col-md-2" style="width: 25%;">
+          <label for="inputZip">Zip</label>
+          <input type="text" class="form-control" id="inputZip" placeholder="Zip">
+        </div>
+      </div>
+      
+      
+
+      
+
+      
+      <label for="exampleInputCategory">Picture</label>
+      <div class="custom-file">
+        <input type="file" accept="image/*" class="custom-file-input" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Choose picture...</label>
+        <div class="invalid-feedback">Example invalid custom file feedback</div>
+      </div>
+    </form>
+    <br>
+    <div style="  text-align: center;">
+
+      <ion-button style="padding-left: none;" (click)="closeModal()" color="primary">Create</ion-button>
+    </div>
+    <br>
+  </div>
+  
+</ion-content> 
+  
+

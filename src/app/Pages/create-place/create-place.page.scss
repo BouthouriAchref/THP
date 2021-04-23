@@ -1,0 +1,20 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+.et {
+    width: 100%;
+    height: -webkit-fill-available;
+    margin: 0 auto;
+    padding-top: 30px;
+   
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    float: left;
+    
+    padding-inline-start: var(--ion-padding, 16px);
+    padding-inline-end: var(--ion-padding, 16px);
+    
+}
+
+.form-control:focus {
+        border-color: #ff3838;
+        box-shadow: 0 0 0 0.2rem rgba(255, 56, 56, 0.25);
+    } 

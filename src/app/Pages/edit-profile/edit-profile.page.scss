@@ -58,9 +58,7 @@ ion-content {
     justify-content: center;
     margin-top: -76px;
 }
-.abs {
-    margin-left: 60px;   
-}
+
 
 .ionicon {
     stroke: currentcolor;
@@ -132,10 +130,46 @@ ion-card-content {
     
 }
 
+.form-control:focus {
+    border-color: #ff3838;
+    box-shadow: 0 0 0 0.2rem rgba(255, 56, 56, 0.25);
+    
+} 
+
+// .op {
+//     width: 20%;
+// }
+
+// select:hover {
+//     color: #464444;
+//     background: #ddd;
+//     }
+
+//     body{
+//         padding:100px 0;
+//         background-color:#efefef
+//       }
+//       a, a:hover{
+//         color:#333
+//       }
+
+
+//       .input-group-text {
+//         width: 48px;
+//         border-right: none;
+//         background-color: #ffffff;
+//       }
+//       [class^="fa-"], [class*=" fa-"] {
+//         display: inline-block;
+//         width: 100%;
+//       }
+//       .LoginInput {
+//         border-left: none;
+//         position: relative;
+//       }
 
 
 
- 
 
 
 
