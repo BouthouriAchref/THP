@@ -32,28 +32,26 @@ export class LoginPage implements OnInit {
   
 
   login(){
-    this.fb.loginFacebook().then(()=>{
-      this.router.navigate(['menu/profile']);
-    })
+    this.fb.loginFacebook();
       
   }
 
   onSubmit(){
     //console.log('this.credentialsForm', this.credentialsForm)
     //console.log('this.credentialsForm.value', this.credentialsForm.value)
-
-    this.authService.login(this.credentialsForm.value).subscribe( (response : any) => {
+    this.authService.login(this.credentialsForm.value).subscribe(async (response : any) => {
       console.log('response', response)
       //const id = response.id
-       this.router.navigate(['menu/profile']);
+      await this.router.navigate(['menu/profile']);
       // this.router.navigate([`/user/${id}`],re);
     });
   }
 
   register(){
-    this.authService.register(this.credentialsForm.value).subscribe(res =>{
-      this.authService.login(this.credentialsForm.value).subscribe();
-      this.router.navigate(['menu/profile']);
+    this.authService.register(this.credentialsForm.value).subscribe( () =>{
+      this.authService.login(this.credentialsForm.value).subscribe( () => {
+        this.router.navigate(['menu/profile']);
+      })
     });
   }
   //  Firebase

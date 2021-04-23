@@ -7,14 +7,14 @@
 </ion-header> -->
 
 <ion-content>
-  
+
   <div class="header">
     <ion-buttons class="space-between">
       <ion-button style="color: white;" routerLink="/menu/home">
         <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <h2>Taher Robbana</h2>
+    <h2>{{USER?.fullname}}</h2>
 
     <div class="space-between">
       <div class="followings">
@@ -31,59 +31,47 @@
           <ion-button style="width: 60px; height: 60px; " (click)="Logout()" routerLink="/menu/home">
             <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="log-out" slot="icon-only"></ion-icon>
           </ion-button>
-        </ion-buttons>        
+        </ion-buttons>
         <p>Log Out</p>
       </div>
     </div>
   </div>
-    <div class="flex">
-      <div class="border-red">
-        <div class="border-white">
-          <div class="img-box">
-            <img src="../../../assets/taher.jpg">
-          </div>
+  <div class="flex">
+    <div class="border-red">
+      <div class="border-white">
+        <div class="img-box">
+          <img [src]="USER?.Avatar?.Path">
         </div>
       </div>
-    
-
+    </div>
   </div>
 
-
-  <!-- <ion-header class="ion-no-border">
-    <div style="background:url('../../../assets/default-cover-user.jpg'),rgb(0 0 0 / 50%);" class="couverture">
-      </div>
-    <div class="flex">
-      <div class="box-border">
-        <div class="border-white">
-          <div class="img-box">
-            <img src="../../assets/avatar.svg">
-          </div>
-        </div>
-      </div>
-        <ion-avatar  *ngIf="canActivate()">
-          <img src="../../../assets/edit2.png" routerLink="/edit-profile">
-        </ion-avatar>
-        <ion-avatar slot="end" (click)="Logout()" *ngIf="canActivate()" routerLink="/menu/home">
-          <img src="../../../assets/dec2.png">
-        </ion-avatar>
-    </div>
-  </ion-header> -->
-
-
-
-
-
-  <div class="ion-padding wrapper">
+  <div class="ion-padding wrapper" id="Crendential">
     <ion-grid class="ion-no-padding">
-      <ion-label>
-        <br>
-        <h1>{{USER?.FullName}}</h1>
-        <h3>
-          <ion-icon name="person-circle-outline"></ion-icon> taherrobbana
-        </h3>
-        <h3>
-          <ion-icon name="calendar-number-outline"></ion-icon> Born September 7, 1995
-        </h3>
+      <ion-label >
+        <ion-row>
+          <ion-col size="6">
+            <h3>
+              <ion-icon name="person-circle-outline"></ion-icon> {{USER?.fullname}}
+            </h3>
+            <h3 *ngIf="USER?.Birthday">
+              <ion-icon name="calendar-number-outline" ></ion-icon> Born {{USER?.Birthday}}
+            </h3>
+          </ion-col>
+          <ion-col size="6">
+            <div class="followings" style="margin-left: 51px; margin-top: -25px;">
+              <ion-buttons>
+                <ion-button style="width: 60px; height: 60px;" >
+                  <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #ed1c24' name="add-circle"
+                    slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              <p style="color: #ed1c24;">Create a new place</p>
+            </div>
+
+          </ion-col>
+        </ion-row>
+       
       </ion-label>
       <ion-row class="ion-align-items-baseline">
         <ion-col size="6">
@@ -139,7 +127,7 @@
     </ion-row>
   </ion-grid>
 
-  <div class="ion-padding wrapper">
+  <div class="ion-padding wrapper" *ngIf="USER?.Places[0]">
     <ion-grid class="ion-no-padding">
       <ion-row class="ion-align-items-baseline">
         <ion-col size="6">
@@ -151,42 +139,46 @@
     </ion-grid>
   </div>
 
-  <ion-grid class="ion-no-padding">
+  <!-- <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col size="12">
         <ion-slides [options]="sliderConfig">
-          <ion-slide>
+
+          <ion-slide *ngFor="let place of USER?.Places">
             <ion-card class="card">
               <ion-card-content class="ion-text-left">
                 <div class="img-wrapper">
-                  <ion-img src="../../assets/museum.jpg"></ion-img>
+                  <ion-img [src]="place.Attachement[0].Path"></ion-img>
                 </div>
-                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
-                <ion-card-subtitle>Some description here</ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
+                <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
+                <ion-card-subtitle >
+                  <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
+                  <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
                 </ion-card-subtitle>
               </ion-card-content>
             </ion-card>
           </ion-slide>
-          <ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size="12">
+        <ion-slides [options]="sliderConfig" style="margin-bottom: 20px;">
+          <ion-slide *ngFor="let place of USER?.Places">
             <ion-card class="card">
               <ion-card-content class="ion-text-left">
                 <div class="img-wrapper">
-                  <ion-img src="../../assets/museum.jpg"></ion-img>
+                  <ion-img [src]="place.Attachement[0].Path"></ion-img>
                 </div>
-                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
-                <ion-card-subtitle>Some description here</ion-card-subtitle>
+                <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                <ion-card-subtitle>{{place.Description.substring(0, 100)}}</ion-card-subtitle>
                 <ion-card-subtitle>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
+                  <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
+                  <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
                 </ion-card-subtitle>
               </ion-card-content>
             </ion-card>

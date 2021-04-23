@@ -26,7 +26,13 @@
         </ion-button>
       </div>
     </ion-buttons>
+<<<<<<< HEAD
     <h2>Taher Robbana</h2>
+=======
+    <h2>{{USER?.fullname}}</h2>
+
+    
+>>>>>>> refs/remotes/origin/master
   </div>
 
   <div class="flex">
@@ -35,11 +41,11 @@
           <div class="img-box">
             <ion-buttons class="i1">
               <ion-button>
-                <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+                <ion-icon slot="icon-only" name="camera-outline" (click)="takePicture(USER?.Avatar._id)"></ion-icon>
               </ion-button>
             </ion-buttons>
             <div>
-              <img src="../../../assets/taher.jpg">
+              <img [src]="USER?.Avatar.Path">
             </div>
           </div>
         </div>
@@ -47,16 +53,6 @@
     
 
   </div>
-
-
-
-
-
-
-
-
-
-
 
   <!-- <ion-header class="ion-no-border">
     <div style="background:url('../../../assets/museum.jpg'),rgb(0 0 0 / 50%);" class="couverture">
@@ -95,13 +91,18 @@
         <br>
         <form>
           <div class="form-group">
+<<<<<<< HEAD
             <label for="formGroupExampleInput">Update your name</label>
             <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Full Name">
+=======
+            <label for="formGroupExampleInput">Name</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" [placeholder]="USER?.fullname">
+>>>>>>> refs/remotes/origin/master
           </div>
          
           <div class="form-group">
             <label for="formGroupExampleInput2">Date of Birth</label>
-            <input class="form-control" type="date" id="example-date-input">
+            <input class="form-control" type="date" id="example-date-input" >
           </div>
 
           <div class="form-group">

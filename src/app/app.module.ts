@@ -16,12 +16,12 @@ import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { Storage, IonicStorageModule } from '@ionic/storage';
+import { Storage, IonicStorageModule } from '@ionic/storage-angular';
 import { Camera } from '@ionic-native/camera/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx'
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
 import { ImagesService } from './services/images.service';
+// import { SplashScreen } from '@ionic-native/splash-screen';
+// import { StatusBar } from '@ionic-native/status-bar';
 
 
 

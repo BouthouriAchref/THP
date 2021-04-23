@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { FacebookLoginPlugin, FacebookLogin } from '@capacitor-community/facebook-login';
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 import { isPlatform, Platform } from '@ionic/angular';
 registerWebPlugin(FacebookLogin);
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 const TOKEN_KEY = 'access_token';
 const ID_USER = 'id';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,7 @@ export class FbService {
   user = null;
   token = null;
   authenticationState = new BehaviorSubject(false);
-  constructor(private helper: JwtHelperService, private storage: Storage, private plt: Platform,private http: HttpClient, private auth: AuthService) { 
+  constructor( private router: Router,private helper: JwtHelperService, private storage: Storage, private plt: Platform,private http: HttpClient, private auth: AuthService) { 
     this.plt.ready().then(() => {
       this.checkToken();
       //this.logoutFacebook();
@@ -27,21 +29,20 @@ export class FbService {
     });
   }
 
- 
-
   checkToken(){
      this.storage.get(TOKEN_KEY).then(token => {
        if (token) {
         this.authenticationState.next(true);
        }
+       
      });
   }
 
   isAuthenticated() {
-    return this.authenticationState.getValue();
+    return this.authenticationState.value;
   }
 
-   async setupFbLogin() {
+  setupFbLogin() {
     if (isPlatform('desktop')) {
       this.fbLogin = FacebookLogin;
     } else {
@@ -54,8 +55,9 @@ export class FbService {
   async loginFacebook() {
     const FACEBOOK_PERMISSIONS = ['email', 'user_birthday'];
     const result = await this.fbLogin.login({ permissions: FACEBOOK_PERMISSIONS });
+    //console.log('RESULT', result)
     //console.log('result',result.accessToken.token)
-    this.storage.set(TOKEN_KEY,result.accessToken.token)
+    await this.storage.set(TOKEN_KEY, result.accessToken.token)
     this.authenticationState.next(true);
     if (result.accessToken && result.accessToken.userId) {
       this.token = result.accessToken;
@@ -66,6 +68,7 @@ export class FbService {
       this.getCurrentToken();
     } else {
       // Login failed
+      console.log('Login failed')
     }
   }
 
@@ -84,19 +87,26 @@ export class FbService {
     this.http.get(url).subscribe(res => {
       //console.log('user:', res)
       this.user = res;
-      this.auth.registerFb(this.user).subscribe((response : any) => {
-        this.storage.set(ID_USER,response.user._id)
-        console.log('user in data base',response);
+      this.auth.registerFb(this.user).subscribe(async (response : any) => {
+        await this.storage.set(ID_USER,response.user._id)
+        this.router.navigate(['menu/profile']);
+        //console.log('awaited getid', await this.storage.get(ID_USER));
+        
+        //console.log('user in data base',response);
       });
 
     });
   }
 
-  logoutFacebook() {
-    this.fbLogin.logout();
-    this.storage.remove(TOKEN_KEY).then(() => {
-      this.authenticationState.next(false);
-    });
+  async logoutFacebook() {
+    await this.storage.remove(TOKEN_KEY)
+    //console.log('this.storage.get(ID_USER);', await this.storage.get(ID_USER))
+    await this.storage.remove(ID_USER)
+    //console.log('this.storage.get(TOKEN_KEY));', await this.storage.get(TOKEN_KEY))
+    await this.storage.clear();
+    this.authenticationState.next(false);
+    await this.fbLogin.logout();
+    
     this.user = null;
     this.token = null;
   }

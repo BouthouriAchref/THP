@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagesService } from 'src/app/services/images.service';
 import { Camera } from '@ionic-native/camera/ngx'
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { ModalController, ActionSheetController, NavController } from '@ionic/angular';
+import { ProfileService } from 'src/app/services/profile.service';
+
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.page.html',
@@ -10,34 +12,39 @@ import { ModalController, ActionSheetController, NavController } from '@ionic/an
 })
 export class EditProfilePage implements OnInit {
   ID_USER = 'id';
+  USER: any;
   images: any = [];
   showPassword: boolean = false;
   showPassword1: boolean = false;
   showPassword2: boolean = false;
   isOpened= false;
-
-  constructor(public navCtrl: NavController,public camera: Camera,private actionSheetCtrl: ActionSheetController,private imagesService: ImagesService, private modalcontroller: ModalController, private storage: Storage) { }
+  constructor(private profile: ProfileService, public navCtrl: NavController, public camera: Camera, private actionSheetCtrl: ActionSheetController, private imagesService: ImagesService, private modalcontroller: ModalController, private storage: Storage) { this.reloadImages(); }
+  
   ngOnInit() {
-    this.storage.get(this.ID_USER).then((res) =>{
-      this.imagesService.getImage(res).subscribe( (res) => {
-        console.log('avatar',res);
-      })
+    this.storage.get(this.ID_USER).then( (res) => {
+      console.log('res', res)
+       this.profile.findUserById(res).subscribe((user: any) => {
+        this.USER = user;
+        console.log('user', user);
+      });
+    });
+  }
+
+  async openImage(img) {
+    let modal = await this.modalcontroller.create(img);
+    modal.present();
+  }
+
+  reloadImages() {
+    console.log('id', this.USER);
+    this.imagesService.getImage(this?.USER?.Avatar?._id).subscribe(data => {
+      this.images.push(data);
+      console.log('image', this.images)
     })
   }
 
-  async openImage(img){
-    let modal = this.modalcontroller.create(img);
-    (await modal).present();
-  }
-
-  // reloadImages(){
-  //   this.imagesService.getImage().subscribe(data =>{
-  //     this.images = data;
-  //   })
-  // }
-
   async presentActionSheet() {
-    let actionSheet = this.actionSheetCtrl.create({
+    let actionSheet = await this.actionSheetCtrl.create({
       //title: 'Modify your album',
       buttons: [
         {
@@ -58,8 +65,8 @@ export class EditProfilePage implements OnInit {
         }
       ]
     });
- 
-    (await actionSheet).present();
+
+    actionSheet.present();
   }
 
   showHidepassword(){
@@ -80,14 +87,6 @@ export class EditProfilePage implements OnInit {
       saveToPhotoAlbum: false,
       correctOrientation: true
     }
-    this.camera.getPicture(options).then(async imagePath => {
-      let modal = this.modalcontroller.create(imagePath);
-      (await modal).present();
-      
-       (await modal).onDidDismiss()
-        .then((data) => {
-          // this.reloadImages();
-        })
-      })
-    }
+    this.camera.getPicture(options)
+  }
 }

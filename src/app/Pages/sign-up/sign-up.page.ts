@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { FbService } from 'src/app/services/fb.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +14,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 export class SignUpPage implements OnInit {
 
   credentialsForm: FormGroup;
-  constructor(private router: Router, private formBuilder: FormBuilder, private authService: AuthService
+  constructor(private fb:FbService,private router: Router, private formBuilder: FormBuilder, private authService: AuthService
     // public authSerives: AuthenticationService,
     // public router:Router
   ) { }
@@ -36,6 +37,14 @@ export class SignUpPage implements OnInit {
       
     });
   }
+
+  login(){
+    this.fb.loginFacebook().then(()=>{
+      this.router.navigate(['menu/profile']);
+    })
+      
+  }
+
 
   // signUp(){
   //   //console.log('this.credentialsForm', this.credentialsForm)

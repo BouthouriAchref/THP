@@ -3,7 +3,13 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-title class="ion-text-center custom-font">Sign In</ion-title>
+    <ion-buttons class="space-between">
+      <ion-button style="color: #ed1c24;" routerLink="/menu/home">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content fullscreen="true">
@@ -33,19 +39,19 @@
         <button class="form-btn custom-font" (click)="onSubmit()">Login</button>
       </div>
 
-      <!-- <div class="row">
-        <button class="fa fa-facebook"></button>
-        <button class="fa fa-google"></button>
-        <button class="fa fa-apple"></button>
-        
-      </div> -->
+    </form>
+  </div>
+
 
       <ion-fab style="margin-top: 205px" vertical="center" horizontal="center" slot="fixed">
         <ion-fab-button>
           <ion-icon name="share"></ion-icon>
         </ion-fab-button>
         <ion-fab-list side="top">
-          <ion-fab-button><ion-icon name="logo-facebook"></ion-icon></ion-fab-button>
+          <ion-fab-button><ion-icon name="logo-vimeo"></ion-icon></ion-fab-button>
+        </ion-fab-list>
+        <ion-fab-list side="bottom">
+          <ion-fab-button><ion-icon name="logo-facebook" (click)="login()"></ion-icon></ion-fab-button>
         </ion-fab-list>
         <ion-fab-list side="start">
           <ion-fab-button><ion-icon name="logo-instagram"></ion-icon></ion-fab-button>
@@ -55,8 +61,7 @@
         </ion-fab-list>
       </ion-fab>
       
-    </form>
-  </div>
+
 
 </ion-content>
 

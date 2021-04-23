@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/User';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { ProfileService } from 'src/app/services/profile.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ImagesService } from 'src/app/services/images.service';
@@ -19,6 +19,8 @@ const ID_USER = 'id';
 export class ProfilePage implements OnInit {
   USER :any;
   id : any;
+  places : any[];
+  birthday : String = "Born"; 
   sliderConfig = {
     centeredSlides: true,
     spaceBetween: -60,
@@ -40,43 +42,19 @@ export class ProfilePage implements OnInit {
 
    
   ngOnInit() {
-    // this.id = this.route.params.subscribe( params =>{
       this.storage.get(ID_USER).then(async (res) =>{
-        //console.log(res);
         await this.profile.findUserById(res).subscribe((user : User) => {
           this.USER = user;
           console.log(this.USER);
       });
-      // console.log(this.profile.findUserById(params['id']))
-      //});
     });
-    // this.imagesService.getImage("60741f9d64d6491320264873").subscribe( (res) => {
-    //   console.log('avatar',res);
-    // })
-    //console.log('????????????????????????????????????????',this.route)
-    //this.USER = this.route.params.subscribe( params => {
-      //console.log('paraaaaaaaaaaaaams',params)
-      //console.log('this.USER',this.USER)
-    //}, err => console.error(err));
-    //console.log('user',this.USER)
 
-  }
-
-  onClick(){
-    this.router.navigate(['login']);
-    // if(!this.auth.canActivate()){
-    //   this.showAlert("You need to SignIn");
-    // }else {
-    //   this.router.navigate(['menu/profile']);
-    // }
 
   }
   
-  canActivate(): boolean {
-    return this.Auth.isAuthenticated();
-  }
   Logout(){
     this.Auth.logout();
+    this.fb.logoutFacebook()
   }
 
 

@@ -4,7 +4,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
 import { AuthService } from './services/auth.service';
-
+import { Storage } from '@ionic/storage-angular';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -12,7 +12,7 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   //rootPage:any = 'HomePage'
-  constructor(
+  constructor(private storage: Storage
     // private platform: Platform, private auth: AuthService,
     // private router: Router, private splashScreen: SplashScreen,
     // private statusBar: StatusBar
@@ -29,6 +29,12 @@ export class AppComponent {
     //       //   }
     //       // });
     // });
+  }
+
+  async ngOnInit(){
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    await this.storage.create();
   }
 }
 
