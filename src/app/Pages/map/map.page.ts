@@ -27,9 +27,11 @@ export class MapPage implements OnInit {
   }
 
   ngOnInit() {
+    // console.time('aa')
     this.popupService.getAllPlaces().subscribe(async (res) => {
       if (res.success) {
         this.properties = await res.data;
+        this.initData()
       }
     });
   }
@@ -38,14 +40,12 @@ export class MapPage implements OnInit {
     this.isOpened = !this.isOpened
   }
 
-  async ionViewDidEnter() {
-
+  async initData() {
+    // console.timeEnd('aa')
     this.map = new Leaflet.Map('map').setView([33.8869, 9.5375], 7)
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom: 6, maxZoom: 20 }).addTo(this.map);
-
-
     //console.log("_________", el[index].Evaluation.Notice)
-    //console.log("places",this.properties)
+    console.log("places",this.properties)
     for (let place of await this.properties) {
       //console.log('________',place.Address.Location)
       // this.properties.map((place) => {
