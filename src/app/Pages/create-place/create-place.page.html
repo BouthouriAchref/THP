@@ -1,5 +1,5 @@
 <ion-header translucent="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary" style="padding-top: 0px;">
     <ion-title>Create a new Place</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
@@ -8,97 +8,166 @@
     </ion-buttons>
   </ion-toolbar>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </ion-header>
 
 <ion-content>
-   <div class="et">
-    <form>
-      <!-- <div class="form-group">
-        <textarea style="resize: none;" class="form-control" rows="2" id="comment" placeholder="Write your review..."></textarea>
-      </div> -->
+  <div class="et">
+    <form [formGroup]="credentialsForm">
       <div class="form-group">
         <label for="exampleInputName">Name</label>
-        <input type="text" class="form-control" id="exampleInputName" placeholder="Enter the place's name">
+        <input type="text" class="form-control" id="exampleInputName" placeholder="Enter the place name"
+          formControlName="name">
       </div>
       <div class="form-group">
         <label for="exampleInputDescription">Description</label>
-        <textarea style="resize: none;" class="form-control" rows="2" id="comment" placeholder="Enter the place's description"></textarea>
+        <textarea style="resize: none;" class="form-control" rows="2" id="comment"
+          placeholder="Enter the place description" formControlName="description"></textarea>
       </div>
-      
+
       <!-- <div class="form-group">
-        <label for="exampleInputCategory">Category</label>
-        <select class="custom-select" required>
-          <option value="">Open </option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-        <div class="invalid-feedback">Example invalid custom select feedback</div>
-      </div> -->
-      <div class="form-group">
         <label for="sel1">Category</label>
-        <select class="form-control" id="sel1">
-          <option>Choose Category</option>
-          <option>Beach</option>
-          <option>Forest</option>
-          <option>Mountain</option>
-          <option>Lake</option>
-          <option>Other ..</option>
+        <select class="form-control" id="sel1" (change)="selectChangeHandlerCat($event)" formControlName="category">
+          <option selected>Choose Category</option>
+          <option value="Beach">Beach</option>
+          <option value="Forest">Forest</option>
+          <option value="Mountain">Mountain</option>
+          <option value="Lake">Lake</option>
+          <option value="Other">Other ..</option>
         </select>
-      </div>
+      </div> -->
+
 
       <div class="form-group">
+        <ion-label>Category</ion-label>
+        <ion-select placeholder="Choose Category" id="sel1" okText="Ok" cancelText="Dismiss"
+          (change)="selectChangeHandlerCat($event)" formControlName="category">
+          <ion-select-option value="Beach">Beach</ion-select-option>
+          <ion-select-option value="Forest">Forest</ion-select-option>
+          <ion-select-option value="Mountain">Mountain</ion-select-option>
+          <ion-select-option value="Lake">Lake</ion-select-option>
+          <ion-select-option value="Other">Other</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="form-group" *ngIf="toggleValue">
         <label for="exampleInputAddress">Address</label>
-        <input type="text" class="form-control" id="exampleInputAddress" placeholder="Enter the Address">
+        <input type="text" class="form-control" id="exampleInputAddress" placeholder="Enter the Address"
+        formControlName="address">
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-6" style="width: 40%;">
-          <label for="inputCity">City</label>
-          <input type="text" class="form-control" id="inputCity" placeholder="City">
-        </div>
-        <div class="form-group col-md-4" style="width: 35%;">
+      <div class="form-row" *ngIf="toggleValue">
+        <ion-row>
+          <ion-col>
+            <div class="form-group">
+              <label for="inputCity">City</label>
+              <input type="text" class="form-control" id="inputCity" placeholder="City" formControlName="city">
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="form-group">
+              <label for="inputZip">Zip</label>
+              <input type="text" class="form-control" id="inputZip" placeholder="Zip" formControlName="zip">
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+
+
+
+        <!-- <div class="form-group col-md-4" style="width: 35%;">
           <label for="inputState">State</label>
-          <select id="inputState" class="form-control">
+          <select id="inputState" class="form-control" (change)="selectChangeHandlerState($event)"
+            formControlName="state">
             <option selected>Choose...</option>
-            <option>Tunis</option>
-            <option>Ariana</option>
-            <option>Ben Arous</option>
-            <option>Mannouba</option>
-            <option>Bizerte</option>
-            <option>Nabeul</option>
-            <option>Beja</option>
-            <option>Jendouba</option>
-            <option>Zaghouan</option>
-            <option>Siliana</option>
-            <option>Kef</option>
-            <option>Sousse</option>
-            <option>Monastir</option>
-            <option>Mahdia</option>
-            <option>Kasserine</option>
-            <option>Sidi Bouzid</option>
-            <option>Kairouan</option>
-            <option>Gafsa</option>
-            <option>Sfax</option>
-            <option>Gabes</option>
-            <option>Medenine</option>
-            <option>Tozeur</option>
-            <option>Kebili</option>
-            <option>Ttataouine</option>
+            <option value="Tunis">Tunis</option>
+            <option value="Ariana">Ariana</option>
+            <option value="Ben Arous">Ben Arous</option>
+            <option value=">Mannouba">Mannouba</option>
+            <option value="Bizerte">Bizerte</option>
+            <option value="Nabeul">Nabeul</option>
+            <option value="Beja">Beja</option>
+            <option value="Jendouba">Jendouba</option>
+            <option value="Zaghouan">Zaghouan</option>
+            <option value="Siliana">Siliana</option>
+            <option value="Kef">Kef</option>
+            <option value="Sousse">Sousse</option>
+            <option value="Monastir">Monastir</option>
+            <option value="Mahdia">Mahdia</option>
+            <option value="Kasserine">Kasserine</option>
+            <option value="Sidi Bouzid">Sidi Bouzid</option>
+            <option value="Kairouan">Kairouan</option>
+            <option value="Gafsa">Gafsa</option>
+            <option value="Sfax">Sfax</option>
+            <option value="Gabes">Gabes</option>
+            <option value="Medenine">Medenine</option>
+            <option value="Tozeur">Tozeur</option>
+            <option value="Kebili">Kebili</option>
+            <option value="Tataouine">Tataouine</option>
           </select>
+        </div> -->
+      
+
+      <div class="form-group">
+        <ion-label>State</ion-label>
+        <ion-select placeholder="Choose State" id="sel1" okText="Ok" cancelText="Dismiss"
+          (change)="selectChangeHandlerState($event)" formControlName="state">
+          <ion-select-option value="Tunis">Tunis</ion-select-option>
+          <ion-select-option value="Ariana">Ariana</ion-select-option>
+          <ion-select-option value="Ben Arous">Ben Arous</ion-select-option>
+          <ion-select-option value=">Mannouba">Mannouba</ion-select-option>
+          <ion-select-option value="Bizerte">Bizerte</ion-select-option>
+          <ion-select-option value="Nabeul">Nabeul</ion-select-option>
+          <ion-select-option value="Beja">Beja</ion-select-option>
+          <ion-select-option value="Jendouba">Jendouba</ion-select-option>
+          <ion-select-option value="Zaghouan">Zaghouan</ion-select-option>
+          <ion-select-option value="Siliana">Siliana</ion-select-option>
+          <ion-select-option value="Kef">Kef</ion-select-option>
+          <ion-select-option value="Sousse">Sousse</ion-select-option>
+          <ion-select-option value="Monastir">Monastir</ion-select-option>
+          <ion-select-option value="Mahdia">Mahdia</ion-select-option>
+          <ion-select-option value="Kasserine">Kasserine</ion-select-option>
+          <ion-select-option value="Sidi Bouzid">Sidi Bouzid</ion-select-option>
+          <ion-select-option value="Kairouan">Kairouan</ion-select-option>
+          <ion-select-option value="Gafsa">Gafsa</ion-select-option>
+          <ion-select-option value="Sfax">Sfax</ion-select-option>
+          <ion-select-option value="Gabes">Gabes</ion-select-option>
+          <ion-select-option value="Medenine">Medenine</ion-select-option>
+          <ion-select-option value="Tozeur">Tozeur</ion-select-option>
+          <ion-select-option value="Kebili">Kebili</ion-select-option>
+          <ion-select-option value="Tataouine">Tataouine</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div class="form-row" *ngIf="!toggleValue">
+        <div class="form-group col-md-6" style="width: 50%;">
+          <label for="inputCity">Longitude</label>
+          <input type="text" class="form-control" id="inputCity" placeholder="Longitude">
         </div>
-        <div class="form-group col-md-2" style="width: 25%;">
-          <label for="inputZip">Zip</label>
-          <input type="text" class="form-control" id="inputZip" placeholder="Zip">
+
+        <div class="form-group col-md-2" style="width: 50%;">
+          <label for="inputZip">Latitude</label>
+          <input type="text" class="form-control" id="inputZip" placeholder="Latitude">
         </div>
       </div>
-      
-      
 
-      
+      <div class="space-between">
+        <ion-row>
+          <ion-col>
+            <ion-label *ngIf="toggleValue">Switch to coordinates</ion-label>
+            <ion-label *ngIf="!toggleValue">Switch to physical address</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-toggle (ionChange)="change()" class="tgl"></ion-toggle>
+          </ion-col>
+        </ion-row>
+      </div>
 
-      
+
+
+
+
+
       <label for="exampleInputCategory">Picture</label>
       <div class="custom-file">
         <input type="file" accept="image/*" class="custom-file-input" id="validatedCustomFile" required>
@@ -109,11 +178,9 @@
     <br>
     <div style="  text-align: center;">
 
-      <ion-button style="padding-left: none;" (click)="closeModal()" color="primary">Create</ion-button>
+      <ion-button style="padding-left: none;" type="submit" (click)="Submit()" color="primary">Create</ion-button>
     </div>
     <br>
   </div>
-  
-</ion-content> 
-  
 
+</ion-content>

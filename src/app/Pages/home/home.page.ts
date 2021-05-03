@@ -18,7 +18,7 @@ export class HomePage {
   USER: any;
   sliderConfig = {
     centeredSlides: true,
-    spaceBetween: -60,
+    spaceBetween: -40,
     slidesPerView: 1.1,
   };
 
@@ -41,25 +41,26 @@ export class HomePage {
     this.categories = this.data.getCategories();
 
     // for (let place of this.places) {
-      
     //   place.noteArray.length = place.Notice;
     //   place.noteArray2.length = (5 - place.note);
     // }
-    });
-
-
-
     if (this.canActivatefb() || this.canActivate()) {
       this.getAvatar();
     }
+    });
 
+
+  }
+
+  selectPlace(id){
+    this.router.navigate(['/place', {id}]).then();
   }
 
   getAvatar(){
       this.storage.get(ID_USER).then( (res) => {
          this.profile.findUserById(res).subscribe(async (user: any) => {
           this.USER = await user;
-          console.log(this.USER);
+          //console.log(this.USER);
         });
       });
   }
@@ -106,6 +107,8 @@ export class HomePage {
     }
     
   }
+
+
 
 
 }

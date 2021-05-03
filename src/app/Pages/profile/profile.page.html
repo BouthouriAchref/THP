@@ -61,12 +61,12 @@
           <ion-col size="6">
             <div class="followings" style="margin-left: 51px; margin-top: -25px;">
               <ion-buttons>
-                <ion-button style="width: 60px; height: 60px;" >
+                <ion-button style="width: 60px; height: 60px;"  (click)="createPlace()">
                   <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #ed1c24' name="add-circle"
-                    slot="icon-only"></ion-icon>
+                    slot="icon-only" ></ion-icon>
                 </ion-button>
               </ion-buttons>
-              <p style="color: #ed1c24;">Create a new place</p>
+              <p style="color: #ed1c24; font-size: 10px;"  >Create a new place</p>
             </div>
 
           </ion-col>
@@ -187,6 +187,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <br>
-  <ion-button expand="block" (click)="createPlace()">create a new place</ion-button>
 </ion-content>

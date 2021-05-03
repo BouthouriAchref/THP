@@ -109,8 +109,8 @@
         <ion-slides [options]="sliderConfig">
 
           <ion-slide *ngFor="let place of places">
-            <ion-card class="card"  routerLink="/place">
-              <ion-card-content class="ion-text-left">
+            <ion-card class="card" >
+              <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
                 <div class="img-wrapper">
                   <ion-img [src]="place.Attachement[0].Path"></ion-img>
                 </div>

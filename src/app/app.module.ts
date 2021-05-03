@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy, IonicSafeString } from '@ionic/angular';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -38,6 +38,8 @@ export function jwtOptionsFactory(storage) {
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
     IonicStorageModule.forRoot(),
     JwtModule.forRoot({
       jwtOptionsProvider: {
@@ -46,6 +48,7 @@ export function jwtOptionsFactory(storage) {
         deps: [Storage]
       }
     })
+
     //FireBase
     // AngularFireModule.initializeApp(environment.firebaseConfig),
     // AngularFireAuthModule,
@@ -53,7 +56,6 @@ export function jwtOptionsFactory(storage) {
     // AngularFireStorageModule,
   ],
   providers: [
-    
     Camera,
     ImagesService,
     FileTransfer,

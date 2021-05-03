@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
   birthday : String = "Born"; 
   sliderConfig = {
     centeredSlides: true,
-    spaceBetween: -60,
+    spaceBetween: -40,
     slidesPerView: 1.1,
   };
   constructor(
@@ -42,10 +42,11 @@ export class ProfilePage implements OnInit {
 
    
   ngOnInit() {
-      this.storage.get(ID_USER).then(async (res) =>{
-        await this.profile.findUserById(res).subscribe((user : User) => {
+      this.storage.get(ID_USER).then((res) =>{
+        //console.log('res',res)
+       this.profile.findUserById(res).subscribe((user : User) => {
           this.USER = user;
-          console.log(this.USER);
+          //console.log(this.USER);
       });
     });
 

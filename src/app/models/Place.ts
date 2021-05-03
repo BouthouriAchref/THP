@@ -1,13 +1,15 @@
 export interface Place {
-    Address : {
+    Name: String;
+    Description: String;
+    Address: {
         Location: {
-            Lat : String,
-            Lon : String
+            Lat: String,
+            Lon: String
         }
+        Text: String,
+        Department: String,
+        City: String,
+        PostalCode: String
     };
-    Attachement : any[];
-    Description : String;
-    Evaluation : any[];
-    Name : String;
-    _id : String;
+
 }
