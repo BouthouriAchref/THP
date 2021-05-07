@@ -20,6 +20,7 @@ import { Storage, IonicStorageModule } from '@ionic/storage-angular';
 import { Camera } from '@ionic-native/camera/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx'
 import { ImagesService } from './services/images.service';
+import { NoticeModule } from './Components/notice/notice.module';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 // import { StatusBar } from '@ionic-native/status-bar';
 
@@ -40,6 +41,7 @@ export function jwtOptionsFactory(storage) {
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    NoticeModule,
     IonicStorageModule.forRoot(),
     JwtModule.forRoot({
       jwtOptionsProvider: {

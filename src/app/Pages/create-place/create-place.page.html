@@ -1,6 +1,6 @@
 <ion-header translucent="true">
   <ion-toolbar color="primary" style="padding-top: 0px;">
-    <ion-title>Create a new Place</ion-title>
+    <ion-title style="padding-right: 0;">Create a new Place</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -53,7 +53,7 @@
       <div class="form-group" *ngIf="toggleValue">
         <label for="exampleInputAddress">Address</label>
         <input type="text" class="form-control" id="exampleInputAddress" placeholder="Enter the Address"
-        formControlName="address">
+          formControlName="address">
       </div>
 
       <div class="form-row" *ngIf="toggleValue">
@@ -75,7 +75,7 @@
 
 
 
-        <!-- <div class="form-group col-md-4" style="width: 35%;">
+      <!-- <div class="form-group col-md-4" style="width: 35%;">
           <label for="inputState">State</label>
           <select id="inputState" class="form-control" (change)="selectChangeHandlerState($event)"
             formControlName="state">
@@ -106,7 +106,7 @@
             <option value="Tataouine">Tataouine</option>
           </select>
         </div> -->
-      
+
 
       <div class="form-group">
         <ion-label>State</ion-label>
@@ -153,20 +153,15 @@
 
       <div class="space-between">
         <ion-row>
-          <ion-col>
-            <ion-label *ngIf="toggleValue">Switch to coordinates</ion-label>
-            <ion-label *ngIf="!toggleValue">Switch to physical address</ion-label>
+          <ion-col size="9">
+            <ion-label *ngIf="toggleValue" style="font-size: 15px;">Switch To Coordinates</ion-label>
+            <ion-label *ngIf="!toggleValue">Switch To Address</ion-label>
           </ion-col>
-          <ion-col>
-            <ion-toggle (ionChange)="change()" class="tgl"></ion-toggle>
+          <ion-col size="3">
+            <ion-toggle (ionChange)="change()" style="padding-top: 5px;"></ion-toggle>
           </ion-col>
         </ion-row>
       </div>
-
-
-
-
-
 
       <label for="exampleInputCategory">Picture</label>
       <div class="custom-file">
@@ -178,7 +173,7 @@
     <br>
     <div style="  text-align: center;">
 
-      <ion-button style="padding-left: none;" type="submit" (click)="Submit()" color="primary">Create</ion-button>
+      <ion-button style="padding-left: none;" type="submit" (click)="presentLoading()" color="primary">Create</ion-button>
     </div>
     <br>
   </div>

@@ -43,7 +43,7 @@
 
     <ion-label>
       <h2>Find, </h2>
-      <h1>Place near you !!</h1>
+      <h1 style="font-size: 23px;">Place near you !!</h1>
     </ion-label>
   </ion-item>
 </ion-header>
@@ -116,10 +116,7 @@
                 </div>
                 <ion-card-title class="title">{{place.Name}}</ion-card-title>
                 <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
-                <ion-card-subtitle >
-                  <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
-                  <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
-                </ion-card-subtitle>
+                <app-notice [note]="place.Notice"></app-notice>
               </ion-card-content>
             </ion-card>
           </ion-slide>
@@ -201,20 +198,16 @@
             <ion-slides [options]="sliderConfig" style="margin-bottom: 20px;">
               <ion-slide *ngFor="let place of places">
                 <ion-card class="card">
-                  <ion-card-content class="ion-text-left">
+                  <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
                     <div class="img-wrapper">
                       <ion-img  [src]="place.Attachement[0].Path"></ion-img>
                     </div>
                     <ion-card-title class="title">{{place.Name}}</ion-card-title>
                     <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
-                    <ion-card-subtitle >
-                      <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
-                      <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
-                    </ion-card-subtitle>
+                    <app-notice [note]="place?.Notice"></app-notice>
                   </ion-card-content>
                 </ion-card>
               </ion-slide>
-              
             </ion-slides>
           </ion-col>
         </ion-row>

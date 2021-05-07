@@ -32,15 +32,16 @@
       <div class="basic-info">
         <h1>{{Place?.Name}}</h1>
         <p>
-          <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
+          <app-notice [note]="Place?.Notice"></app-notice>
+          <!-- <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
           <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
           <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
           <ion-icon name="star-half-outline" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-          <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;"></ion-icon>
+          <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;"></ion-icon> -->
         </p>
         <p>
           <ion-icon name="location-outline"></ion-icon>
-          Djerba, Tunisiaaaaa (500km)
+          Djerba, Tunisia (500km)
         </p>
         <p>
           <ion-icon name="search-outline"></ion-icon>
@@ -82,26 +83,33 @@
     <div class="about-me">
       <div class="space-between2">
         <h1>Rating And Review</h1>
-        <ion-fab-button style="z-index: 2;" (click)="showAlert()">
-          <img src="../../../assets/rate3.png">
-        </ion-fab-button>
+        <!-- <ion-fab-button style="z-index: 2;" (click)="showAlert()">
+          <img src="../../../assets/rate3.png" >
+        </ion-fab-button> -->
+        <ion-buttons style="width: 60px;" *ngIf="canActivate() || canActivatefb()">
+
+          <ion-button style="--border-radius: 10px; width: 100%; height: 100%;" (click)="showAlert()">
+            <!-- <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon> -->
+            <img src="../../../assets/unnamed.png">
+
+
+          </ion-button>
+        </ion-buttons>
       </div>
 
 
       <ion-list style="background: #f8f8fa; overflow-y: scroll; height: 400px;">
-        <ion-card>
+        <ion-card style="border-radius: 12px;" *ngFor="let eval of Place?.Evaluation">
           <ion-item>
-            <ion-avatar slot="start">
-              <img src="../../../assets/beach.jpg">
+            <ion-avatar slot="start" style="margin-top: -30px;">
+              <img [src]="eval?.CreatedBy?.Avatar?.Path">
             </ion-avatar>
             <ion-label>
-              <h2>Taher Robbana</h2>
-              <!-- <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-              <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-              <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-              <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-              <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-              <p style="white-space: break-spaces;" *ngIf="!seeMore" (click)="seeMore = true">{{('Djerba, an island off
+              <h2>{{eval?.CreatedBy?.fullname}}</h2>
+              <p>{{eval?.Comment}}</p>
+              <app-notice [note]="eval?.Notice"></app-notice>
+
+              <!-- <p style="white-space: break-spaces;" *ngIf="!seeMore" (click)="seeMore = true">{{('Djerba, an island off
                 the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by
                 Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft
                 markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a
@@ -115,8 +123,8 @@
                 markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a
                 pilgrimage site for North African Jews')}}
                 <span class="more-less" style="color: rgb(0, 0, 0);"> See less</span>
-              </p>
-              <h3>15/17/2020</h3> -->
+              </p> -->
+              <h3>{{eval?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>
             </ion-label>
           </ion-item>
         </ion-card>
@@ -140,5 +148,5 @@
         </ion-slides>
       </div>
     </div>-->
-  </div> 
+  </div>
 </ion-content>

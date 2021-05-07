@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { FbService } from 'src/app/services/fb.service';
 import { PlaceService } from 'src/app/services/place.service';
 import { RatePage } from '../rate/rate.page';
 
@@ -28,14 +30,32 @@ export class PlacePage implements OnInit {
     public modalController: ModalController,
     public alertController: AlertController,
     private route: ActivatedRoute,
-    private placeService: PlaceService) { }
+    private placeService: PlaceService,
+    private fb: FbService, private Auth: AuthService) { }
+
+
+    ngOnInit() {
+      this.route.params.subscribe(params => {
+        this.id = params['id'];
+        //console.log('id', this.id)
+      });
+
+      this.placeService.getPlaceById(this.id).subscribe(async res => {
+        if(res.success){
+        this.Place = await res.data;
+        }
+        console.log('Place', this.Place)
+      });
+    
+  
+    }
 
   async addRate() {
     const modal = await this.modalController.create({
       component: RatePage,
       cssClass: 'dialog-modal2',
       componentProps: {
-        'id': "1",
+        "id": this.Place._id,
       }
     });
     return await modal.present();
@@ -69,18 +89,11 @@ export class PlacePage implements OnInit {
 
   }
 
-
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.id = params['id'];
-      //console.log('id', this.id)
-    });
-    this.placeService.getPlaceById(this.id).subscribe(place => {
-      this.Place = place;
-      console.log('Place', this.Place)
-    });
-    
-
+  canActivatefb(): boolean {
+    return this.fb.isAuthenticated();
+  }
+  canActivate(): boolean {
+    return this.Auth.isAuthenticated();
   }
 
 }

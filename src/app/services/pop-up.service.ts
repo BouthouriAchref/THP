@@ -24,6 +24,8 @@ export class PopUpService {
     }))
   }
 
+  //  ='color: #f2994a' name='star' >${place?.Evaluation[0]?.Notice}</ion-icon>
+  //     <ion-icon style='color: #f2994a' name='star-outline'></ion-icon>
   makeCapitalPopup(place) {
     return `
       <ion-buttons>
@@ -34,13 +36,9 @@ export class PopUpService {
           <ion-icon style=' font-size: 34px; color: #ff3838' name="heart-circle"></ion-icon>
         </ion-button>
       </ion-buttons>
-      
-      <ng-template>
-      <ion-icon style='color: #f2994a' name='star' >${place?.Evaluation[0]?.Notice}</ion-icon>
-      <ion-icon style='color: #f2994a' name='star-outline'></ion-icon>
+      <app-notice [note]="${place?.Notice}"></app-notice>
       <p>${place?.Description.substring(0, 100)}</p>
       <ion-img src='${place?.Attachement[0].Path}'></ion-img>
-      </ng-template>
   `
   }
 }

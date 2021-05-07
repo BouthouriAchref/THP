@@ -22,18 +22,17 @@ export class MapPage implements OnInit {
 
 
   constructor(
-    private popupService: PopUpService) {
-
-  }
+    private popupService: PopUpService) {}
 
   ngOnInit() {
     // console.time('aa')
     this.popupService.getAllPlaces().subscribe(async (res) => {
       if (res.success) {
         this.properties = await res.data;
-        this.initData()
+        this.initData();
       }
     });
+    
   }
 
   open() {

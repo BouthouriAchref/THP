@@ -19,7 +19,7 @@ export class PlaceService {
   }
 
   getPlaceById(id) {
-    return this.http.get(`${this.url}/api/Place/Place/${id}`).pipe(map(response => {
+    return this.http.get<any>(`${this.url}/api/Place/Place/${id}`).pipe(map(response => {
       //console.log('___',response)
       return response
     }));
@@ -44,6 +44,13 @@ export class PlaceService {
   addPlace(id, credentials) {
     //console.log('___',credentials) 
     return this.http.post(`${this.url}/api/Place/addPlace/${id}`, credentials).subscribe(response => {
+      console.log('response', response)
+      return response
+    })
+  }
+
+  addEvaluation(idUser, idPlace, credentials) {
+    return this.http.post(`${this.url}/api/evaluation/${idPlace}/${idUser}`, credentials).subscribe(response => {
       console.log('response', response)
       return response
     })

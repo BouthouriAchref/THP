@@ -121,9 +121,9 @@ export class CreatePlacePage implements OnInit {
   }
 
   Submit() {
-    // if (this.credentialsForm.invalid) {
-    //   console.log('invalid form');
-    // } else {
+    if (this.credentialsForm.invalid) {
+      console.log('invalid form');
+    } else {
       //console.log('Form', this.credentialsForm.value)
       this.placeService.getLat(this.credentialsForm.value).subscribe(async res => {
         console.log('lat', res)
@@ -141,11 +141,8 @@ export class CreatePlacePage implements OnInit {
           this.closeModal();
         });
       }, 2000);
-    //}
+    }
   }
-
-
-
 
   async presentLoading() {
     const loading = await this.loadingController.create({
