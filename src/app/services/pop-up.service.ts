@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -8,6 +9,9 @@ import { environment } from 'src/environments/environment';
 })
 export class PopUpService {
   url = environment.url;
+
+  MapSubject = new Subject();
+  MapSubjectEvent = this.MapSubject.asObservable();
   constructor(private http: HttpClient) { }
 
   getAllPlaces() {
@@ -24,6 +28,14 @@ export class PopUpService {
     }))
   }
 
+
+  getPlacesByCat(id){
+    return this.http.get<any>(`${this.url}/api/Place/Places/Category/${id}`).subscribe(response => {
+      //this.MapSubject.next(true)
+      return response;
+    });
+  }
+
   //  ='color: #f2994a' name='star' >${place?.Evaluation[0]?.Notice}</ion-icon>
   //     <ion-icon style='color: #f2994a' name='star-outline'></ion-icon>
   makeCapitalPopup(place) {
@@ -38,7 +50,7 @@ export class PopUpService {
       </ion-buttons>
       <app-notice [note]="${place?.Notice}"></app-notice>
       <p>${place?.Description.substring(0, 100)}</p>
-      <ion-img src='${place?.Attachement[0].Path}'></ion-img>
+      <ion-img src='${place?.Attachement[0].Path}' style=' border-radius: 10px !important'></ion-img>
   `
   }
 }

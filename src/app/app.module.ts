@@ -21,6 +21,8 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx'
 import { ImagesService } from './services/images.service';
 import { NoticeModule } from './Components/notice/notice.module';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 // import { StatusBar } from '@ionic-native/status-bar';
 
@@ -59,11 +61,12 @@ export function jwtOptionsFactory(storage) {
   ],
   providers: [
     Camera,
+    SplashScreen,
+    StatusBar,
     ImagesService,
     FileTransfer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    //SplashScreen,
-    //StatusBar
+ 
  
 
   ],

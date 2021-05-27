@@ -51,7 +51,7 @@ MenuPageModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-tabs>\n  <ion-tab-bar slot=\"bottom\">\n    <ion-tab-button tab=\"home\">\n      <ion-icon name=\"home\"></ion-icon>\n      <ion-label>Home</ion-label>\n    </ion-tab-button>\n    <ion-tab-button tab=\"map\">\n      <ion-icon name=\"map\"></ion-icon>\n      <ion-label>Map</ion-label>\n    </ion-tab-button>\n    <ion-tab-button tab=\"profile\">\n      <ion-icon name=\"person\" (click)=\"onClick()\"></ion-icon>\n      <ion-label>Profile</ion-label>\n    </ion-tab-button>\n  </ion-tab-bar>\n\n</ion-tabs>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-tabs>\n    <ion-tab-bar slot=\"bottom\">\n        <ion-tab-button tab=\"home\">\n            <ion-icon name=\"home\"></ion-icon>\n            <ion-label>Home</ion-label>\n        </ion-tab-button>\n        <ion-tab-button tab=\"map\">\n            <ion-icon name=\"map\"></ion-icon>\n            <ion-label>Map</ion-label>\n        </ion-tab-button>\n        <ion-tab-button tab=\"profile\" (click)=\"onClick()\">\n            <ion-icon name=\"person\"></ion-icon>\n            <ion-label>Profile</ion-label>\n        </ion-tab-button>\n    </ion-tab-bar>\n\n</ion-tabs>");
 
 /***/ }),
 
@@ -103,7 +103,7 @@ const routes = [
             },
             {
                 path: 'profile',
-                loadChildren: () => Promise.all(/*! import() | Pages-profile-profile-module */[__webpack_require__.e("common"), __webpack_require__.e("Pages-profile-profile-module")]).then(__webpack_require__.bind(null, /*! ../Pages/profile/profile.module */ "wjNX")).then(m => m.ProfilePageModule),
+                loadChildren: () => Promise.all(/*! import() | Pages-profile-profile-module */[__webpack_require__.e("default~Pages-create-place-create-place-module~Pages-profile-profile-module"), __webpack_require__.e("common"), __webpack_require__.e("Pages-profile-profile-module")]).then(__webpack_require__.bind(null, /*! ../Pages/profile/profile.module */ "wjNX")).then(m => m.ProfilePageModule),
                 canActivate: [_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_3__["AuthGuardService"]]
             },
             {
@@ -173,9 +173,9 @@ let MenuPage = class MenuPage {
     showAlert(msg) {
         let alert = this.alertController.create({
             message: msg,
-            header: 'Error',
+            header: 'Warning',
             buttons: [
-                { text: 'Annuler'
+                { text: 'Cancel'
                 },
                 { text: 'SignIn',
                     handler: data => {

@@ -17,6 +17,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
 /* harmony import */ var _place_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./place-routing.module */ "Xt0R");
 /* harmony import */ var _place_page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./place.page */ "I4dV");
+/* harmony import */ var src_app_Components_notice_notice_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/Components/notice/notice.module */ "qwbt");
+
 
 
 
@@ -32,7 +34,8 @@ PlacePageModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
             _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
             _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["IonicModule"],
-            _place_routing_module__WEBPACK_IMPORTED_MODULE_5__["PlacePageRoutingModule"]
+            _place_routing_module__WEBPACK_IMPORTED_MODULE_5__["PlacePageRoutingModule"],
+            src_app_Components_notice_notice_module__WEBPACK_IMPORTED_MODULE_7__["NoticeModule"]
         ],
         declarations: [_place_page__WEBPACK_IMPORTED_MODULE_6__["PlacePage"]]
     })
@@ -56,16 +59,179 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _raw_loader_place_page_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! raw-loader!./place.page.html */ "yEDa");
 /* harmony import */ var _place_page_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./place.page.scss */ "gl2t");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
+/* harmony import */ var src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/auth.service */ "lGQG");
+/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/storage-angular */ "jSNZ");
+/* harmony import */ var src_app_services_fb_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/services/fb.service */ "SLMv");
+/* harmony import */ var src_app_services_place_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! src/app/services/place.service */ "Ome2");
+/* harmony import */ var _rate_rate_page__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../rate/rate.page */ "6Tfl");
+/* harmony import */ var src_app_services_profile_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/services/profile.service */ "Aso2");
 
 
 
 
+
+
+
+
+
+
+
+
+const ID_USER = 'id';
 let PlacePage = class PlacePage {
-    constructor() { }
+    constructor(modalController, alertController, route, placeService, fb, Auth, storage, profileService, router) {
+        this.modalController = modalController;
+        this.alertController = alertController;
+        this.route = route;
+        this.placeService = placeService;
+        this.fb = fb;
+        this.Auth = Auth;
+        this.storage = storage;
+        this.profileService = profileService;
+        this.router = router;
+        this.isSeeMore = false;
+        this.seeMore = false;
+        this.hobbies = ["camping", "camping", "camping", "camping", "campinglife", "campingwithdogs", "campingtrip", "campingvibes"];
+        this.sliderConfig = {
+            centeredSlides: true,
+            spaceBetween: -60,
+            slidesPerView: 1.1,
+        };
+        this.placeService.PlaceSubjectEvent.subscribe(res => {
+            if (res) {
+                this.route.params.subscribe(params => {
+                    this.id = params['id'];
+                    console.log('id', this.id);
+                });
+                this.placeService.getPlaceById(this.id).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+                    if (res.success) {
+                        this.Place = yield res.data;
+                    }
+                }));
+            }
+        });
+    }
     ngOnInit() {
+        //console.log(this.like)
+        this.route.params.subscribe(params => {
+            this.id = params['id'];
+            this.Page = params['Page'];
+            console.log('id', this.id, this.Page);
+        });
+        this.placeService.getPlaceById(this.id).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            if (res.success) {
+                this.Place = yield res.data;
+                console.log('____', this.Place);
+            }
+            //console.log('Place', this.Place)
+        }));
+        if (this.canActivate() || this.canActivatefb()) {
+            this.storage.get(ID_USER).then((res) => {
+                this.profileService.findUserById(res).subscribe((response) => {
+                    for (let place of response.FavoritesPlaces) {
+                        if (this.Place._id == place._id) {
+                            this.like = true;
+                        }
+                    }
+                });
+            });
+        }
+    }
+    addRate() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const modal = yield this.modalController.create({
+                component: _rate_rate_page__WEBPACK_IMPORTED_MODULE_10__["RatePage"],
+                cssClass: 'dialog-modal2',
+                componentProps: {
+                    "id": this.Place._id,
+                }
+            });
+            return yield modal.present();
+        });
+    }
+    Like(id) {
+        if (this.canActivate() || this.canActivatefb()) {
+            this.like = !this.like;
+            if (this.like) {
+                this.storage.get(ID_USER).then((res) => {
+                    this.placeService.addPlaceToFavorite(id, res);
+                });
+            }
+            else {
+                this.storage.get(ID_USER).then((res) => {
+                    this.placeService.removePlaceToFavorite(id, res);
+                });
+            }
+        }
+        else {
+            this.showAlertt("You need to SignIn");
+        }
+    }
+    showAlert() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            if (this.canActivate() || this.canActivatefb()) {
+                const alert = yield this.alertController.create({
+                    header: 'Rate this Place',
+                    message: 'If you are loving (or even hating) this place, an honest rating would really help to defame the place',
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                            cssClass: 'secondary',
+                            handler: data => {
+                            }
+                        },
+                        {
+                            text: 'Rate',
+                            handler: data => {
+                                this.addRate();
+                            }
+                        }
+                    ]
+                });
+                yield alert.present();
+            }
+            else {
+                this.showAlertt("You need to SignIn");
+            }
+        });
+    }
+    showAlertt(msg) {
+        let alert = this.alertController.create({
+            message: msg,
+            header: 'Warning',
+            buttons: [
+                { text: 'Cancel'
+                },
+                { text: 'SignIn',
+                    handler: data => {
+                        this.router.navigate(['login']);
+                    }
+                }
+            ]
+        });
+        alert.then(alert => alert.present());
+    }
+    canActivatefb() {
+        return this.fb.isAuthenticated();
+    }
+    canActivate() {
+        return this.Auth.isAuthenticated();
     }
 };
-PlacePage.ctorParameters = () => [];
+PlacePage.ctorParameters = () => [
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["ModalController"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["AlertController"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] },
+    { type: src_app_services_place_service__WEBPACK_IMPORTED_MODULE_9__["PlaceService"] },
+    { type: src_app_services_fb_service__WEBPACK_IMPORTED_MODULE_8__["FbService"] },
+    { type: src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_6__["AuthService"] },
+    { type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_7__["Storage"] },
+    { type: src_app_services_profile_service__WEBPACK_IMPORTED_MODULE_11__["ProfileService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }
+];
 PlacePage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
         selector: 'app-place',
@@ -124,7 +290,7 @@ PlacePageRoutingModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ion-content {\n  --background: #f8f8fa;\n}\n\n.header {\n  height: 110px;\n  width: 100%;\n  padding-top: 1px;\n  background-blend-mode: color-burn;\n  background-size: 10px;\n}\n\n.header h2 {\n  color: white;\n  text-align: center;\n  font-weight: bold;\n}\n\n.space-between {\n  display: flex;\n  justify-content: space-between;\n  padding: 10px 10px 0px 10px;\n}\n\n.followings {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.followings p {\n  color: white;\n  margin: 8px 0px 0px 0px;\n}\n\n.img-box {\n  border-radius: 50%;\n  overflow: hidden;\n  height: 90px;\n  width: 90px;\n}\n\n.border-white {\n  border: white solid 3px;\n  border-radius: 50%;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n\n.border-blue {\n  border: 4px solid #ff3838;\n  border-radius: 50%;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}\n\n.flex {\n  display: flex;\n  justify-content: right;\n  margin-top: -30px;\n  margin-left: 20px;\n  margin-bottom: -72px;\n}\n\n.abs {\n  margin-left: 60px;\n}\n\n.ionicon {\n  stroke: currentcolor;\n  color: white;\n}\n\n.title {\n  font-size: 15px;\n}\n\n.card {\n  margin: 0;\n  margin-right: 30px;\n  width: 80%;\n  box-shadow: none;\n  border-radius: 14px;\n}\n\nion-card-content .img-wrapper {\n  border-radius: 14px;\n  height: 200px;\n  overflow: hidden;\n  margin-bottom: 8px;\n}\n\nion-card-content ion-icon {\n  color: #f2994a;\n  padding-right: 4px;\n}\n\nion-card-content ion-card-subtitle:last-of-type {\n  padding-top: 6px;\n}\n\n.couverture {\n  min-height: 110px;\n  height: 100%;\n  width: 100%;\n  padding-top: 1px;\n  background-blend-mode: color-burn;\n  background-size: cover;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uXFwuLlxcLi5cXC4uXFxwbGFjZS5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxxQkFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLFdBQUE7RUFDQSxnQkFBQTtFQUNBLGlDQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFHQTtFQUNJLFlBQUE7RUFDQSxrQkFBQTtFQUNBLGlCQUFBO0FBQUo7O0FBR0E7RUFDSSxhQUFBO0VBQ0EsOEJBQUE7RUFDQSwyQkFBQTtBQUFKOztBQUdBO0VBQ0ksYUFBQTtFQUNBLHNCQUFBO0VBQ0EsbUJBQUE7QUFBSjs7QUFHQTtFQUNJLFlBQUE7RUFDQSx1QkFBQTtBQUFKOztBQUdBO0VBQ0ksa0JBQUE7RUFDQSxnQkFBQTtFQUNBLFlBQUE7RUFDQSxXQUFBO0FBQUo7O0FBR0E7RUFDSSx1QkFBQTtFQUNBLGtCQUFBO0VBQ0EsMEJBQUE7RUFBQSx1QkFBQTtFQUFBLGtCQUFBO0FBQUo7O0FBR0E7RUFDSSx5QkFBQTtFQUNBLGtCQUFBO0VBQ0EsMEJBQUE7RUFBQSx1QkFBQTtFQUFBLGtCQUFBO0FBQUo7O0FBR0E7RUFDSSxhQUFBO0VBQ0Esc0JBQUE7RUFDQSxpQkFBQTtFQUNBLGlCQUFBO0VBQ0Esb0JBQUE7QUFBSjs7QUFJQTtFQUNJLGlCQUFBO0FBREo7O0FBSUE7RUFDSSxvQkFBQTtFQUNBLFlBQUE7QUFESjs7QUFJQTtFQUNJLGVBQUE7QUFESjs7QUFJQTtFQUNJLFNBQUE7RUFDQSxrQkFBQTtFQUNBLFVBQUE7RUFDQSxnQkFBQTtFQUNBLG1CQUFBO0FBREo7O0FBS0k7RUFDRSxtQkFBQTtFQUNBLGFBQUE7RUFDQSxnQkFBQTtFQUNBLGtCQUFBO0FBRk47O0FBS0k7RUFDRSxjQUFBO0VBQ0Esa0JBQUE7QUFITjs7QUFNSTtFQUNFLGdCQUFBO0FBSk47O0FBV0E7RUFDSSxpQkFBQTtFQUNBLFlBQUE7RUFDQSxXQUFBO0VBQ0EsZ0JBQUE7RUFDQSxpQ0FBQTtFQUNBLHNCQUFBO0FBUkoiLCJmaWxlIjoicGxhY2UucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWNvbnRlbnQge1xyXG4gICAgLS1iYWNrZ3JvdW5kOiAjZjhmOGZhO1xyXG4gIH1cclxuXHJcbi5oZWFkZXIge1xyXG4gICAgaGVpZ2h0OiAxMTBweDtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgcGFkZGluZy10b3A6IDFweDtcclxuICAgIGJhY2tncm91bmQtYmxlbmQtbW9kZTogY29sb3ItYnVybjtcclxuICAgIGJhY2tncm91bmQtc2l6ZTogMTBweDtcclxuICAgIFxyXG59XHJcblxyXG4uaGVhZGVyIGgyIHtcclxuICAgIGNvbG9yOiB3aGl0ZTtcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcblxyXG4uc3BhY2UtYmV0d2VlbiB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xyXG4gICAgcGFkZGluZzogMTBweCAxMHB4IDBweCAxMHB4O1xyXG59XHJcblxyXG4uZm9sbG93aW5ncyB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbn1cclxuXHJcbi5mb2xsb3dpbmdzIHAge1xyXG4gICAgY29sb3I6IHdoaXRlO1xyXG4gICAgbWFyZ2luOiA4cHggMHB4IDBweCAwcHg7XHJcbn1cclxuXHJcbi5pbWctYm94IHtcclxuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcclxuICAgIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgICBoZWlnaHQ6IDkwcHg7XHJcbiAgICB3aWR0aDogOTBweDtcclxufVxyXG5cclxuLmJvcmRlci13aGl0ZSB7XHJcbiAgICBib3JkZXI6IHdoaXRlIHNvbGlkIDNweDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcclxuICAgIHdpZHRoOiBmaXQtY29udGVudDtcclxufVxyXG5cclxuLmJvcmRlci1ibHVlIHtcclxuICAgIGJvcmRlcjogNHB4IHNvbGlkICNmZjM4Mzg7XHJcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XHJcbiAgICB3aWR0aDogZml0LWNvbnRlbnQ7XHJcbn1cclxuXHJcbi5mbGV4IHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHJpZ2h0O1xyXG4gICAgbWFyZ2luLXRvcDogLTMwcHg7XHJcbiAgICBtYXJnaW4tbGVmdDogMjBweDtcclxuICAgIG1hcmdpbi1ib3R0b206IC03MnB4O1xyXG5cclxufVxyXG5cclxuLmFicyB7XHJcbiAgICBtYXJnaW4tbGVmdDogNjBweDsgICBcclxufVxyXG5cclxuLmlvbmljb24ge1xyXG4gICAgc3Ryb2tlOiBjdXJyZW50Y29sb3I7XHJcbiAgICBjb2xvcjogd2hpdGU7XHJcbn1cclxuXHJcbi50aXRsZSB7XHJcbiAgICBmb250LXNpemU6IDE1cHg7XHJcbiAgfVxyXG5cclxuLmNhcmQge1xyXG4gICAgbWFyZ2luOiAwO1xyXG4gICAgbWFyZ2luLXJpZ2h0OiAzMHB4O1xyXG4gICAgd2lkdGg6IDgwJTtcclxuICAgIGJveC1zaGFkb3c6IG5vbmU7XHJcbiAgICBib3JkZXItcmFkaXVzOiAxNHB4O1xyXG59XHJcblxyXG5pb24tY2FyZC1jb250ZW50IHtcclxuICAgIC5pbWctd3JhcHBlciB7XHJcbiAgICAgIGJvcmRlci1yYWRpdXM6IDE0cHg7XHJcbiAgICAgIGhlaWdodDogMjAwcHg7XHJcbiAgICAgIG92ZXJmbG93OiBoaWRkZW47XHJcbiAgICAgIG1hcmdpbi1ib3R0b206IDhweDtcclxuICAgIH1cclxuICBcclxuICAgIGlvbi1pY29uIHtcclxuICAgICAgY29sb3I6ICNmMjk5NGE7XHJcbiAgICAgIHBhZGRpbmctcmlnaHQ6IDRweDtcclxuICAgIH1cclxuICBcclxuICAgIGlvbi1jYXJkLXN1YnRpdGxlOmxhc3Qtb2YtdHlwZSB7XHJcbiAgICAgIHBhZGRpbmctdG9wOjZweDtcclxuICAgIH1cclxuICBcclxuICB9XHJcblxyXG5cclxuXHJcbi5jb3V2ZXJ0dXJle1xyXG4gICAgbWluLWhlaWdodDogMTEwcHg7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIHBhZGRpbmctdG9wOiAxcHg7XHJcbiAgICBiYWNrZ3JvdW5kLWJsZW5kLW1vZGU6IGNvbG9yLWJ1cm47XHJcbiAgICBiYWNrZ3JvdW5kLXNpemU6IGNvdmVyO1xyXG4gICAgXHJcbn0iXX0= */");
+/* harmony default export */ __webpack_exports__["default"] = ("ion-content {\n  position: relative;\n}\n\n.header {\n  width: 100%;\n}\n\n.space-between2 {\n  display: flex;\n  justify-content: space-between !important;\n}\n\n.space-between {\n  display: flex;\n  justify-content: space-between !important;\n  padding: 10px 10px 0px 10px;\n  position: absolute;\n  z-index: 2;\n  width: inherit;\n}\n\n.image-slider {\n  position: relative;\n}\n\n.image-slider ion-slides {\n  --bullet-background-active: #ff3838;\n  height: 50vh;\n  width: 100%;\n}\n\n.image-slider ion-slides img {\n  width: 100vw;\n  max-width: 100vw;\n  object-fit: cover;\n}\n\n.profile-info {\n  border-top-left-radius: 30px;\n  border-top-right-radius: 30px;\n  background: #f8f8fa;\n  height: 100%;\n  margin-top: -22px;\n  position: absolute;\n  width: 100%;\n  z-index: 1;\n}\n\n.profile-info .user-info {\n  padding: 20px 20px 0px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.profile-info .user-info .basic-info {\n  display: flex;\n  flex-direction: column;\n}\n\n.profile-info .user-info .basic-info h1,\n.profile-info .user-info .basic-info p {\n  margin: 0 0 10px 0;\n}\n\n.profile-info .user-info .basic-info h1 {\n  font-weight: 600;\n  margin-bottom: 10px;\n}\n\n.profile-info .about-me {\n  padding: 0px 20px 0px 20px;\n}\n\n.profile-info .about-me h1 {\n  font-weight: 600;\n  font-size: 24px;\n  margin-bottom: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uXFwuLlxcLi5cXC4uXFxwbGFjZS5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxrQkFBQTtBQUNKOztBQUVBO0VBR0ksV0FBQTtBQURKOztBQUlBO0VBQ0ksYUFBQTtFQUNBLHlDQUFBO0FBREo7O0FBSUE7RUFDSSxhQUFBO0VBQ0EseUNBQUE7RUFDQSwyQkFBQTtFQUNBLGtCQUFBO0VBQ0EsVUFBQTtFQUNBLGNBQUE7QUFESjs7QUFJQTtFQUNJLGtCQUFBO0FBREo7O0FBRUk7RUFDSSxtQ0FBQTtFQUNBLFlBQUE7RUFDQSxXQUFBO0FBQVI7O0FBQ1E7RUFDSSxZQUFBO0VBQ0EsZ0JBQUE7RUFDQSxpQkFBQTtBQUNaOztBQUlBO0VBQ0ksNEJBQUE7RUFDQSw2QkFBQTtFQUNBLG1CQUFBO0VBQ0EsWUFBQTtFQUNBLGlCQUFBO0VBQ0Esa0JBQUE7RUFDQSxXQUFBO0VBQ0EsVUFBQTtBQURKOztBQUVJO0VBQ0ksMkJBQUE7RUFDQSxhQUFBO0VBQ0EsbUJBQUE7RUFDQSw4QkFBQTtBQUFSOztBQUNRO0VBQ0ksYUFBQTtFQUNBLHNCQUFBO0FBQ1o7O0FBQVk7O0VBRUksa0JBQUE7QUFFaEI7O0FBQVk7RUFDSSxnQkFBQTtFQUNBLG1CQUFBO0FBRWhCOztBQUVJO0VBQ0ksMEJBQUE7QUFBUjs7QUFDUTtFQUNJLGdCQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0FBQ1oiLCJmaWxlIjoicGxhY2UucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWNvbnRlbnQge1xyXG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xyXG59XHJcblxyXG4uaGVhZGVyIHtcclxuICAgIC8vIGhlaWdodDogMjA2cHg7XHJcbiAgICAvLyBiYWNrZ3JvdW5kLWNvbG9yOiAjZmYzODM4O1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbn1cclxuXHJcbi5zcGFjZS1iZXR3ZWVuMiB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuICFpbXBvcnRhbnQ7XHJcbn1cclxuXHJcbi5zcGFjZS1iZXR3ZWVuIHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW4gIWltcG9ydGFudDtcclxuICAgIHBhZGRpbmc6IDEwcHggMTBweCAwcHggMTBweDtcclxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICAgIHotaW5kZXg6IDI7XHJcbiAgICB3aWR0aDogaW5oZXJpdDtcclxufVxyXG5cclxuLmltYWdlLXNsaWRlciB7XHJcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbiAgICBpb24tc2xpZGVzIHtcclxuICAgICAgICAtLWJ1bGxldC1iYWNrZ3JvdW5kLWFjdGl2ZTogI2ZmMzgzODtcclxuICAgICAgICBoZWlnaHQ6IDUwdmg7XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcbiAgICAgICAgaW1nIHtcclxuICAgICAgICAgICAgd2lkdGg6IDEwMHZ3O1xyXG4gICAgICAgICAgICBtYXgtd2lkdGg6IDEwMHZ3O1xyXG4gICAgICAgICAgICBvYmplY3QtZml0OiBjb3ZlcjtcclxuICAgICAgICB9XHJcbiAgICB9XHJcbn1cclxuXHJcbi5wcm9maWxlLWluZm8ge1xyXG4gICAgYm9yZGVyLXRvcC1sZWZ0LXJhZGl1czogMzBweDtcclxuICAgIGJvcmRlci10b3AtcmlnaHQtcmFkaXVzOiAzMHB4O1xyXG4gICAgYmFja2dyb3VuZDogI2Y4ZjhmYTtcclxuICAgIGhlaWdodDogMTAwJTtcclxuICAgIG1hcmdpbi10b3A6IC0yMnB4O1xyXG4gICAgcG9zaXRpb246IGFic29sdXRlO1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICB6LWluZGV4OiAxO1xyXG4gICAgLnVzZXItaW5mbyB7XHJcbiAgICAgICAgcGFkZGluZzogMjBweCAyMHB4IDBweCAyMHB4O1xyXG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgICAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XHJcbiAgICAgICAgLmJhc2ljLWluZm8ge1xyXG4gICAgICAgICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICAgICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gICAgICAgICAgICBoMSxcclxuICAgICAgICAgICAgcCB7XHJcbiAgICAgICAgICAgICAgICBtYXJnaW46IDAgMCAxMHB4IDA7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICAgICAgaDEge1xyXG4gICAgICAgICAgICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgICAgICAgICAgICAgIG1hcmdpbi1ib3R0b206IDEwcHg7XHJcbiAgICAgICAgICAgIH1cclxuICAgICAgICB9XHJcbiAgICB9XHJcbiAgICAuYWJvdXQtbWUge1xyXG4gICAgICAgIHBhZGRpbmc6IDBweCAyMHB4IDBweCAyMHB4O1xyXG4gICAgICAgIGgxIHtcclxuICAgICAgICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcclxuICAgICAgICAgICAgZm9udC1zaXplOiAyNHB4O1xyXG4gICAgICAgICAgICBtYXJnaW4tYm90dG9tOiAxMHB4O1xyXG4gICAgICAgIH1cclxuICAgIH1cclxufSJdfQ== */");
 
 /***/ }),
 
@@ -137,7 +303,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<!-- <ion-header>\n  <ion-toolbar>\n    <ion-title>place</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n\n</ion-content> -->\n<ion-header class=\"ion-no-border\">\n  <ion-item lines=\"Categories\">\n    <ion-buttons>\n      <ion-button>\n        <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n    <ion-label>\n      <h1>Taher Robbana</h1>\n    </ion-label>\n  </ion-item>\n</ion-header>\n\n<ion-content>\n  <ion-header class=\"ion-no-border\">\n    <div style=\"background:url('../../../assets/museum.jpg')\" class=\"couverture\">\n      <!-- <div style=\"background:url('../../../assets/{{profileImg.name}}'),rgb(0 0 0 / 50%);\" class=\"couverture\"> -->\n      </div>\n    <div class=\"flex\">\n      <!-- <div class=\"box-border\"> -->\n        <!-- <div class=\"border-white\"> -->\n          <!-- <div class=\"img-box\"> -->\n            \n            <ion-buttons class=\"i1\">\n              <ion-button>\n                <ion-icon slot=\"icon-only\" name=\"heart-circle-outline\"></ion-icon>\n              </ion-button>\n            </ion-buttons>\n\n            <button ion-button icon-start>\n              <ion-icon name=\"heart-circle-outline\"></ion-icon>\n            </button>\n          <!-- </div> -->\n        <!-- </div> -->\n      <!-- </div> -->\n     \n    </div>\n  </ion-header>\n  <br><br><br>\n  <div class=\"ion-padding wrapper\">\n    <ion-grid class=\"ion-no-padding\">\n      <ion-label>\n        <br>\n        <h1>Taher Robbana</h1>\n        \n      </ion-label>\n    </ion-grid>\n  </div>\n  \n\n\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-content [fullscreen]>\n    <div class=\"image-slider\">\n        <!-- <ion-buttons >      \n      <ion-button style=\"width: 70px; height: 70px; \">\n        <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name=\"arrow-back-circle-outline\" slot=\"icon-only\"></ion-icon>\n      </ion-button>\n      <ion-button style=\"width: 70px; height: 70px; \">\n        <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name=\"heart-circle\" slot=\"icon-only\"></ion-icon>\n      </ion-button>\n    </ion-buttons> -->\n        <div class=\"header\">\n            <ion-buttons class=\"space-between\">\n                <ion-button style=\"color: white;\" routerLink=\"/menu/home\">\n                    <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n                </ion-button>\n                <!-- <ion-button style=\"color: white;\" routerLink=\"/menu/profile\" *ngIf=\"canActivate() || canActivatefb()\">\n                    <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n                </ion-button> -->\n                <div>\n                    <ion-button (click)=\"Like(Place?._id)\" [style]=\"like ? 'color: red;' : 'color: white;'\">\n                        <ion-icon slot=\"icon-only\" name=\"heart\"></ion-icon>\n                    </ion-button>\n                </div>\n            </ion-buttons>\n        </div>\n        <ion-slides pager=\"true\" style=\"height: fit-content;\">\n            <ion-slide *ngFor=\"let item of Place?.Attachement\">\n                <img [src]=\"item.Path\" alt=\"\">\n            </ion-slide>\n        </ion-slides>\n    </div>\n\n    <div class=\"profile-info\">\n        <div class=\"user-info\">\n            <div class=\"basic-info\">\n                <h1>{{Place?.Name}}</h1>\n                <p>\n                    <app-notice [note]=\"Place?.Notice\"></app-notice>\n                    <!-- <ion-icon name=\"star\" style=\"color: #f2994a; padding-right: 4px;\"></ion-icon>\n          <ion-icon name=\"star\" style=\"color: #f2994a; padding-right: 4px;\"></ion-icon>\n          <ion-icon name=\"star\" style=\"color: #f2994a; padding-right: 4px;\"></ion-icon>\n          <ion-icon name=\"star-half-outline\" style=\"color: #f2994a; padding-right: 4px;\"></ion-icon>\n          <ion-icon name=\"star-outline\" style=\"color: #f2994a; padding-right: 4px;\"></ion-icon> -->\n                </p>\n                <p>\n                    <ion-icon name=\"location-outline\"></ion-icon>\n                    {{Place?.Name}}, {{Place?.Address?.Department}}\n                </p>\n                <p>\n                    <ion-icon name=\"search-outline\"></ion-icon>\n                    {{Place?.Category?.Name}}\n                </p>\n\n            </div>\n\n\n        </div>\n        <div class=\"about-me\">\n            <h1>Description</h1>\n\n            <!-- <p *ngIf=\"!isSeeMore\" (click)=\"isSeeMore = true\">{{('Djerba, an island off the coast of Tunisia, is known for\n        Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures.\n        Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el\n        Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews').substring(0,200)}}\n        <span style=\"color: rgb(49, 52, 143);\">... See more</span>\n        <span class=\"more-less\"></span>\n      </p>\n      <p *ngIf=\"isSeeMore\" (click)=\"isSeeMore = false\">{{('Djerba, an island off the coast of Tunisia, is known for\n        Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures.\n        Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el\n        Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews')}}\n        <span class=\"more-less\" style=\"color: rgb(49, 52, 143);\"> See less</span>\n      </p>\n\n\n       <p style=\"white-space: break-spaces;\" *ngIf=\"!seeMore\" (click) =\"seeMore = true\">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews').substring(0,100)}}\n        <span style=\"color: rgb(0, 0, 0);\">... See more</span>\n        <span class=\"more-less\"></span>\n      </p>\n      <p style=\"white-space: break-spaces;\" *ngIf=\"seeMore\" (click) =\"seeMore = false\">{{('Djerba, an island off the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a pilgrimage site for North African Jews')}}\n        <span class=\"more-less\" style=\"color: rgb(0, 0, 0);\"> See less</span>\n      </p>    -->\n            <p>{{Place?.Description}}</p>\n        </div>\n\n        <div class=\"about-me\">\n            <div class=\"space-between2\">\n                <h1>Rating And Review</h1>\n                <!-- <ion-fab-button style=\"z-index: 2;\" (click)=\"showAlert()\">\n          <img src=\"../../../assets/rate3.png\" >\n        </ion-fab-button> -->\n                <ion-buttons style=\"width: 60px;\">\n\n                    <ion-button style=\"--border-radius: 10px; width: 100%; height: 100%;\" (click)=\"showAlert()\">\n                        <!-- <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon> -->\n                        <img src=\"../../../assets/unnamed.png\">\n                    </ion-button>\n                </ion-buttons>\n            </div>\n        </div>\n\n        <ion-list style=\"background: #f8f8fa; overflow-y: scroll;\">\n            <ion-card style=\"border-radius: 12px;\" *ngFor=\"let eval of Place?.Evaluation\">\n                <ion-item>\n                    <ion-avatar slot=\"start\" style=\"margin-top: -30px;\">\n                        <img [src]=\"eval?.CreatedBy?.Avatar?.Path\">\n                    </ion-avatar>\n                    <ion-label>\n                        <h2>{{eval?.CreatedBy?.fullname}}</h2>\n                        <p>{{eval?.Comment}}</p>\n                        <app-notice [note]=\"eval?.Notice\"></app-notice>\n                        <!-- <p style=\"white-space: break-spaces;\" *ngIf=\"!seeMore\" (click)=\"seeMore = true\">{{('Djerba, an island off\n                the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by\n                Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft\n                markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a\n                pilgrimage site for North African Jews').substring(0,100)}}\n                <span style=\"color: rgb(0, 0, 0);\">... See more</span>\n                <span class=\"more-less\"></span>\n              </p>\n              <p style=\"white-space: break-spaces;\" *ngIf=\"seeMore\" (click)=\"seeMore = false\">{{('Djerba, an island off\n                the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by\n                Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft\n                markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a\n                pilgrimage site for North African Jews')}}\n                <span class=\"more-less\" style=\"color: rgb(0, 0, 0);\"> See less</span>\n              </p> -->\n                        <h3>{{eval?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>\n                    </ion-label>\n                </ion-item>\n            </ion-card>\n        </ion-list>\n\n\n\n        <!-- <div class=\"about-me\">\n      <h1>Other Pictures</h1>\n      <div class=\"image-slider\">\n        <ion-slides [options]=\"sliderConfig\">\n          <ion-slide>\n            <img src=\"../../../assets/banna.jpg\" alt=\"\">\n          </ion-slide>\n          <ion-slide>\n            <img src=\"../../../assets/taher.jpg\" alt=\"\">\n          </ion-slide>\n          <ion-slide>\n            <img src=\"../../../assets/Tunis.jpg\" alt=\"\">\n          </ion-slide>\n        </ion-slides>\n      </div>\n    </div> -->\n    </div>\n</ion-content>");
 
 /***/ })
 

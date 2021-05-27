@@ -1,116 +1,97 @@
 <ion-content>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-<div class="header">
-    <ion-buttons class="space-between">
-      <ion-button style="color: white;" routerLink="/menu/profile">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-      <div>
-        <ion-button style="color: white;">
-          <ion-icon slot="icon-only" name="save"></ion-icon>
-        </ion-button>
-      </div>
-    </ion-buttons>
-    <h2>{{USER?.fullname}}</h2>
-
-    
-  </div>
-
-  <div class="flex">
-      <div class="border-red">
-        <div class="border-white">
-          <div class="img-box">
-            <ion-buttons class="i1">
-              <ion-button>
-                <ion-icon slot="icon-only" name="camera-outline" (click)="takePicture(USER?.Avatar._id)"></ion-icon>
-              </ion-button>
-            </ion-buttons>
+    <div class="header">
+        <ion-buttons class="space-between">
+            <ion-button style="color: white;" routerLink="/menu/profile">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
             <div>
-              <img [src]="USER?.Avatar.Path">
+                <ion-button style="color: white;" (click)="Submit()">
+                    <ion-icon slot="icon-only" name="save"></ion-icon>
+                </ion-button>
             </div>
-          </div>
-        </div>
-      </div>
-    
+        </ion-buttons>
+        <h2>{{USER?.fullname}}</h2>
 
-  </div>
 
-  <!-- <ion-header class="ion-no-border">
-    <div style="background:url('../../../assets/museum.jpg'),rgb(0 0 0 / 50%);" class="couverture">
     </div>
+
     <div class="flex">
-      <div class="box-border">
-        <div class="border-white">
-          <ion-buttons class="i3">
-            <ion-button>
-              <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-          <ion-buttons class="i2">
-            <ion-button>
-              <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-          <div class="img-box">
-            <ion-buttons class="i1">
-              <ion-button>
-                <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
-              </ion-button>
-            </ion-buttons>
-            <div>
-              <img src="../../assets/taher.jpg">
+        <div class="border-red">
+            <div class="border-white">
+                <div class="img-box">
+                    <ion-buttons class="i1">
+                        <ion-button (click)="presentActionSheet()">
+                            <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+                        </ion-button>
+                    </ion-buttons>
+                    <div>
+                        <img [src]="USER?.Avatar.Path">
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+
+
     </div>
-  </ion-header> -->
 
-  <div class="ion-padding wrapper">
-    <ion-grid class="ion-no-padding">
-      <ion-label>
-        <br>
-        <form>
-          <div class="form-group">
-            <label for="formGroupExampleInput">Name</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" [placeholder]="USER?.fullname">
-          </div>
-         
-          <div class="form-group">
-            <label for="formGroupExampleInput2">Date of Birth</label>
-            <input class="form-control" type="date" id="example-date-input" >
-          </div>
+    <div class="ion-padding wrapper" style="padding-top: 0px;">
+        <ion-grid class="ion-no-padding">
+            <ion-label>
+                <br>
+                <form [formGroup]="credentialsForm">
+                    <p>{{this.response}}</p>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Name</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput" [placeholder]="USER?.fullname" formControlName="fullname">
+                    </div>
 
-          <div class="form-group">
-            <label for="formGroupExampleInput2">Nationality</label>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Date of Birth</label>
+                        <input class="form-control" type="date" id="example-date-input" formControlName="Birthday">
+                    </div>
 
-            <!-- <select 
-                class="selectpicker countrypicker"
-                data-live-search="true"
-                data-default="United States"
-                data-flag="true">
-            </select> -->
 
-            <!-- <select class="form-select" aria-label="Default select example">
-              <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select> -->
+                    <!-- <label for="formGroupExampleInput2">Gender</label>
+                    <ion-list>
+                        <ion-radio-group formControlName="Gender" (ionChange)="radioGroupChange($event)">
+                            <ion-item>
+                                <ion-label>Male</ion-label>
+                                <ion-radio slot="start" value="Male"></ion-radio>
+                            </ion-item>
 
-            <!-- <select class="selectpicker countrypicker" data-flag="true" ></select>
-            <select data-live-search="true" data-live-search-style="startsWith" class="selectpicker">
-              <option value="4444">4444</option>
-              <option value="Fedex">Fedex</option>
-              <option value="Elite">Elite</option>
-              <option value="Interp">Interp</option>
-              <option value="Test">Test</option>
-          </select> -->
-            <!-- <select class="selectpicker countrypicker" data-flag="true" ></select> -->
+                            <ion-item>
+                                <ion-label>Female</ion-label>
+                                <ion-radio slot="start" value="Female"></ion-radio>
+                            </ion-item>
+                        </ion-radio-group>
+                    </ion-list> -->
 
-            <select name="nationality" class="form-control" id="sel1" data-live-search="true">
+                    <div class="form-group">
+                        <ion-label>Gender</ion-label>
+                        <ion-select placeholder="Choose Gender" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerGender($event)" class="form-control-list" formControlName="Gender">
+                            <ion-select-option value="Male">Male</ion-select-option>
+                            <ion-select-option value="Female">Female</ion-select-option>
+                        </ion-select>
+                    </div>
+
+                    <div class="form-group">
+                        <ion-label>Country</ion-label>
+                        <ion-select placeholder="Choose Country" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerContry($event)" class="form-control-list" formControlName="Nationalite">
+                            <ion-select-option value="Tunisie">Tunisie</ion-select-option>
+                            <ion-select-option value="Maroc">Maroc</ion-select-option>
+                            <ion-select-option value="Algerie">Algerie</ion-select-option>
+                            <ion-select-option value="Libye">Libye</ion-select-option>
+                            <ion-select-option value="France">France</ion-select-option>
+                            <ion-select-option value="Spain">Spain</ion-select-option>
+                            <ion-select-option value="Allemagne">Allemagne</ion-select-option>
+
+                        </ion-select>
+                    </div>
+
+                    <!-- <select name="nationality" class="form-control" id="sel1" data-live-search="true">
+
               <option value="">-- select one --</option>
               <option class="op" value="afghan"><i class="ae flag"></i>Afghan</option>
               <option class="op" value="albanian"><i class="united states flag"></i>Albanian</option>
@@ -123,7 +104,7 @@
               <option class="op" value="armenian">Armenian</option>
               <option class="op" value="australian">Australian</option>
               <option class="op" value="austrian">Austrian</option>
-              <!-- <option value="azerbaijani">Azerbaijani</option>
+              <option value="azerbaijani">Azerbaijani</option>
               <option value="bahamian">Bahamian</option>
               <option value="bahraini">Bahraini</option>
               <option value="bangladeshi">Bangladeshi</option>
@@ -303,19 +284,16 @@
               <option value="welsh">Welsh</option>
               <option value="yemenite">Yemenite</option>
               <option value="zambian">Zambian</option>
-              <option value="zimbabwean">Zimbabwean</option> -->
-            </select>
+              <option value="zimbabwean">Zimbabwean</option>
+            </select> -->
 
-          </div>
+                    <div>
 
+                        <label for="formGroupExampleInput">Change Passwod</label>
 
-          <div>
-
-            <label for="formGroupExampleInput">Change Passwod</label>
-
-            <div class="input-group" style="margin: 0 0 5px;" >
-              <input class="form-control" #passInput [type]="showPassword ? 'text' : 'password'" placeholder="Type your current password">
-              <span class="input-group-btn">
+                        <div class="input-group" style="margin: 0 0 5px;">
+                            <input class="form-control" #passInput [type]="showPassword ? 'text' : 'password'" placeholder="Type your current password" formControlName="oldpassword">
+                            <span class="input-group-btn">
                 <!-- <button class="btn btn-default" type="submit">
                   <ion-icon name="eye"></ion-icon>
                 </button> -->
@@ -326,39 +304,23 @@
                   </ion-button>
                 </ion-buttons>
               </span>
-            </div>
+                        </div>
 
-            <div class="input-group" style="margin: 0 0 5px;">
-              <input class="form-control" #passInput [type]="showPassword1 ? 'text' : 'password'" placeholder="Type your new password (6 characters min)">
-              <span class="input-group-btn">
-                <ion-buttons>
-                  <ion-button (click)="showHidepassword1()">
-                    <ion-icon *ngIf="showPassword1" slot="icon-only" name="eye"></ion-icon>
-                    <ion-icon *ngIf="!showPassword1" slot="icon-only" name="eye-off"></ion-icon>
-                  </ion-button>
-                </ion-buttons>
+                        <div class="input-group" style="margin: 0 0 5px;">
+                            <input class="form-control" #passInput [type]="showPassword1 ? 'text' : 'password'" placeholder="Type your new password (6 characters min)" formControlName="newpassword">
+                            <span class="input-group-btn">
               </span>
-            </div>
+                        </div>
 
-            <div class="input-group" style="margin: 0 0 5px;">
-              <input class="form-control" #passInput [type]="showPassword2 ? 'text' : 'password'" placeholder="Confirm your new password">
-              <span class="input-group-btn">
-                <ion-buttons>
-                  <ion-button (click)="showHidepassword2()">
-                    <ion-icon *ngIf="showPassword2" slot="icon-only" name="eye"></ion-icon>
-                    <ion-icon *ngIf="!showPassword2" slot="icon-only" name="eye-off"></ion-icon>
-                  </ion-button>
-                </ion-buttons>
+                        <div class="input-group" style="margin: 0 0 5px;">
+                            <input class="form-control" #passInput [type]="showPassword2 ? 'text' : 'password'" placeholder="Confirm your new password" formControlName="confirmpassword">
+                            <span class="input-group-btn">
+   
               </span>
-            </div>
-
-          </div>
-
-          
-        
-        </form>
-      </ion-label>
-    </ion-grid>
-  </div>
-  <br>
+                        </div>
+                    </div>
+                </form>
+            </ion-label>
+        </ion-grid>
+    </div>
 </ion-content>

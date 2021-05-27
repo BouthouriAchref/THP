@@ -137,6 +137,84 @@ const openURL = async (url, ev, direction, animation) => {
 
 /***/ }),
 
+/***/ "Aso2":
+/*!*********************************************!*\
+  !*** ./src/app/services/profile.service.ts ***!
+  \*********************************************/
+/*! exports provided: ProfileService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfileService", function() { return ProfileService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "mrSG");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _ionic_native_file_transfer_ngx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ionic-native/file-transfer/ngx */ "B7Rs");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/environments/environment */ "AytR");
+
+
+
+
+
+
+let ProfileService = class ProfileService {
+    constructor(http, transfer) {
+        this.http = http;
+        this.transfer = transfer;
+        this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_5__["environment"].url;
+        this.ProfileSubject = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
+        this.ProfileSubjectEvent = this.ProfileSubject.asObservable();
+    }
+    findUserById(id) {
+        this.findUserByID(id);
+        return this.http.get(`${this.url}/api/Auth/user/${id}`);
+    }
+    findUserByID(id) {
+        this.http.get(`${this.url}/api/Auth/user/${id}`).subscribe(response => {
+            this.ProfileSubject.next(response);
+            console.log('__in service_', response);
+            return response;
+        });
+    }
+    updateAvatar(id) {
+        return this.http.put(`${this.url}/api/Auth/user/upload/`, id);
+    }
+    updateProfile(id, crendentials) {
+        //console.log(crendentials)
+        this.http.put(`${this.url}/api/Auth/user/editProfile/${id}`, crendentials).subscribe(response => {
+            this.ProfileSubject.next(response.result);
+            //console.log('___',response.result)
+            return response;
+        });
+    }
+    uploadImage(id, img) {
+        let path = this.url + '/api/Auth/upload/' + id;
+        var targetPath = img;
+        var options = {
+            fileKey: 'image',
+            chunkedMode: false,
+            mimeType: 'multipart/form-data'
+        };
+        const fileTransfer = this.transfer.create();
+        return fileTransfer.upload(targetPath, path, options);
+    }
+};
+ProfileService.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] },
+    { type: _ionic_native_file_transfer_ngx__WEBPACK_IMPORTED_MODULE_3__["FileTransfer"] }
+];
+ProfileService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
+        providedIn: 'root'
+    })
+], ProfileService);
+
+
+
+/***/ }),
+
 /***/ "QQAA":
 /*!******************************************************************!*\
   !*** ./src/app/explore-container/explore-container.component.ts ***!

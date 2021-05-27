@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-row>
+            <ion-col size="2">
+                <ion-buttons class="space-between">
+                    <ion-button style="color: #eb445a;" (click)="onclick()">
+                        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+            </ion-col>
+            <ion-col size="10">
+                <ion-title style="margin-left: -70px; text-align: center;">All Category</ion-title>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</ion-header>
+
+<ion-content>
+    <ion-list style="background: #f8f8fa; overflow-y: scroll; margin-top: 15px;">
+        <ion-grid class="ion-no-padding" *ngFor="let category of this.categories">
+            <div class="category-slider ion-padding-start">
+                <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+                    <ion-slide>
+                        <ion-col (click)="selectCategory(category._id)">
+                            <h4>{{ category.Name }}</h4>
+                            <img [src]="category?.Attachement?.Path" />
+                        </ion-col>
+                    </ion-slide>
+                </ion-slides>
+            </div>
+        </ion-grid>
+    </ion-list>
+    <!-- <ion-list style="background: #f8f8fa; overflow-y: scroll;">
+      <ion-card style="border-radius: 12px;" *ngFor="let place of this.Places" (click)="selectPlace(place._id,'ppc')">
+          <img [src]="place?.Attachement[0].Path">
+          <ion-item>
+
+              <ion-avatar slot="start" style="margin-top: -30px;">
+                  <img [src]="place?.CreatedBy?.Avatar?.Path">
+              </ion-avatar>
+              <ion-label>
+                  <h2>{{place?.Name}}</h2>
+                  <p>{{place?.Description.substring(0, 100)}}</p>
+                  <app-notice [note]="place?.Notice"></app-notice>
+                  <h3>{{place?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>
+              </ion-label>
+          </ion-item>
+      </ion-card>
+  </ion-list> -->
+</ion-content>

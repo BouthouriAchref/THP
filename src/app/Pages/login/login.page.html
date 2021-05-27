@@ -1,69 +1,81 @@
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
 
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title class="ion-text-center custom-font">Sign In</ion-title>
-    <ion-buttons class="space-between">
-      <ion-button style="color: #ed1c24;" routerLink="/menu/home">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title class="ion-text-center custom-font">Sign In</ion-title>
+        <ion-buttons class="space-between">
+            <ion-button style="color: #ed1c24;" routerLink="/menu/home">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 
 </ion-header>
 
 <ion-content fullscreen="true">
-  
-  <!-- <svg class="back-blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- <svg class="back-blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     <path fill="#ED1C25"
       d="M68.6,-33.5C81.6,-17.2,79.6,13.8,65.7,37.6C51.8,61.3,25.9,77.8,2.1,76.6C-21.7,75.4,-43.5,56.5,-54.2,34.6C-65,12.7,-64.8,-12.3,-53.9,-27.4C-43,-42.4,-21.5,-47.6,3.2,-49.4C27.9,-51.2,55.7,-49.7,68.6,-33.5Z" transform="translate(110 120)" />
   </svg> -->
 
-  <div class="row">
-    <img src="../../../assets/logo_THP1.png">
-  </div>
+    <div class="row">
+        <img src="../../../assets/logo_THP1.png">
+    </div>
 
-  <div class="ion-padding">
-    <form class="ion-padding" [formGroup]="credentialsForm"  >
+    <div class="ion-padding">
+        <form class="ion-padding" [formGroup]="credentialsForm">
 
-      <div class="wrap-input">
-        <input class="input" type="text" name="user-email" placeholder="Email" #email formControlName="email">
-      </div>
+            <div class="wrap-input">
+                <input class="input" type="text" name="user-email" placeholder="Email" #email formControlName="email">
+            </div>
 
-      <div class="wrap-input">
-        <input class="input" type="password" name="password" placeholder="Password" #password formControlName="password">
-      </div>
+            <div class="wrap-input">
+                <input class="input" type="password" name="password" placeholder="Password" #password formControlName="password">
+            </div>
 
-      <div class="container-form-btn">
-        <!-- <button class="form-btn custom-font" type="submit" (click)="onSubmit()" [disabled]="!credentialsForm.valid">Login</button> -->
-        <button class="form-btn custom-font" (click)="onSubmit()">Login</button>
-      </div>
+            <div class="container-form-btn">
+                <!-- <button class="form-btn custom-font" type="submit" (click)="onSubmit()" [disabled]="!credentialsForm.valid">Login</button> -->
+                <button class="form-btn custom-font" (click)="onSubmit()">Login</button>
+            </div>
 
-    </form>
-  </div>
+        </form>
+    </div>
 
+    <ion-buttons>
+        <ion-button class="facebook" (click)="login()">
+            <ion-icon style="color: white; margin-right: 20px;" name="logo-facebook"></ion-icon>
+            <p style="margin-top: 0;margin-bottom: 0rem;">Sign up using Facebook</p>
+        </ion-button>
+    </ion-buttons>
 
-      <ion-fab style="margin-top: 205px" vertical="center" horizontal="center" slot="fixed">
+    <!-- <ion-fab style="margin-top: 205px" vertical="center" horizontal="center" slot="fixed">
         <ion-fab-button>
-          <ion-icon name="share"></ion-icon>
+            <ion-icon name="share"></ion-icon>
         </ion-fab-button>
         <ion-fab-list side="top">
-          <ion-fab-button><ion-icon name="logo-facebook" (click)="login()"></ion-icon></ion-fab-button>
+            <ion-fab-button>
+                <ion-icon name="logo-facebook" (click)="login()"></ion-icon>
+            </ion-fab-button>
         </ion-fab-list>
         <ion-fab-list side="start">
-          <ion-fab-button><ion-icon name="logo-instagram"></ion-icon></ion-fab-button>
+            <ion-fab-button>
+                <ion-icon name="logo-instagram"></ion-icon>
+            </ion-fab-button>
         </ion-fab-list>
         <ion-fab-list side="end">
-          <ion-fab-button><ion-icon name="logo-twitter"></ion-icon></ion-fab-button>
+            <ion-fab-button>
+                <ion-icon name="logo-twitter"></ion-icon>
+            </ion-fab-button>
         </ion-fab-list>
-      </ion-fab>
-      
+    </ion-fab> -->
+
 
 
 </ion-content>
 
 <ion-footer class="ion-no-border">
-  <ion-toolbar>
-    <p class="ion-text-center custom-font">Dont' have an account? <a routerLink="/signup">Sign Up</a></p>
-  </ion-toolbar>
+    <ion-toolbar>
+        <p class="ion-text-center custom-font">Dont' have an account? <a routerLink="/signup">Sign Up</a></p>
+    </ion-toolbar>
 </ion-footer>

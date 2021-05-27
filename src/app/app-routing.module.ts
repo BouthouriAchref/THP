@@ -33,6 +33,14 @@ const routes: Routes = [
     path: 'create-place',
     loadChildren: () => import('./Pages/create-place/create-place.module').then( m => m.CreatePlacePageModule),
     canActivate: [AuthGuardService]
+  },
+  {
+    path: 'place-category',
+    loadChildren: () => import('./Pages/place-category/place-category.module').then( m => m.PlaceCategoryPageModule)
+  },
+  {
+    path: 'category',
+    loadChildren: () => import('./Pages/category/category.module').then( m => m.CategoryPageModule)
   }
 
 ];

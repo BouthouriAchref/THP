@@ -3,9 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ModalController, NavParams, LoadingController, ActionSheetController } from '@ionic/angular';
 import { PlaceService } from 'src/app/services/place.service';
 import { Storage } from '@ionic/storage-angular';
-import { Camera,CameraOptions } from '@ionic-native/camera/ngx'
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
 import { Place } from 'src/app/models/Place';
 import { latLng } from 'leaflet';
+import { map } from 'rxjs/operators';
 const ID_USER = 'id';
 @Component({
   selector: 'app-create-place',
@@ -17,6 +18,13 @@ export class CreatePlacePage implements OnInit {
   toggleValue: boolean = true;
   credentialsForm: FormGroup;
   based64Image: String;
+  response: any;
+  firstresp: any;
+  error: any;
+  categories: any;
+  
+  showresp = false
+
   constructor(
     private modalController: ModalController,
     private navParams: NavParams,
@@ -25,7 +33,7 @@ export class CreatePlacePage implements OnInit {
     private storage: Storage,
     public loadingController: LoadingController,
     private actionSheetCtrl: ActionSheetController,
-    private camera: Camera
+    private camera: Camera,
   ) { }
 
   ngOnInit() {
@@ -43,6 +51,11 @@ export class CreatePlacePage implements OnInit {
       lat: new FormControl(''),
       lon: new FormControl('')
     });
+
+    this.placeService.getAllCategory().subscribe(async (res) => {
+      this.categories = await res.category
+      console.log('cat',this.categories)
+    })
   }
 
   async closeModal() {
@@ -50,9 +63,9 @@ export class CreatePlacePage implements OnInit {
     await this.modalController.dismiss(onCloseData);
   }
 
-  change(){
-    this.toggleValue= !this.toggleValue;
-    console.log(this.toggleValue);
+  change() {
+    this.toggleValue = !this.toggleValue;
+    //console.log(this.toggleValue);
   }
 
   selectChangeHandlerState(event) {
@@ -69,7 +82,7 @@ export class CreatePlacePage implements OnInit {
     console.log('___', this.credentialsForm.value)
   }
 
-  openCamera(){
+  openCamera() {
     const option: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -77,26 +90,27 @@ export class CreatePlacePage implements OnInit {
       mediaType: this.camera.MediaType.PICTURE
     }
     this.camera.getPicture(option).then((imageData) => {
-      this.based64Image = 'data:image/jpeg;based64,' +imageData;
+      this.based64Image = 'data:image/jpeg;based64,' + imageData;
     })
   }
 
-  openGallery(){
+  openGallery() {
     const option: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-      
+
     }
     this.camera.getPicture(option).then((imageData) => {
-      this.based64Image = 'data:image/jpeg;based64,' +imageData;
+      this.based64Image =  imageData;
+      // this.based64Image = 'data:image/jpeg;based64,' + imageData;
     })
   }
 
   async presentActionSheet() {
-    let actionSheet = await this.actionSheetCtrl.create({
+    const actionSheet = await this.actionSheetCtrl.create({
       //title: 'Select Image Source',
       buttons: [
         {
@@ -121,6 +135,7 @@ export class CreatePlacePage implements OnInit {
   }
 
   Submit() {
+    console.log(this.credentialsForm.value)
     if (this.credentialsForm.invalid) {
       console.log('invalid form');
     } else {
@@ -135,13 +150,28 @@ export class CreatePlacePage implements OnInit {
       })
 
       setTimeout(() => {
-        this.storage.get(ID_USER).then(async (res) => {
-          console.log('Form', await this.credentialsForm.value)
-          this.placeService.addPlace(await res, await this.credentialsForm.value);
-          this.closeModal();
-        });
+
+        this.CreatePlace();
+        //this.closeModal();
+
       }, 2000);
     }
+  }
+
+  CreatePlace() {
+    // console.log('AddPlace',this.credentialsForm.value)
+    this.storage.get(ID_USER).then(async (res) => {
+      console.log('Form', await this.credentialsForm.value)
+      this.placeService.addPlace(await res, await this.credentialsForm.value).subscribe(response => {
+        this.placeService.uploadImage(response._id, this.based64Image).then(res => {
+          this.firstresp = 'hay jet tawa'
+          this.response = res;
+          this.showresp = true
+        }).catch(err => {
+          this.error = JSON.stringify(err).substr(0, 250);
+        })
+      })
+    });
   }
 
   async presentLoading() {
@@ -151,7 +181,7 @@ export class CreatePlacePage implements OnInit {
       duration: 2000
     });
     await loading.present();
-
+    this.Submit();
     const { role, data } = await loading.onDidDismiss();
     console.log('Loading dismissed!');
   }

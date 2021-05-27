@@ -1,216 +1,190 @@
-<ion-header class="ion-no-border">
-  <ion-item lines="Categories">
+<ion-header class="ion-no-border" (click)="cmo()">
+    <ion-item lines="Categories">
 
-    
-    <!-- <ion-avatar slot="end" *ngIf="canActivate()">
+
+        <!-- <ion-avatar slot="end" *ngIf="canActivate()">
       <div class="border">
         <img src="../../../assets/l.png" routerLink="/menu/profile">
       </div>
     </ion-avatar> -->
 
-    <ion-avatar slot="end" *ngIf="canActivate() || canActivatefb()">
-      <div class="border">
-        <div class="border_white">
-          <div class="img_box">
-            <img [src]="USER?.Avatar?.Path" routerLink="/menu/profile">
-          </div>
-        </div>
-      </div>
-    </ion-avatar>
-
-   
+        <ion-avatar slot="end" *ngIf="canActivate() || canActivatefb()">
+            <div class="border">
+                <div class="border_white">
+                    <div class="img_box">
+                        <img [src]="USER?.Avatar?.Path" routerLink="/menu/profile">
+                    </div>
+                </div>
+            </div>
+        </ion-avatar>
 
 
-    <!-- <ion-avatar slot="end" *ngIf="canActivate()">
+
+
+        <!-- <ion-avatar slot="end" *ngIf="canActivate()">
       <div class="border">
         <img src="../../../assets/l2.png" routerLink="/menu/profile">
       </div>
     </ion-avatar> -->
-    
-    <!-- <ion-avatar (click)="Logout()" slot="end" *ngIf="canActivate()">
+
+        <!-- <ion-avatar (click)="Logout()" slot="end" *ngIf="canActivate()">
       <img src="../../../assets/dec2.png">
     </ion-avatar> -->
 
-    <ion-avatar (click)="Logout()" slot="end" *ngIf="canActivate() || canActivatefb()">
-      <div class="border">
-        <div class="border_white">
-          <img src="../../../assets/dec2.png" routerLink="/login">
-        </div>
-      </div>
-    </ion-avatar>
+        <ion-avatar (click)="Logout()" slot="end" *ngIf="canActivate() || canActivatefb()">
+            <div class="border">
+                <div class="border_white">
+                    <img src="../../../assets/dec2.png" routerLink="/login">
+                </div>
+            </div>
+        </ion-avatar>
 
-    <ion-button routerLink="/login" slot="end" color="primary" *ngIf="!canActivate() && !canActivatefb()">Sign in </ion-button>
+        <ion-button routerLink="/login" slot="end" color="primary" *ngIf="!canActivate() && !canActivatefb()">Sign in
+        </ion-button>
 
-    <ion-label>
-      <h2>Find, </h2>
-      <h1 style="font-size: 23px;">Place near you !!</h1>
-    </ion-label>
-  </ion-item>
+        <ion-label>
+            <h2>Find, </h2>
+            <h1 style="font-size: 23px;">Place near you !!</h1>
+        </ion-label>
+    </ion-item>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </ion-header>
 
 <ion-content [fullscreen]="true">
-<div class="ion-padding wrapper">
-  <ion-buttons>
-    <ion-searchbar></ion-searchbar>
-    <ion-button (click)='open()'>
-      <ion-icon slot="icon-only" name="options-outline"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-    <div *ngIf ="isOpened">
-      <div class="row">
-        <div class="col-md-6">
-          <ion-item>
-            <ion-label>Categories</ion-label>
-            <ion-select placeholder="Categories" multiple="true" >
-              <ion-select-option value="Beach">Beach</ion-select-option>
-              <ion-select-option value="Forest">Forest</ion-select-option>
-              <ion-select-option value="Mountain">Mountain</ion-select-option>
-              <ion-select-option value="Lake">Lake</ion-select-option>
-            </ion-select>
-          </ion-item> 
-        </div>
-        <div class="col-md-6">
-          <ion-item>
-            <ion-label>Categories</ion-label>
-            <ion-select multiple="true" >
-              <ion-select-option value="Beach">Beach</ion-select-option>
-              <ion-select-option value="Forest">Forest</ion-select-option>
-              <ion-select-option value="Mountain">Mountain</ion-select-option>
-              <ion-select-option value="Lake">Lake</ion-select-option>
-            </ion-select>
-          </ion-item> 
-        </div>
-
-      </div>
-      
-
-  </div>
-
-  <ion-grid class="ion-no-padding">
-    <ion-row class="ion-align-items-baseline">
-      <ion-col size="6">
-        <h4 class="title">
-          Popular Places
-        </h4>
-      </ion-col>
-      <ion-col size="6">
-        <h4 class="more ion-text-end">
-          View more
-        </h4>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  </div>
-
-  <ion-grid class="ion-no-padding">
-    <ion-row>
-      <ion-col size="12">
-        <ion-slides [options]="sliderConfig">
-
-          <ion-slide *ngFor="let place of places">
-            <ion-card class="card" >
-              <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
-                <div class="img-wrapper">
-                  <ion-img [src]="place.Attachement[0].Path"></ion-img>
-                </div>
-                <ion-card-title class="title">{{place.Name}}</ion-card-title>
-                <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
-                <app-notice [note]="place.Notice"></app-notice>
-              </ion-card-content>
-            </ion-card>
-          </ion-slide>
-        </ion-slides>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <div class="ion-padding-horizontal wrapper">
-    <ion-grid class="ion-no-padding">
-      <ion-row class="ion-align-items-baseline">
-        <ion-col size="6">
-          <h4 class="title">
-            Explore Categories
-          </h4>
-        </ion-col>
-        <ion-col size="6">
-          <h4 class="more ion-text-end">
-            Show more
-          </h4>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    </div>
-    <ion-grid class="ion-no-padding">
-      <ion-row>
-        <ion-col size="12">
-          <!-- <ion-slides [options]="categoriesSliderConfig">
-            <ion-slide>
-              <ion-card class="category" color="tertiary">
-                <ion-card-header class="ion-text-center">
-                  <ion-icon src="assets/taco.svg"></ion-icon>
-                  <ion-card-title>Mexica</ion-card-title>
-                  <ion-card-subtitle>Something here</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </ion-slide>
-            <ion-slide>
-              <ion-card class="category" color="danger">
-                <ion-card-header class="ion-text-center">
-                  <ion-icon src="assets/cookies.svg"></ion-icon>
-                  <ion-card-title>Dessert</ion-card-title>
-                  <ion-card-subtitle>Something here</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </ion-slide>
-          </ion-slides> -->
-          <div class="category-slider ion-padding-start">
-            <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-              <ion-slide *ngFor="let category of categories">
-                <ion-col>
-                  <h4>{{ category.name }}</h4>
-                  <img src="{{ category.image }}" />
+    <div class="ion-padding wrapper">
+        <ion-buttons style="padding-bottom: 10px;">
+            <ion-searchbar></ion-searchbar>
+            <ion-button (click)='open()'>
+                <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <div *ngIf="isOpened">
+            <ion-row>
+                <ion-col size="10">
+                    <form [formGroup]="credentialsForm">
+                        <div class="form-group">
+                            <ion-label>Category</ion-label>
+                            <ion-select placeholder="Choose Category" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerCat($event)" formControlName="category">
+                                <ion-select-option *ngFor="let cat of this.categories" [value]="cat._id">{{cat.Name}}
+                                </ion-select-option>
+                            </ion-select>
+                        </div>
+                    </form>
                 </ion-col>
-              </ion-slide>
-            </ion-slides>
-          </div>
-        </ion-col>
-      </ion-row>
+                <ion-col size="2">
+                    <ion-icon style="margin-top: 38px;margin-left: 20px; color: #ed1c24;" name="search" (click)='selectCat()'></ion-icon>
+                </ion-col>
+
+            </ion-row>
+
+
+        </div>
+
+        <ion-grid class="ion-no-padding">
+            <ion-row class="ion-align-items-baseline">
+                <ion-col size="6">
+                    <h4 class="title">
+                        Popular Places
+                    </h4>
+                </ion-col>
+                <ion-col size="6">
+                    <h4 class="more ion-text-end">
+                        View more
+                    </h4>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+    </div>
+
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col size="12">
+                <ion-slides [options]="sliderConfig">
+
+                    <ion-slide *ngFor="let place of populairePlaces">
+                        <ion-card class="card">
+                            <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
+                                <div class="img-wrapper">
+                                    <ion-img [src]="place.Attachement[0].Path"></ion-img>
+                                </div>
+                                <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                                <ion-card-subtitle>{{place.Description.substring(0, 145)}}...</ion-card-subtitle>
+                                <app-notice [note]="place.Notice"></app-notice>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
     </ion-grid>
     <div class="ion-padding-horizontal wrapper">
-      <ion-grid class="ion-no-padding">
-        <ion-row class="ion-align-items-baseline">
-          <ion-col size="6">
-            <h4 class="title">
-              Recommended Places
-            </h4>
-          </ion-col>
-          <ion-col size="6">
-            <h4 class="more ion-text-end">
-              Show more
-            </h4>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      </div>
-      <ion-grid class="ion-no-padding">
+        <ion-grid class="ion-no-padding">
+            <ion-row class="ion-align-items-baseline">
+                <ion-col size="6">
+                    <h4 class="title">
+                        Explore Categories
+                    </h4>
+                </ion-col>
+                <ion-col size="6">
+                    <h4 class="more ion-text-end" routerLink="/category">
+                        Show more
+                    </h4>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <ion-grid class="ion-no-padding">
         <ion-row>
-          <ion-col size="12">
-            <ion-slides [options]="sliderConfig" style="margin-bottom: 20px;">
-              <ion-slide *ngFor="let place of places">
-                <ion-card class="card">
-                  <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
-                    <div class="img-wrapper">
-                      <ion-img  [src]="place.Attachement[0].Path"></ion-img>
-                    </div>
-                    <ion-card-title class="title">{{place.Name}}</ion-card-title>
-                    <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
-                    <app-notice [note]="place?.Notice"></app-notice>
-                  </ion-card-content>
-                </ion-card>
-              </ion-slide>
-            </ion-slides>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-</ion-content>
+            <ion-col size="12">
+                <div class="category-slider ion-padding-start">
+                    <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+                        <ion-slide *ngFor="let category of this.categories">
+                            <ion-col (click)="selectCategory(category._id)">
+                                <h4>{{ category.Name }}</h4>
+                                <img [src]="category?.Attachement?.Path" />
+                            </ion-col>
 
+                        </ion-slide>
+                    </ion-slides>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <div class="ion-padding-horizontal wrapper">
+        <ion-grid class="ion-no-padding">
+            <ion-row class="ion-align-items-baseline">
+                <ion-col size="6">
+                    <h4 class="title">
+                        Recommended Places
+                    </h4>
+                </ion-col>
+                <ion-col size="6">
+                    <h4 class="more ion-text-end">
+                        Show more
+                    </h4>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col size="12">
+                <ion-slides [options]="sliderConfig" style="margin-bottom: 20px;">
+                    <ion-slide *ngFor="let place of recommendedPlaces">
+                        <ion-card class="card">
+                            <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
+                                <div class="img-wrapper">
+                                    <ion-img [src]="place.Attachement[0].Path"></ion-img>
+                                </div>
+                                <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                                <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
+                                <app-notice [note]="place?.Notice"></app-notice>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from 'src/environments/environment';
 import { tap, catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 const TOKEN_KEY = 'access_token';
 const ID_USER = 'id';
@@ -17,7 +18,7 @@ export class AuthService {
   user = null;
   url = environment.url;
   authenticationState = new BehaviorSubject(false);
-  constructor(private http: HttpClient, private helper: JwtHelperService, private storage: Storage, private plt: Platform, private alertController: AlertController ) {
+  constructor(private router: Router,private http: HttpClient, private helper: JwtHelperService, private storage: Storage, private plt: Platform, private alertController: AlertController ) {
     this.plt.ready().then(() => {
       this.checkToken();
        //this.logout();
@@ -69,6 +70,7 @@ export class AuthService {
         await this.storage.set(TOKEN_KEY, res['token']);
         this.user = this.helper.decodeToken(res['token']);
         this.authenticationState.next(true);
+        await this.router.navigate(['menu/profile']);
       }),
       catchError(e => {
         this.showAlert(e.error.msg);
@@ -79,12 +81,14 @@ export class AuthService {
   }
 
   async logout() {
+    
     await this.storage.remove(ID_USER);
     //console.log('this.storage.get(ID_USER);', await this.storage.get(ID_USER))
     await this.storage.remove(TOKEN_KEY);
     await this.storage.clear();
     //console.log('this.storage.get(TOKEN_KEY));', await this.storage.get(TOKEN_KEY))
     this.authenticationState.next(false);
+    
   }
 
   getSpecialData() {

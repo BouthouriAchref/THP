@@ -1,190 +1,198 @@
-<!-- <ion-header class="ion-no-border">
-  <ion-item lines="Categories">
-    <ion-label>
-      <h1></h1>
-    </ion-label>
-  </ion-item>
-</ion-header> -->
-
-<ion-content>
-
-  <div class="header">
-    <ion-buttons class="space-between">
-      <ion-button style="color: white;" routerLink="/menu/home">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <h2>{{USER?.fullname}}</h2>
-
-    <div class="space-between">
-      <div class="followings">
-        <ion-buttons>
-          <ion-button style="width: 60px; height: 60px; " routerLink="/edit-profile">
-            <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="create" slot="icon-only"></ion-icon>
-          </ion-button>
+<ion-content [fullscreen]>
+    <div class="header">
+        <ion-buttons class="space-between">
+            <ion-button style="color: white;" routerLink="/menu/home">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
         </ion-buttons>
-        <p>Edit Profile</p>
-      </div>
+        <h2>{{USER?.fullname}}</h2>
 
-      <div class="followings">
-        <ion-buttons>
-          <ion-button style="width: 60px; height: 60px; " (click)="Logout()" routerLink="/menu/home">
-            <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="log-out" slot="icon-only"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-        <p>Log Out</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex">
-    <div class="border-red">
-      <div class="border-white">
-        <div class="img-box">
-          <img [src]="USER?.Avatar?.Path">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ion-padding wrapper" id="Crendential">
-    <ion-grid class="ion-no-padding">
-      <ion-label >
-        <ion-row>
-          <ion-col size="6">
-            <h3>
-              <ion-icon name="person-circle-outline"></ion-icon> {{USER?.fullname}}
-            </h3>
-            <h3 *ngIf="USER?.Birthday">
-              <ion-icon name="calendar-number-outline" ></ion-icon> Born {{USER?.Birthday}}
-            </h3>
-          </ion-col>
-          <ion-col size="6">
-            <div class="followings" style="margin-left: 51px; margin-top: -25px;">
-              <ion-buttons>
-                <ion-button style="width: 60px; height: 60px;"  (click)="createPlace()">
-                  <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #ed1c24' name="add-circle"
-                    slot="icon-only" ></ion-icon>
-                </ion-button>
-              </ion-buttons>
-              <p style="color: #ed1c24; font-size: 10px;"  >Create a new place</p>
+        <div class="space-between">
+            <div class="followings">
+                <ion-buttons>
+                    <ion-button style="width: 60px; height: 60px; " routerLink="/edit-profile">
+                        <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="create" slot="icon-only">
+                        </ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <p>Edit Profile</p>
             </div>
 
-          </ion-col>
-        </ion-row>
-       
-      </ion-label>
-      <ion-row class="ion-align-items-baseline">
-        <ion-col size="6">
-          <h4 class="title">
-            My Favories
-          </h4>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-  <ion-grid class="ion-no-padding">
-    <ion-row>
-      <ion-col size="12">
-        <ion-slides [options]="sliderConfig">
-          <ion-slide>
-            <ion-card class="card">
-              <ion-card-content class="ion-text-left">
-                <div class="img-wrapper">
-                  <ion-img src="../../assets/museum.jpg"></ion-img>
+            <div class="followings">
+                <ion-buttons>
+                    <ion-button style="width: 60px; height: 60px; " (click)="Logout()" routerLink="/menu/home">
+                        <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="log-out" slot="icon-only"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <p>Log Out</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex">
+        <div class="border-red">
+            <div class="border-white">
+                <div class="img-box">
+                    <img [src]="USER?.Avatar?.Path">
                 </div>
-                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
-                <ion-card-subtitle>Some description here</ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
-                </ion-card-subtitle>
-              </ion-card-content>
-            </ion-card>
-          </ion-slide>
-          <ion-slide>
-            <ion-card class="card">
-              <ion-card-content class="ion-text-left">
-                <div class="img-wrapper">
-                  <ion-img src="../../assets/museum.jpg"></ion-img>
-                </div>
-                <ion-card-title class="title">Some Awesome Dish Title</ion-card-title>
-                <ion-card-subtitle>Some description here</ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star-outline"></ion-icon>
-                </ion-card-subtitle>
-              </ion-card-content>
-            </ion-card>
-          </ion-slide>
-        </ion-slides>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+            </div>
+        </div>
+    </div>
 
-  <div class="ion-padding wrapper" *ngIf="USER?.Places[0]">
+    <div class="ion-padding wrapper" id="Crendential">
+        <ion-grid class="ion-no-padding">
+            <ion-label>
+                <ion-row>
+                    <ion-col size="6">
+                        <h3>
+                            <ion-icon name="person-circle-outline"></ion-icon> {{USER?.fullname}}
+                        </h3>
+                        <h3 *ngIf="USER?.Birthday">
+                            <ion-icon name="calendar-number-outline"></ion-icon> Born {{USER?.Birthday}}
+                        </h3>
+                        <h3 *ngIf="USER?.Gender">
+                            <ion-icon name="transgender-outline"></ion-icon> {{USER?.Gender}}
+                        </h3>
+                        <h3 *ngIf="USER?.Nationalite">
+                            <ion-icon name="globe-outline"></ion-icon> From {{USER?.Nationalite}}
+                        </h3>
+                    </ion-col>
+                    <ion-col size="6">
+                        <div class="followings" style="margin-left: 51px; margin-top: -25px;">
+                            <ion-buttons>
+                                <ion-button style="width: 60px; height: 60px;" (click)="createPlace()">
+                                    <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #ed1c24' name="add-circle" slot="icon-only"></ion-icon>
+                                </ion-button>
+                            </ion-buttons>
+                            <p style="color: #ed1c24; font-size: 10px;">Create a new place</p>
+                        </div>
+
+                    </ion-col>
+                </ion-row>
+
+            </ion-label>
+            <ion-row class="ion-align-items-baseline" *ngIf="USER?.FavoritesPlaces[0]" style="padding-bottom: 0px;">
+                <ion-col size="6">
+                    <h4 class="title">
+                        My Favories
+                    </h4>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+
     <ion-grid class="ion-no-padding">
-      <ion-row class="ion-align-items-baseline">
-        <ion-col size="6">
-          <h4 class="title">
-            My Places
-          </h4>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-slides [options]="sliderConfig" style="margin-bottom: 20px;">
+                    <ion-slide *ngFor="let place of USER?.FavoritesPlaces">
+                        <ion-card class="card">
+                            <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
+                                <div class="img-wrapper">
+                                    <ion-img *ngIf="place.Attachement.length>0" [src]="place?.Attachement[0]?.Path"></ion-img>
+                                </div>
+                                <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                                <ion-card-subtitle>{{place.Description.substring(0, 100)}}</ion-card-subtitle>
+                                <app-notice [note]="place.Notice"></app-notice>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
     </ion-grid>
-  </div>
 
-  <!-- <ion-grid class="ion-no-padding">
-    <ion-row>
-      <ion-col size="12">
-        <ion-slides [options]="sliderConfig">
+    <div class="ion-padding wrapper" *ngIf="USER?.Places[0]" style="padding-bottom: 0px; padding-top: 0px;">
+        <ion-grid class="ion-no-padding">
+            <ion-row class="ion-align-items-baseline">
+                <ion-col size="6">
+                    <h4 class="title">
+                        My Places
+                    </h4>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
 
-          <ion-slide *ngFor="let place of USER?.Places">
-            <ion-card class="card">
-              <ion-card-content class="ion-text-left">
-                <div class="img-wrapper">
-                  <ion-img [src]="place.Attachement[0].Path"></ion-img>
-                </div>
-                <ion-card-title class="title">{{place.Name}}</ion-card-title>
-                <ion-card-subtitle>{{place.Description.substring(0, 190)}}...</ion-card-subtitle>
-                <ion-card-subtitle >
-                  <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
-                  <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
-                </ion-card-subtitle>
-              </ion-card-content>
-            </ion-card>
-          </ion-slide>
-        </ion-slides>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col size="12">
+                <ion-slides [options]="sliderConfig" style="margin-bottom: 20px;">
+                    <ion-slide *ngFor="let place of USER?.Places">
+                        <ion-card class="card">
+                            <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
+                                <div class="img-wrapper">
+                                    <ion-img *ngIf="place.Attachement.length>0" [src]="place.Attachement[0].Path"></ion-img>
+                                </div>
+                                <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                                <ion-card-subtitle>{{place.Description.substring(0, 100)}}</ion-card-subtitle>
+                                <app-notice [note]="place.Notice"></app-notice>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
-  <ion-grid class="ion-no-padding">
-    <ion-row>
-      <ion-col size="12">
-        <ion-slides [options]="sliderConfig" style="margin-bottom: 20px;">
-          <ion-slide *ngFor="let place of USER?.Places">
-            <ion-card class="card">
-              <ion-card-content class="ion-text-left">
-                <div class="img-wrapper">
-                  <ion-img [src]="place.Attachement[0].Path"></ion-img>
-                </div>
-                <ion-card-title class="title">{{place.Name}}</ion-card-title>
-                <ion-card-subtitle>{{place.Description.substring(0, 100)}}</ion-card-subtitle>
-                <ion-card-subtitle>
-                  <ion-icon name="star" *ngFor="let n of place.noteArray"></ion-icon>
-                  <ion-icon name="star-outline" *ngFor="let n of place.noteArray2"></ion-icon>
-                </ion-card-subtitle>
-              </ion-card-content>
-            </ion-card>
-          </ion-slide>
-        </ion-slides>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-grid class="ion-no-padding" *ngIf="USER?.FavoritesPlaces.length==0">
+        <ion-row>
+            <ion-col size="12">
+                <ion-slides>
+                    <ion-slide>
+                        <ion-card class="card" style="background-color: #f0f2f5;">
+                            <ion-card-content class="ion-text-left">
+                                <ion-card-title class="title">
+                                    <div class="ion-padding wrapper" *ngIf="USER?.FavoritesPlaces.length==0" style="text-align: center; font-variant: all-small-caps;">
+                                        <ion-grid class="ion-no-padding">
+                                            <ion-row class="ion-align-items-baseline">
+                                                <ion-col size="12">
+                                                    <h4 class="title">
+                                                        You Don't Have Any Favorite Place
+                                                    </h4>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </div>
+                                </ion-card-title>
+                                <ion-card-subtitle></ion-card-subtitle>
+                                <ion-card-subtitle></ion-card-subtitle>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="ion-no-padding" *ngIf="USER?.Places.length==0">
+        <ion-row>
+            <ion-col size="12">
+                <ion-slides>
+                    <ion-slide>
+                        <ion-card class="card" style="background-color: #f0f2f5;">
+                            <ion-card-content class="ion-text-left">
+                                <ion-card-title class="title">
+                                    <div class="ion-padding wrapper" *ngIf="USER?.Places.length==0" style="text-align: center; font-variant: all-small-caps;">
+                                        <ion-grid class="ion-no-padding">
+                                            <ion-row class="ion-align-items-baseline">
+                                                <ion-col size="12">
+                                                    <h4 class="title">
+                                                        You Don't Have Any Place
+                                                    </h4>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </div>
+                                </ion-card-title>
+                                <ion-card-subtitle></ion-card-subtitle>
+                                <ion-card-subtitle></ion-card-subtitle>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
 </ion-content>

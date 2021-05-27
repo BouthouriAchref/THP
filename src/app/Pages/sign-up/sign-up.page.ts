@@ -30,9 +30,7 @@ export class SignUpPage implements OnInit {
   register(){
     this.authService.register(this.credentialsForm.value).subscribe(res =>{
       console.log(this.credentialsForm.value);
-      this.authService.login(this.credentialsForm.value).subscribe(res => {
-        this.router.navigate(['menu/profile']);
-      });
+      this.authService.login(this.credentialsForm.value)
       
     });
   }

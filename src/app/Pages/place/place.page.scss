@@ -1,4 +1,4 @@
-ion-content{
+ion-content {
     position: relative;
 }
 
@@ -6,14 +6,13 @@ ion-content{
     // height: 206px;
     // background-color: #ff3838;
     width: 100%;
-    padding-top: 1px;
-    
-    
 }
-.space-between2{
+
+.space-between2 {
     display: flex;
     justify-content: space-between !important;
 }
+
 .space-between {
     display: flex;
     justify-content: space-between !important;
@@ -23,21 +22,13 @@ ion-content{
     width: inherit;
 }
 
-
-
-.image-slider{
+.image-slider {
     position: relative;
-    ion-buttons{
-        //margin: 2px;
-        //padding: 3px 9px;
-        //font-size: 1rem;
-        //border-radius: 11px;
-    }
-    ion-slides{
+    ion-slides {
         --bullet-background-active: #ff3838;
         height: 50vh;
         width: 100%;
-        img{
+        img {
             width: 100vw;
             max-width: 100vw;
             object-fit: cover;
@@ -45,52 +36,39 @@ ion-content{
     }
 }
 
-
-
-
-.profile-info{
+.profile-info {
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     background: #f8f8fa;
-    margin-top: -30px;
+    height: 100%;
+    margin-top: -22px;
     position: absolute;
     width: 100%;
     z-index: 1;
-
-    .user-info{
-        padding: 20px;
+    .user-info {
+        padding: 20px 20px 0px 20px;
         display: flex;
-        align-items:center;
+        align-items: center;
         justify-content: space-between;
-
-        .basic-info{
-            display:flex;
+        .basic-info {
+            display: flex;
             flex-direction: column;
-            h1,p{
+            h1,
+            p {
                 margin: 0 0 10px 0;
             }
-            h1{
+            h1 {
                 font-weight: 600;
                 margin-bottom: 10px;
             }
-
         }
-        
     }
-
-    .about-me{
-        padding: 20px;
-
-
-        h1{
+    .about-me {
+        padding: 0px 20px 0px 20px;
+        h1 {
             font-weight: 600;
             font-size: 24px;
             margin-bottom: 10px;
         }
-
     }
-
-    
-    
 }
-

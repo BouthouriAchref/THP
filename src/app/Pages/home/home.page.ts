@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FbService } from 'src/app/services/fb.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { PlaceService } from 'src/app/services/place.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 const ID_USER = 'id';
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ const ID_USER = 'id';
 })
 export class HomePage {
   USER: any;
+  credentialsForm: FormGroup;
   sliderConfig = {
     centeredSlides: true,
     spaceBetween: -40,
@@ -26,20 +28,40 @@ export class HomePage {
     slidesPerView: 2.5,
   };
 
-  public categories = [];
-  public places: any;
+  categories: any;
+  places: any;
   isOpened = false;
+  populairePlaces: any[] = [];
+  recommendedPlaces: any[] = [];
 
-  constructor(private profile: ProfileService, private storage: Storage, private fb: FbService, private Auth: AuthService, private auth: AuthGuardService, private router: Router, private alertController: AlertController, private data: DataService, private place: PlaceService) {
+  constructor(private formBuilder: FormBuilder,private profile: ProfileService, private storage: Storage, private fb: FbService, private Auth: AuthService, private auth: AuthGuardService, private router: Router, private alertController: AlertController, private data: DataService, private place: PlaceService) {
+    this.profile.ProfileSubjectEvent.subscribe(res => {
+      this.USER = res;
+      //console.log('___',res)
+    })
   }
 
   ngOnInit() {
     this.place.getAllPlaces().subscribe(async (res) => {
       if(res.success){
         this.places = await res.data;
-      }    
-    this.categories = this.data.getCategories();
-
+        console.log('__',this.places)
+      }
+      for (let place of this.places){
+      if (place.Notice >= 4) {
+        this.populairePlaces.push(place)
+      } else {
+        this.recommendedPlaces.push(place)
+      }
+      
+    }
+    console.log(this.populairePlaces)
+      
+      this.place.getAllCategory().subscribe(async (res) => {
+        this.categories = await res.category
+        console.log('cat',this.categories)
+      })    
+    //this.categories = this.data.getCategories();
     // for (let place of this.places) {
     //   place.noteArray.length = place.Notice;
     //   place.noteArray2.length = (5 - place.note);
@@ -49,11 +71,38 @@ export class HomePage {
     }
     });
 
+    this.credentialsForm = this.formBuilder.group({
+      category: new FormControl('', [Validators.required])
+
+    });
+
 
   }
 
+
+  cmo() {
+    console.log('___', this.credentialsForm.value)
+  }
+
+  selectCat(){
+    let id = this.credentialsForm.value.category;
+    this.router.navigate(['/place-category',{id}]).then();
+  }
+
+  selectChangeHandlerCat(event) {
+    this.credentialsForm.controls['category'].setValue(event.target.value);
+    //return event.target.value;
+    
+  }
+
+
+
   selectPlace(id){
     this.router.navigate(['/place', {id}]).then();
+  }
+
+  selectCategory(id){
+    this.router.navigate(['/place-category',{id}]).then();
   }
 
   getAvatar(){

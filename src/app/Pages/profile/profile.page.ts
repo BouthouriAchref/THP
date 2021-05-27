@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { Storage } from '@ionic/storage-angular';
@@ -9,6 +9,7 @@ import { FbService } from 'src/app/services/fb.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { CreatePlacePage } from '../create-place/create-place.page';
+import { PlaceService } from 'src/app/services/place.service';
 
 const ID_USER = 'id';
 @Component({
@@ -17,54 +18,74 @@ const ID_USER = 'id';
   styleUrls: ['profile.page.scss']
 })
 export class ProfilePage implements OnInit {
-  USER :any;
-  id : any;
-  places : any[];
-  birthday : String = "Born"; 
+  USER: any;
+  ID_USER = 'id';
+  id: any;
+  places: any[];
+  birthday: String = "Born";
   sliderConfig = {
     centeredSlides: true,
     spaceBetween: -40,
     slidesPerView: 1.1,
   };
+
   constructor(
     private Auth: AuthService,
     private profile: ProfileService,
-    private helper: JwtHelperService, 
+    private helper: JwtHelperService,
     private router: Router,
     private route: ActivatedRoute,
-    private imagesService: ImagesService ,
-    private storage: Storage, 
-    private fb:FbService,
-    public modalController: ModalController,
-    public alertController: AlertController
-    ) 
-  { }
+    private imagesService: ImagesService,
+    private storage: Storage,
+    private fb: FbService, public modalController: ModalController, public alertController: AlertController,
+    private placeService: PlaceService
+  ) {
+    this.placeService.PlaceSubjectEvent.subscribe(res => {
+      if (res) {
+        this.storage.get(this.ID_USER).then((res) => {
+          //console.log('res',res)
+          this.profile.findUserById(res).subscribe((user: any) => {
+            this.USER = user;
+          })
+        })
+      }
+    })
+  }
 
-   
+
   ngOnInit() {
-      this.storage.get(ID_USER).then((res) =>{
-        //console.log('res',res)
-       this.profile.findUserById(res).subscribe((user : User) => {
-          this.USER = user;
-          //console.log(this.USER);
+    this.storage.get(this.ID_USER).then((res) => {
+      //console.log('res',res)
+      this.profile.findUserById(res).subscribe((user: any) => {
+        this.USER = user;
+        //console.log(this.USER);
       });
     });
-
-
-  }
-  
-  Logout(){
-    this.Auth.logout();
-    this.fb.logoutFacebook()
   }
 
 
-  async addPlace(){
+  Logout() {
+    console.log(this.USER.IDF)
+    if (!this.USER.IDF) {
+      this.Auth.logout();
+    } else {
+      this.fb.logoutFacebook();
+    }
+
+  }
+
+  selectPlace(id) {
+    this.router.navigate(['/place', { id }]).then();
+  }
+
+
+
+  async addPlace() {
     const modal = await this.modalController.create({
       component: CreatePlacePage,
       cssClass: 'dialog-modal',
-      componentProps:{
-        'id':"1",
+      componentProps: {
+        'id': "1",
       }
     });
     return await modal.present();
@@ -76,16 +97,16 @@ export class ProfilePage implements OnInit {
       message: 'Do you want to create a new place ?',
       buttons: [
         {
-          text:'Cancel',
-          role:'cancel',
+          text: 'Cancel',
+          role: 'cancel',
           cssClass: 'secondary',
-          handler : data =>{
+          handler: data => {
           }
         },
         {
-          text:'Yes',
-          handler : data =>{
-           this.addPlace();
+          text: 'Yes',
+          handler: data => {
+            this.addPlace();
           }
         }
       ]

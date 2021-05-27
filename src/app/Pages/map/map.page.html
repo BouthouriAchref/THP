@@ -1,33 +1,53 @@
 <ion-header [translucent]="true">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-  <div>
-    <ion-buttons style="background-color: white; padding-top: 20px;">
-      <ion-button routerLink="/menu/home">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-      <ion-searchbar style="border-radius: 20px;"></ion-searchbar>  
-      <ion-button (click)='open()'>
-        <ion-icon slot="icon-only" name="options-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <!-- <div *ngIf ="isOpened"> -->
-      <ion-item *ngIf ="isOpened">
-        <ion-label>Categories</ion-label>
-        <ion-select placeholder="Select One" multiple="true" >
-          <ion-select-option value="Beach">Beach</ion-select-option>
-          <ion-select-option value="Forest">Forest</ion-select-option>
-          <ion-select-option value="Mountain">Mountain</ion-select-option>
-          <ion-select-option value="Lake">Lake</ion-select-option>
-        </ion-select>
-      </ion-item> 
-    <!-- </div> -->
-  </div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <div>
+        <ion-buttons style="background-color: white; padding-top: 20px;">
+            <ion-button routerLink="/menu/home">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+            <ion-searchbar style="border-radius: 20px;"></ion-searchbar>
+            <ion-button (click)='open()'>
+                <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <!-- <div *ngIf ="isOpened"> -->
+        <div *ngIf="isOpened">
+            <ion-row>
+                <ion-col size="10">
+                    <form [formGroup]="credentialsForm">
+                        <div class="form-group">
+                            <ion-label style="margin-left: 10px;">Category</ion-label>
+                            <ion-select placeholder="Choose Category" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerCat($event)" formControlName="category">
+                                <ion-select-option *ngFor="let cat of this.categories" [value]="cat._id">{{cat.Name}}
+                                </ion-select-option>
+                            </ion-select>
+                        </div>
+                    </form>
+                </ion-col>
+                <ion-col size="2">
+                    <ion-icon style="margin-top: 38px;margin-left: 20px; color: #ed1c24;" name="search" (click)='selectCat()'></ion-icon>
+                </ion-col>
+
+            </ion-row>
+
+
+        </div>
+
+        <!-- <ion-label>Categories</ion-label>
+      <ion-select placeholder="Select One" multiple="true">
+        <ion-select-option value="Beach">Beach</ion-select-option>
+        <ion-select-option value="Forest">Forest</ion-select-option>
+        <ion-select-option value="Mountain">Mountain</ion-select-option>
+        <ion-select-option value="Lake">Lake</ion-select-option>
+      </ion-select> -->
+        <!-- </div> -->
+    </div>
     <!-- <div> -->
-      <!-- <ion-list> -->
-        
-      
-        <!-- <ion-item>
+    <!-- <ion-list> -->
+
+
+    <!-- <ion-item>
           <ion-label>Hair Color</ion-label>
           <ion-select placeholder="Select One" value="brown" okText="Okay" cancelText="Dismiss">
             <ion-select-option value="brown">Brown</ion-select-option>
@@ -81,12 +101,12 @@
             </ion-select>
           </ion-item>
         
-        </ion-list> --> 
-      
-      <!-- </ion-list> -->
+        </ion-list> -->
+
+    <!-- </ion-list> -->
     <!-- </div> -->
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div #map id="map" style="width: 100%; height: 100%;"></div>
+    <div #map id="map" style="width: 100%; height: 100%;"></div>
 </ion-content>

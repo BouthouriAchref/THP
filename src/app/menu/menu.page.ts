@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AlertController, Platform } from '@ionic/angular';
+
 @Component({
   selector: 'app-menu',
   templateUrl: 'menu.page.html',
@@ -10,7 +11,7 @@ import { AlertController, Platform } from '@ionic/angular';
 export class MenuPage {
 
 result :boolean =false;
-  constructor(private auth: AuthGuardService, private router : Router,private alertController: AlertController) {
+  constructor(private auth: AuthGuardService, private router : Router,private alertController: AlertController ) {
   }
 
   onClick(){

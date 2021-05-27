@@ -12,7 +12,6 @@ import { AuthService } from './auth.service';
 const TOKEN_KEY = 'access_token';
 const ID_USER = 'id';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -105,7 +104,7 @@ export class FbService {
     //console.log('this.storage.get(TOKEN_KEY));', await this.storage.get(TOKEN_KEY))
     await this.storage.clear();
     this.authenticationState.next(false);
-    await this.fbLogin.logout();
+    //await this.fbLogin.logout();
     
     this.user = null;
     this.token = null;

@@ -1,31 +1,28 @@
 <ion-header translucent="true">
-  <ion-toolbar color="primary" style="padding-top: 0px;">
-    <ion-title style="padding-right: 0;">Create a new Place</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="closeModal()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <ion-toolbar color="primary" style="padding-top: 0px;" (click)="cmo()">
+        <ion-title style="padding-right: 0;">Create a new Place</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </ion-header>
 
 <ion-content>
-  <div class="et">
-    <form [formGroup]="credentialsForm">
-      <div class="form-group">
-        <label for="exampleInputName">Name</label>
-        <input type="text" class="form-control" id="exampleInputName" placeholder="Enter the place name"
-          formControlName="name">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputDescription">Description</label>
-        <textarea style="resize: none;" class="form-control" rows="2" id="comment"
-          placeholder="Enter the place description" formControlName="description"></textarea>
-      </div>
+    <div class="et">
+        <form [formGroup]="credentialsForm">
+            <div class="form-group">
+                <label for="exampleInputName">Name</label>
+                <input type="text" class="form-control" id="exampleInputName" placeholder="Enter the place name" formControlName="name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputDescription">Description</label>
+                <textarea style="resize: none;" class="form-control" rows="2" id="comment" placeholder="Enter the place description" formControlName="description"></textarea>
+            </div>
 
-      <!-- <div class="form-group">
+            <!-- <div class="form-group">
         <label for="sel1">Category</label>
         <select class="form-control" id="sel1" (change)="selectChangeHandlerCat($event)" formControlName="category">
           <option selected>Choose Category</option>
@@ -38,44 +35,38 @@
       </div> -->
 
 
-      <div class="form-group">
-        <ion-label>Category</ion-label>
-        <ion-select placeholder="Choose Category" id="sel1" okText="Ok" cancelText="Dismiss"
-          (change)="selectChangeHandlerCat($event)" formControlName="category">
-          <ion-select-option value="Beach">Beach</ion-select-option>
-          <ion-select-option value="Forest">Forest</ion-select-option>
-          <ion-select-option value="Mountain">Mountain</ion-select-option>
-          <ion-select-option value="Lake">Lake</ion-select-option>
-          <ion-select-option value="Other">Other</ion-select-option>
-        </ion-select>
-      </div>
-
-      <div class="form-group" *ngIf="toggleValue">
-        <label for="exampleInputAddress">Address</label>
-        <input type="text" class="form-control" id="exampleInputAddress" placeholder="Enter the Address"
-          formControlName="address">
-      </div>
-
-      <div class="form-row" *ngIf="toggleValue">
-        <ion-row>
-          <ion-col>
             <div class="form-group">
-              <label for="inputCity">City</label>
-              <input type="text" class="form-control" id="inputCity" placeholder="City" formControlName="city">
+                <ion-label>Category</ion-label>
+                <ion-select placeholder="Choose Category" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerCat($event)" formControlName="category">
+                    <ion-select-option *ngFor="let cat of this.categories" [value]="cat._id">{{cat.Name}}</ion-select-option>
+                </ion-select>
             </div>
-          </ion-col>
-          <ion-col>
-            <div class="form-group">
-              <label for="inputZip">Zip</label>
-              <input type="text" class="form-control" id="inputZip" placeholder="Zip" formControlName="zip">
+
+            <div class="form-group" *ngIf="toggleValue">
+                <label for="exampleInputAddress">Address</label>
+                <input type="text" class="form-control" id="exampleInputAddress" placeholder="Enter the Address" formControlName="address">
             </div>
-          </ion-col>
-        </ion-row>
-      </div>
+
+            <div class="form-row" *ngIf="toggleValue">
+                <ion-row>
+                    <ion-col>
+                        <div class="form-group">
+                            <label for="inputCity">City</label>
+                            <input type="text" class="form-control" id="inputCity" placeholder="City" formControlName="city">
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <div class="form-group">
+                            <label for="inputZip">Zip</label>
+                            <input type="text" class="form-control" id="inputZip" placeholder="Zip" formControlName="zip">
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </div>
 
 
 
-      <!-- <div class="form-group col-md-4" style="width: 35%;">
+            <!-- <div class="form-group col-md-4" style="width: 35%;">
           <label for="inputState">State</label>
           <select id="inputState" class="form-control" (change)="selectChangeHandlerState($event)"
             formControlName="state">
@@ -108,74 +99,116 @@
         </div> -->
 
 
-      <div class="form-group">
-        <ion-label>State</ion-label>
-        <ion-select placeholder="Choose State" id="sel1" okText="Ok" cancelText="Dismiss"
-          (change)="selectChangeHandlerState($event)" formControlName="state">
-          <ion-select-option value="Tunis">Tunis</ion-select-option>
-          <ion-select-option value="Ariana">Ariana</ion-select-option>
-          <ion-select-option value="Ben Arous">Ben Arous</ion-select-option>
-          <ion-select-option value=">Mannouba">Mannouba</ion-select-option>
-          <ion-select-option value="Bizerte">Bizerte</ion-select-option>
-          <ion-select-option value="Nabeul">Nabeul</ion-select-option>
-          <ion-select-option value="Beja">Beja</ion-select-option>
-          <ion-select-option value="Jendouba">Jendouba</ion-select-option>
-          <ion-select-option value="Zaghouan">Zaghouan</ion-select-option>
-          <ion-select-option value="Siliana">Siliana</ion-select-option>
-          <ion-select-option value="Kef">Kef</ion-select-option>
-          <ion-select-option value="Sousse">Sousse</ion-select-option>
-          <ion-select-option value="Monastir">Monastir</ion-select-option>
-          <ion-select-option value="Mahdia">Mahdia</ion-select-option>
-          <ion-select-option value="Kasserine">Kasserine</ion-select-option>
-          <ion-select-option value="Sidi Bouzid">Sidi Bouzid</ion-select-option>
-          <ion-select-option value="Kairouan">Kairouan</ion-select-option>
-          <ion-select-option value="Gafsa">Gafsa</ion-select-option>
-          <ion-select-option value="Sfax">Sfax</ion-select-option>
-          <ion-select-option value="Gabes">Gabes</ion-select-option>
-          <ion-select-option value="Medenine">Medenine</ion-select-option>
-          <ion-select-option value="Tozeur">Tozeur</ion-select-option>
-          <ion-select-option value="Kebili">Kebili</ion-select-option>
-          <ion-select-option value="Tataouine">Tataouine</ion-select-option>
-        </ion-select>
-      </div>
+            <div class="form-group">
+                <ion-label>State</ion-label>
+                <ion-select placeholder="Choose State" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerState($event)" formControlName="state">
+                    <ion-select-option value="Tunis">Tunis</ion-select-option>
+                    <ion-select-option value="Ariana">Ariana</ion-select-option>
+                    <ion-select-option value="Ben Arous">Ben Arous</ion-select-option>
+                    <ion-select-option value=">Mannouba">Mannouba</ion-select-option>
+                    <ion-select-option value="Bizerte">Bizerte</ion-select-option>
+                    <ion-select-option value="Nabeul">Nabeul</ion-select-option>
+                    <ion-select-option value="Beja">Beja</ion-select-option>
+                    <ion-select-option value="Jendouba">Jendouba</ion-select-option>
+                    <ion-select-option value="Zaghouan">Zaghouan</ion-select-option>
+                    <ion-select-option value="Siliana">Siliana</ion-select-option>
+                    <ion-select-option value="Kef">Kef</ion-select-option>
+                    <ion-select-option value="Sousse">Sousse</ion-select-option>
+                    <ion-select-option value="Monastir">Monastir</ion-select-option>
+                    <ion-select-option value="Mahdia">Mahdia</ion-select-option>
+                    <ion-select-option value="Kasserine">Kasserine</ion-select-option>
+                    <ion-select-option value="Sidi Bouzid">Sidi Bouzid</ion-select-option>
+                    <ion-select-option value="Kairouan">Kairouan</ion-select-option>
+                    <ion-select-option value="Gafsa">Gafsa</ion-select-option>
+                    <ion-select-option value="Sfax">Sfax</ion-select-option>
+                    <ion-select-option value="Gabes">Gabes</ion-select-option>
+                    <ion-select-option value="Medenine">Medenine</ion-select-option>
+                    <ion-select-option value="Tozeur">Tozeur</ion-select-option>
+                    <ion-select-option value="Kebili">Kebili</ion-select-option>
+                    <ion-select-option value="Tataouine">Tataouine</ion-select-option>
+                </ion-select>
+            </div>
 
-      <div class="form-row" *ngIf="!toggleValue">
-        <div class="form-group col-md-6" style="width: 50%;">
-          <label for="inputCity">Longitude</label>
-          <input type="text" class="form-control" id="inputCity" placeholder="Longitude">
-        </div>
+            <div class="form-row" *ngIf="!toggleValue">
+                <div class="form-group col-md-6" style="width: 50%;">
+                    <label for="inputCity">Longitude</label>
+                    <input type="text" class="form-control" id="inputCity" placeholder="Longitude">
+                </div>
 
-        <div class="form-group col-md-2" style="width: 50%;">
-          <label for="inputZip">Latitude</label>
-          <input type="text" class="form-control" id="inputZip" placeholder="Latitude">
-        </div>
-      </div>
+                <div class="form-group col-md-2" style="width: 50%;">
+                    <label for="inputZip">Latitude</label>
+                    <input type="text" class="form-control" id="inputZip" placeholder="Latitude">
+                </div>
+            </div>
 
-      <div class="space-between">
-        <ion-row>
-          <ion-col size="9">
-            <ion-label *ngIf="toggleValue" style="font-size: 15px;">Switch To Coordinates</ion-label>
-            <ion-label *ngIf="!toggleValue">Switch To Address</ion-label>
-          </ion-col>
-          <ion-col size="3">
-            <ion-toggle (ionChange)="change()" style="padding-top: 5px;"></ion-toggle>
-          </ion-col>
-        </ion-row>
-      </div>
+            <div class="space-between">
+                <ion-row>
+                    <ion-col size="9">
+                        <ion-label *ngIf="toggleValue" style="font-size: 15px;">Switch To Coordinates</ion-label>
+                        <ion-label *ngIf="!toggleValue">Switch To Address</ion-label>
+                    </ion-col>
+                    <ion-col size="3">
+                        <ion-toggle (ionChange)="change()" style="padding-top: 5px;"></ion-toggle>
+                    </ion-col>
+                </ion-row>
+            </div>
 
-      <label for="exampleInputCategory">Picture</label>
-      <div class="custom-file">
+            <label for="exampleInputCategory">Picture</label>
+            <!-- <div class="custom-file">
         <input type="file" accept="image/*" class="custom-file-input" id="validatedCustomFile" required>
         <label class="custom-file-label" for="validatedCustomFile">Choose picture...</label>
         <div class="invalid-feedback">Example invalid custom file feedback</div>
-      </div>
-    </form>
-    <br>
-    <div style="  text-align: center;">
+      </div> -->
+            <!-- <div class="custom-file">
+                <ion-fab right bottom>
+                    <button ion-fab (click)="presentActionSheet()"><ion-icon name="camera"></ion-icon></button>
+                </ion-fab>
+            </div> -->
+            <ion-buttons>
+                <ion-button style="border: 1px solid; width: 260px; border-radius: 10px;" (click)="presentActionSheet()">
+                    <ion-icon name="image-outline"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </form>
+        <br>
+        <div style="  text-align: center;">
 
-      <ion-button style="padding-left: none;" type="submit" (click)="presentLoading()" color="primary">Create</ion-button>
+            <ion-button style="padding-left: none;" type="submit" (click)="presentLoading()" color="primary">Create</ion-button>
+        </div>
+        <div *ngIf="firstresp">
+
+            <p> place resp</p>
+            <p>{{this.firstresp}}</p>
+        </div>
+        <div *ngIf="error">
+
+            <p> error</p>
+            <p>{{this.error }}</p>
+            <p>{{this.error.reqFile }}</p>
+            <p> error.message</p>
+            <p>{{this.error.message}}</p>
+            <p> error.msg</p>
+            <p>{{this.error.msg}}</p>
+            <p> error.toString</p>
+            <p>{{this.error.toString()}}</p>
+        </div>
+        <div *ngIf="showresp">
+
+            <p> img resp</p>
+            <p>{{this.response}}</p>
+            <p>result</p>
+            <p>{{this.response.result}}</p>
+            <p>err</p>
+            <p>{{this.response.error}}</p>
+            <p>message</p>
+            <p>{{this.response.message}}</p>
+            <!-- <p>{{this.response.test}}</p> -->
+            <!-- <p>{{this.response.result}}</p>
+                <p>{{this.response.message}}</p>
+                <p>{{this.response.error}}</p>
+                <p>{{this.error}}</p> -->
+        </div>
+
     </div>
-    <br>
-  </div>
 
 </ion-content>
