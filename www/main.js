@@ -390,15 +390,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app-routing.module */ "vY5A");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "Sy1n");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
-/* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @auth0/angular-jwt */ "Nm8O");
-/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ionic/storage-angular */ "jSNZ");
-/* harmony import */ var _ionic_native_camera_ngx__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic-native/camera/ngx */ "a/9d");
-/* harmony import */ var _ionic_native_file_transfer_ngx__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ionic-native/file-transfer/ngx */ "B7Rs");
-/* harmony import */ var _services_images_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./services/images.service */ "lA0O");
-/* harmony import */ var _Components_notice_notice_module__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Components/notice/notice.module */ "qwbt");
-/* harmony import */ var _ionic_native_splash_screen_ngx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ionic-native/splash-screen/ngx */ "54vc");
-/* harmony import */ var _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ionic-native/status-bar/ngx */ "VYYF");
+/* harmony import */ var _ionic_native_social_sharing_ngx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic-native/social-sharing/ngx */ "/XPu");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
+/* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @auth0/angular-jwt */ "Nm8O");
+/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/storage-angular */ "jSNZ");
+/* harmony import */ var _ionic_native_camera_ngx__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ionic-native/camera/ngx */ "a/9d");
+/* harmony import */ var _ionic_native_file_ngx__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ionic-native/file/ngx */ "FAH8");
+/* harmony import */ var _ionic_native_file_path_ngx__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @ionic-native/file-path/ngx */ "G769");
+/* harmony import */ var _ionic_native_file_transfer_ngx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ionic-native/file-transfer/ngx */ "B7Rs");
+/* harmony import */ var _services_images_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./services/images.service */ "lA0O");
+/* harmony import */ var _Components_notice_notice_module__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Components/notice/notice.module */ "qwbt");
+/* harmony import */ var _ionic_native_splash_screen_ngx__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @ionic-native/splash-screen/ngx */ "54vc");
+/* harmony import */ var _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @ionic-native/status-bar/ngx */ "VYYF");
+/* harmony import */ var _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @ionic-native/geolocation/ngx */ "Bfh1");
+
 
 
 
@@ -412,6 +417,9 @@ __webpack_require__.r(__webpack_exports__);
 // import { AngularFireDatabaseModule } from '@angular/fire/database';
 // import { AngularFireStorageModule } from '@angular/fire/storage';
 // import { environment } from '../environments/environment';
+
+
+
 
 
 
@@ -438,16 +446,16 @@ AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
         declarations: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]],
         entryComponents: [],
         imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"], _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["IonicModule"].forRoot(), _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClientModule"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClientModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_5__["ReactiveFormsModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormsModule"],
-            _Components_notice_notice_module__WEBPACK_IMPORTED_MODULE_14__["NoticeModule"],
-            _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_10__["IonicStorageModule"].forRoot(),
-            _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_9__["JwtModule"].forRoot({
+            _Components_notice_notice_module__WEBPACK_IMPORTED_MODULE_17__["NoticeModule"],
+            _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_11__["IonicStorageModule"].forRoot(),
+            _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_10__["JwtModule"].forRoot({
                 jwtOptionsProvider: {
-                    provide: _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_9__["JWT_OPTIONS"],
+                    provide: _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_10__["JWT_OPTIONS"],
                     useFactory: jwtOptionsFactory,
-                    deps: [_ionic_storage_angular__WEBPACK_IMPORTED_MODULE_10__["Storage"]]
+                    deps: [_ionic_storage_angular__WEBPACK_IMPORTED_MODULE_11__["Storage"]]
                 }
             })
             //FireBase
@@ -457,12 +465,16 @@ AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
             // AngularFireStorageModule,
         ],
         providers: [
-            _ionic_native_camera_ngx__WEBPACK_IMPORTED_MODULE_11__["Camera"],
-            _ionic_native_splash_screen_ngx__WEBPACK_IMPORTED_MODULE_15__["SplashScreen"],
-            _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_16__["StatusBar"],
-            _services_images_service__WEBPACK_IMPORTED_MODULE_13__["ImagesService"],
-            _ionic_native_file_transfer_ngx__WEBPACK_IMPORTED_MODULE_12__["FileTransfer"],
+            _ionic_native_splash_screen_ngx__WEBPACK_IMPORTED_MODULE_18__["SplashScreen"],
+            _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_19__["StatusBar"],
+            _services_images_service__WEBPACK_IMPORTED_MODULE_16__["ImagesService"],
+            _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_20__["Geolocation"],
+            _ionic_native_social_sharing_ngx__WEBPACK_IMPORTED_MODULE_8__["SocialSharing"],
             { provide: _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouteReuseStrategy"], useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["IonicRouteStrategy"] },
+            _ionic_native_camera_ngx__WEBPACK_IMPORTED_MODULE_12__["Camera"],
+            _ionic_native_file_path_ngx__WEBPACK_IMPORTED_MODULE_14__["FilePath"],
+            _ionic_native_file_ngx__WEBPACK_IMPORTED_MODULE_13__["File"],
+            _ionic_native_file_transfer_ngx__WEBPACK_IMPORTED_MODULE_15__["FileTransfer"]
         ],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]],
     })
@@ -840,6 +852,7 @@ let AuthService = class AuthService {
     }
     login(credentials) {
         return this.http.post(`${this.url}/api/Auth/login`, credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["tap"])((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            // await this.storage.create();
             yield this.storage.set(ID_USER, res['id']);
             yield this.storage.set(TOKEN_KEY, res['token']);
             this.user = this.helper.decodeToken(res['token']);

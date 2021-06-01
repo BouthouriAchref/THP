@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagesService } from 'src/app/services/images.service';
 import { Storage } from '@ionic/storage-angular';
-import { ModalController, ActionSheetController, NavController } from '@ionic/angular';
+import { ModalController, ActionSheetController, NavController, AlertController } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
 import { ProfileService } from 'src/app/services/profile.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,17 +18,18 @@ export class EditProfilePage implements OnInit {
   error: any;
   response: any;
   images: any = [];
-  based64Image: String;
   credentialsForm: FormGroup;
   showPassword: boolean = false;
   showPassword1: boolean = false;
   showPassword2: boolean = false;
   isOpened= false;
-
-  constructor(private profile: ProfileService,private formBuilder: FormBuilder,public navCtrl: NavController, public camera: Camera, private actionSheetCtrl: ActionSheetController, private imagesService: ImagesService, private modalcontroller: ModalController, private storage: Storage) { 
+  photos : any;
+  url = environment.url;
+  serverurl : string;
+  constructor(private profile: ProfileService,private formBuilder: FormBuilder,public navCtrl: NavController, private actionSheetCtrl: ActionSheetController, private imagesService: ImagesService, private modalcontroller: ModalController, private storage: Storage,  private alertController: AlertController, public camera: Camera) { 
     this.profile.ProfileSubjectEvent.subscribe(res => {
       this.USER = res;
-      console.log('_in edit profile__',res)
+      //console.log('_in edit profile__',res)
     })
 
   }
@@ -46,35 +48,37 @@ export class EditProfilePage implements OnInit {
       Birthday: new FormControl(''),
       Gender: new FormControl(''),
       Nationalite: new FormControl(''),
-      oldpassword: new FormControl('',[Validators.required, Validators.minLength(6)]),
-      newpassword: new FormControl('',[Validators.required, Validators.minLength(6)]),
-      confirmpassword: new FormControl('',[Validators.required, Validators.minLength(6)])
+      oldpassword: new FormControl('',[Validators.minLength(6)]),
+      newpassword: new FormControl('',[Validators.minLength(6)]),
+      confirmpassword: new FormControl('',[Validators.minLength(6)])
     })
   }
 
   openGallery() {
     const option: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
+      destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-
     }
     this.camera.getPicture(option).then((imageData) => {
-      this.based64Image = 'data:image/jpeg;based64,' + imageData;
+      this.updateImage(imageData);
+
+      
     })
   }
 
   openCamera() {
     const option: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
+      destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.CAMERA
     }
     this.camera.getPicture(option).then((imageData) => {
-      this.based64Image = 'data:image/jpeg;based64,' + imageData;
+      this.updateImage(imageData);
     })
   }
 
@@ -104,35 +108,21 @@ export class EditProfilePage implements OnInit {
     actionSheet.present();
   }
 
-  updateImage(){
+  updateImage(img){
     this.storage.get(this.ID_USER).then(async (resp) => {
-      this.profile.uploadImage(await resp._id, this.based64Image).then(res => {
-        this.response = res 
+      this.profile.uploadImage(await resp, img).then( res => {
+        this.response = res
       }).catch(err => {
         this.error = err
       })
     })
   }
 
-  // takePicture(sourceType){
-  //   var options = {
-  //     quality: 100,
-  //     destinationType: this.camera.DestinationType.FILE_URI,
-  //     sourceType: sourceType,
-  //     saveToPhotoAlbum: false,
-  //     correctOrientation: true
-  //   }
-  //   this.camera.getPicture(options)
-  // }
-
   showHidepassword(){
     this.showPassword = !this.showPassword
     this.showPassword1 = !this.showPassword1
     this.showPassword2 = !this.showPassword2
   }
-
-
-
 
   selectChangeHandlerContry(event){
     this.credentialsForm.controls['Nationalite'].setValue(event.target.value)
@@ -144,7 +134,22 @@ export class EditProfilePage implements OnInit {
 
   Submit(){
     //console.log('_____',this.credentialsForm.value)
-    this.profile.updateProfile(this.USER._id,this.credentialsForm.value)
+    if(this.credentialsForm.valid){
+      this.profile.updateProfile(this.USER._id,this.credentialsForm.value)
+      this.showAlert('Info','Profile Update Successfully')
+    }else {
+      this.showAlert('Warning','You need to update your contact')
+    }
+
+  }
+
+  showAlert(head,msg) {
+    let alert = this.alertController.create({
+      message: msg,
+      header: head,
+      buttons: ['OK']
+    });
+    alert.then(alert => alert.present());
   }
 
 

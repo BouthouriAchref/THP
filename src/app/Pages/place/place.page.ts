@@ -7,6 +7,8 @@ import { FbService } from 'src/app/services/fb.service';
 import { PlaceService } from 'src/app/services/place.service';
 import { RatePage } from '../rate/rate.page';
 import { ProfileService } from 'src/app/services/profile.service';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { combineAll } from 'rxjs/operators';
 const ID_USER = 'id';
 
 @Component({
@@ -37,13 +39,14 @@ export class PlacePage implements OnInit {
     private fb: FbService, private Auth: AuthService,
     private storage: Storage,
     private profileService: ProfileService,
-    private router: Router) {
+    private router: Router,
+    private socialSharing: SocialSharing) {
     this.placeService.PlaceSubjectEvent.subscribe(res => {
       if (res) {
         this.route.params.subscribe(params => {
           this.id = params['id'];
 
-          console.log('id', this.id)
+          //console.log('id', this.id)
         });
         this.placeService.getPlaceById(this.id).subscribe(async res => {
           if (res.success) {
@@ -58,22 +61,42 @@ export class PlacePage implements OnInit {
     //console.log(this.like)
     this.route.params.subscribe(params => {
       this.id = params['id'];
-      this.Page = params['Page']
-      console.log('id', this.id,this.Page)
+      //console.log('id', this.id)
     });
 
     this.placeService.getPlaceById(this.id).subscribe(async res => {
       if (res.success) {
         this.Place = await res.data;
-        console.log('____', this.Place)
+        this.getUser();
+        //console.log('____', this.Place)
       }
-
       //console.log('Place', this.Place)
     });
+
+    
+    
+  }
+  
+  socialShare(){
+    if (this.canActivatefb()){
+
+      var options = {
+        message: 'TunisianHiddenPlaces',
+        url: this.Place.Attachement[0].Path
+      }
+      
+      this.socialSharing.shareWithOptions(options);
+    } else {
+      this.showAlertt("You need to SignIn");
+    }
+  }
+
+  getUser(){
     if (this.canActivate() || this.canActivatefb()) {
       this.storage.get(ID_USER).then((res) => {
         this.profileService.findUserById(res).subscribe((response) => {
           for (let place of response.FavoritesPlaces) {
+            //console.log('----------',place._id)
             if (this.Place._id == place._id) {
               this.like = true;
             }
@@ -81,10 +104,7 @@ export class PlacePage implements OnInit {
         })
       })
     }
-
-
   }
-
 
   async addRate() {
     const modal = await this.modalController.create({

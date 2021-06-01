@@ -3,13 +3,13 @@
         <ion-row>
             <ion-col size="2">
                 <ion-buttons class="space-between">
-                    <ion-button style="color: #eb445a;" (click)="onclick()">
+                    <ion-button style="color: #eb445a;" routerLink="/menu/home">
                         <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
                     </ion-button>
                 </ion-buttons>
             </ion-col>
             <ion-col size="10">
-                <ion-title style="margin-left: -70px; text-align: center;">All Category</ion-title>
+                <ion-title style="margin-left: -20px; text-align: center;">All Category</ion-title>
             </ion-col>
         </ion-row>
     </ion-toolbar>
@@ -25,7 +25,7 @@
                     <ion-slide>
                         <ion-col (click)="selectCategory(category._id)">
                             <h4>{{ category.Name }}</h4>
-                            <img [src]="category?.Attachement?.Path" />
+                            <img *ngIf="category?.Attachement" [src]="category?.Attachement?.Path" />
                         </ion-col>
                     </ion-slide>
                 </ion-slides>

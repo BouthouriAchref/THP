@@ -7,7 +7,7 @@ import { IonicModule, IonicRouteStrategy, IonicSafeString } from '@ionic/angular
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 // import { AngularFireModule } from '@angular/fire';
 // import { AngularFireAuthModule } from '@angular/fire/auth';
 // import { AngularFireDatabaseModule } from '@angular/fire/database';
@@ -17,12 +17,17 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { Storage, IonicStorageModule } from '@ionic/storage-angular';
+
 import { Camera } from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+
 import { FileTransfer } from '@ionic-native/file-transfer/ngx'
 import { ImagesService } from './services/images.service';
 import { NoticeModule } from './Components/notice/notice.module';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx'
 // import { SplashScreen } from '@ionic-native/splash-screen';
 // import { StatusBar } from '@ionic-native/status-bar';
 
@@ -60,15 +65,16 @@ export function jwtOptionsFactory(storage) {
     // AngularFireStorageModule,
   ],
   providers: [
-    Camera,
     SplashScreen,
     StatusBar,
     ImagesService,
-    FileTransfer,
+    Geolocation,
+    SocialSharing,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
- 
- 
-
+    Camera,
+    FilePath,
+    File,
+    FileTransfer
   ],
   bootstrap: [AppComponent],
 })

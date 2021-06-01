@@ -1,22 +1,15 @@
 <ion-content [fullscreen]>
     <div class="image-slider">
-        <!-- <ion-buttons >      
-      <ion-button style="width: 70px; height: 70px; ">
-        <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="arrow-back-circle-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-      <ion-button style="width: 70px; height: 70px; ">
-        <ion-icon style='width: 70px; height: 70px; font-size: 34px; color: #f8f8fa' name="heart-circle" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons> -->
+
         <div class="header">
             <ion-buttons class="space-between">
                 <ion-button style="color: white;" routerLink="/menu/home">
                     <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
                 </ion-button>
-                <!-- <ion-button style="color: white;" routerLink="/menu/profile" *ngIf="canActivate() || canActivatefb()">
-                    <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-                </ion-button> -->
                 <div>
+                    <ion-button (click)="socialShare()">
+                        <ion-icon name="share-social-outline"></ion-icon>
+                    </ion-button>
                     <ion-button (click)="Like(Place?._id)" [style]="like ? 'color: red;' : 'color: white;'">
                         <ion-icon slot="icon-only" name="heart"></ion-icon>
                     </ion-button>
@@ -36,11 +29,6 @@
                 <h1>{{Place?.Name}}</h1>
                 <p>
                     <app-notice [note]="Place?.Notice"></app-notice>
-                    <!-- <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-          <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-          <ion-icon name="star" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-          <ion-icon name="star-half-outline" style="color: #f2994a; padding-right: 4px;"></ion-icon>
-          <ion-icon name="star-outline" style="color: #f2994a; padding-right: 4px;"></ion-icon> -->
                 </p>
                 <p>
                     <ion-icon name="location-outline"></ion-icon>
@@ -50,10 +38,7 @@
                     <ion-icon name="search-outline"></ion-icon>
                     {{Place?.Category?.Name}}
                 </p>
-
             </div>
-
-
         </div>
         <div class="about-me">
             <h1>Description</h1>

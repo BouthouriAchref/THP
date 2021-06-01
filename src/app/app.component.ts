@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -11,7 +11,7 @@ import { AuthGuardService } from './services/auth-guard.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   //rootPage:any = 'HomePage'
   constructor(private storage: Storage,
     private platform: Platform, private auth: AuthService,

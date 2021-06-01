@@ -75,14 +75,11 @@ let CategoryPage = class CategoryPage {
     ngOnInit() {
         this.place.getAllCategory().subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.categories = yield res.category;
-            console.log('cat', this.categories);
+            //console.log('cat',this.categories)
         }));
     }
     selectCategory(id) {
         this.router.navigate(['/place-category', { id }]).then();
-    }
-    onclick() {
-        this.router.navigate(['/menu/home']);
     }
 };
 CategoryPage.ctorParameters = () => [
@@ -223,19 +220,20 @@ let PlaceService = class PlaceService {
     addPlace(id, credentials) {
         //console.log('___',credentials) 
         return this.http.post(`${this.url}/api/Place/addPlace/${id}`, credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
-            //this.PlaceSubject.next(true)
+            this.PlaceSubject.next(true);
             //console.log('___',response)
             return response;
         }));
     }
     uploadImage(id, img) {
         const fileTransfer = this.transfer.create();
-        const path = this.url + '/api/Place/' + id;
+        const path = this.url + '/api/Place/file/' + id;
         const targetPath = img;
         const options = {
+            fileName: id + 'upload.jpeg',
             fileKey: 'image',
             chunkedMode: false,
-            mimeType: 'multipart/form-data'
+            mimeType: 'image/jpeg'
         };
         return fileTransfer.upload(targetPath, path, options, true);
     }
@@ -293,7 +291,7 @@ PlaceService = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n    <ion-toolbar>\n        <ion-row>\n            <ion-col size=\"2\">\n                <ion-buttons class=\"space-between\">\n                    <ion-button style=\"color: #eb445a;\" (click)=\"onclick()\">\n                        <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n            </ion-col>\n            <ion-col size=\"10\">\n                <ion-title style=\"margin-left: -70px; text-align: center;\">All Category</ion-title>\n            </ion-col>\n        </ion-row>\n    </ion-toolbar>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n\n</ion-header>\n\n<ion-content>\n    <ion-list style=\"background: #f8f8fa; overflow-y: scroll; margin-top: 15px;\">\n        <ion-grid class=\"ion-no-padding\" *ngFor=\"let category of this.categories\">\n            <div class=\"category-slider ion-padding-start\">\n                <ion-slides [options]=\"{ slidesPerView: 'auto', zoom: false, grabCursor: true }\">\n                    <ion-slide>\n                        <ion-col (click)=\"selectCategory(category._id)\">\n                            <h4>{{ category.Name }}</h4>\n                            <img [src]=\"category?.Attachement?.Path\" />\n                        </ion-col>\n                    </ion-slide>\n                </ion-slides>\n            </div>\n        </ion-grid>\n    </ion-list>\n    <!-- <ion-list style=\"background: #f8f8fa; overflow-y: scroll;\">\n      <ion-card style=\"border-radius: 12px;\" *ngFor=\"let place of this.Places\" (click)=\"selectPlace(place._id,'ppc')\">\n          <img [src]=\"place?.Attachement[0].Path\">\n          <ion-item>\n\n              <ion-avatar slot=\"start\" style=\"margin-top: -30px;\">\n                  <img [src]=\"place?.CreatedBy?.Avatar?.Path\">\n              </ion-avatar>\n              <ion-label>\n                  <h2>{{place?.Name}}</h2>\n                  <p>{{place?.Description.substring(0, 100)}}</p>\n                  <app-notice [note]=\"place?.Notice\"></app-notice>\n                  <h3>{{place?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>\n              </ion-label>\n          </ion-item>\n      </ion-card>\n  </ion-list> -->\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n    <ion-toolbar>\n        <ion-row>\n            <ion-col size=\"2\">\n                <ion-buttons class=\"space-between\">\n                    <ion-button style=\"color: #eb445a;\" routerLink=\"/menu/home\">\n                        <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n            </ion-col>\n            <ion-col size=\"10\">\n                <ion-title style=\"margin-left: -20px; text-align: center;\">All Category</ion-title>\n            </ion-col>\n        </ion-row>\n    </ion-toolbar>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n\n</ion-header>\n\n<ion-content>\n    <ion-list style=\"background: #f8f8fa; overflow-y: scroll; margin-top: 15px;\">\n        <ion-grid class=\"ion-no-padding\" *ngFor=\"let category of this.categories\">\n            <div class=\"category-slider ion-padding-start\">\n                <ion-slides [options]=\"{ slidesPerView: 'auto', zoom: false, grabCursor: true }\">\n                    <ion-slide>\n                        <ion-col (click)=\"selectCategory(category._id)\">\n                            <h4>{{ category.Name }}</h4>\n                            <img *ngIf=\"category?.Attachement\" [src]=\"category?.Attachement?.Path\" />\n                        </ion-col>\n                    </ion-slide>\n                </ion-slides>\n            </div>\n        </ion-grid>\n    </ion-list>\n    <!-- <ion-list style=\"background: #f8f8fa; overflow-y: scroll;\">\n      <ion-card style=\"border-radius: 12px;\" *ngFor=\"let place of this.Places\" (click)=\"selectPlace(place._id,'ppc')\">\n          <img [src]=\"place?.Attachement[0].Path\">\n          <ion-item>\n\n              <ion-avatar slot=\"start\" style=\"margin-top: -30px;\">\n                  <img [src]=\"place?.CreatedBy?.Avatar?.Path\">\n              </ion-avatar>\n              <ion-label>\n                  <h2>{{place?.Name}}</h2>\n                  <p>{{place?.Description.substring(0, 100)}}</p>\n                  <app-notice [note]=\"place?.Notice\"></app-notice>\n                  <h3>{{place?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>\n              </ion-label>\n          </ion-item>\n      </ion-card>\n  </ion-list> -->\n</ion-content>");
 
 /***/ }),
 

@@ -9,6 +9,7 @@ import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder";
 import { PopUpService } from 'src/app/services/pop-up.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlaceService } from 'src/app/services/place.service';
+import { Geolocation }from '@ionic-native/geolocation/ngx'
 
 @Component({
   selector: 'app-map',
@@ -18,6 +19,7 @@ import { PlaceService } from 'src/app/services/place.service';
 export class MapPage implements OnInit {
   map: Leaflet.Map;
   properties: any;
+  Position: any;
   categories: any;
   caseStatus;
   arrayTest = ['a', 'b', 'v', 'h'];
@@ -26,26 +28,44 @@ export class MapPage implements OnInit {
 
 
   constructor(
-    private popupService: PopUpService, private placeService: PlaceService,private formBuilder: FormBuilder) { }
+    private geolocation: Geolocation,private popupService: PopUpService, private placeService: PlaceService,private formBuilder: FormBuilder) { 
+      this.popupService.MapSubjectEvent.subscribe(async res => {
+        if (res) {
+              this.properties = await res
+              this.map.off();
+              this.map.remove();
+              this.initData(this.properties)
+            }
+          })
+        
+    }
 
   ngOnInit() {
-    console.time('aa')
+    this.getPosition().then(data => {
+      this.Position = data.coords
+      console.log(this.Position)
+    })
     this.popupService.getAllPlaces().subscribe(async (res) => {
       if (res.success) {
         this.properties = await res.data;
-        console.log('all',this.properties)
-        this.initData();
+        //console.log('all',this.properties)
+        this.initData(this.properties);
       }
     });
     this.placeService.getAllCategory().subscribe(async (res) => {
       this.categories = await res.category
-      console.log('cat',this.categories)
+      //console.log('cat',this.categories)
     })  
     this.credentialsForm = this.formBuilder.group({
       category: new FormControl('', [Validators.required])
 
     });
+ 
     
+  }
+
+  getPosition(): Promise<any> {
+    return this.geolocation.getCurrentPosition();
   }
 
   open() {
@@ -54,11 +74,7 @@ export class MapPage implements OnInit {
 
   selectCat(){
     let id = this.credentialsForm.value.category;
-    this.placeService.getPlacesByCat(id).subscribe(async res => {
-      this.properties = await res.data;
-      //this.initData();
-      console.log('allcat',this.properties)
-    })
+    this.popupService.getPlacesByCat(id)
   }
 
   selectChangeHandlerCat(event) {
@@ -67,13 +83,28 @@ export class MapPage implements OnInit {
     
   }
 
-  async initData() {
+  async initData(properties) {
     // console.timeEnd('aa')
     this.map = new Leaflet.Map('map').setView([33.8869, 9.5375], 7)
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom: 6, maxZoom: 20 }).addTo(this.map);
+    
+    var Pos = new Leaflet.Icon({
+      iconUrl: '../../assets/blue-marker.png',
+      shadowUrl: '../../assets/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+      const circle = Leaflet.marker([this.Position.latitude,this.Position.longitude], { icon: Pos });
+      circle.bindPopup(this.popupService.makeCapitalPopupPosition());
+      circle.addTo(this.map);
+    
+
     //console.log("_________", el[index].Evaluation.Notice)
     //console.log("places",this.properties)
-    for (let place of await this.properties) {
+    for (let place of await properties) {
       //console.log('________',place.Address.Location)
       // this.properties.map((place) => {
 

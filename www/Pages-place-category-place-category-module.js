@@ -51,8 +51,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _raw_loader_place_category_page_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! raw-loader!./place-category.page.html */ "o6hN");
 /* harmony import */ var _place_category_page_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./place-category.page.scss */ "THhF");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var src_app_services_place_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/place.service */ "Ome2");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var src_app_services_place_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/place.service */ "Ome2");
+
 
 
 
@@ -60,7 +62,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let PlaceCategoryPage = class PlaceCategoryPage {
-    constructor(placeService, route, router) {
+    constructor(formBuilder, placeService, route, router) {
+        this.formBuilder = formBuilder;
         this.placeService = placeService;
         this.route = route;
         this.router = router;
@@ -69,27 +72,43 @@ let PlaceCategoryPage = class PlaceCategoryPage {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.id = params['id'];
-            console.log('id', this.id);
+            //console.log('id', this.id)
         });
         this.placeService.getPlacesByCat(this.id).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.Places = yield res.data;
-            console.log(this.Places);
+            //console.log(this.Places)
         }));
         this.placeService.getCategoryById(this.id).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.category = yield res.data;
         }));
+        this.placeService.getAllCategory().subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            this.categories = yield res.category;
+            //console.log('cat',this.categories)
+        }));
+        this.credentialsForm = this.formBuilder.group({
+            category: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required])
+        });
     }
     onclick() {
         this.router.navigate(['/menu/home']);
     }
+    selectChangeHandlerCat(event) {
+        this.credentialsForm.controls['category'].setValue(event.target.value);
+        //return event.target.value;
+    }
     selectPlace(id, Page) {
         this.router.navigate(['/place', { id, Page }]).then();
     }
+    selectCat() {
+        let id = this.credentialsForm.value.category;
+        this.router.navigate(['/place-category', { id }]).then();
+    }
 };
 PlaceCategoryPage.ctorParameters = () => [
-    { type: src_app_services_place_service__WEBPACK_IMPORTED_MODULE_5__["PlaceService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"] },
+    { type: src_app_services_place_service__WEBPACK_IMPORTED_MODULE_6__["PlaceService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] }
 ];
 PlaceCategoryPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
@@ -188,19 +207,20 @@ let PlaceService = class PlaceService {
     addPlace(id, credentials) {
         //console.log('___',credentials) 
         return this.http.post(`${this.url}/api/Place/addPlace/${id}`, credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
-            //this.PlaceSubject.next(true)
+            this.PlaceSubject.next(true);
             //console.log('___',response)
             return response;
         }));
     }
     uploadImage(id, img) {
         const fileTransfer = this.transfer.create();
-        const path = this.url + '/api/Place/' + id;
+        const path = this.url + '/api/Place/file/' + id;
         const targetPath = img;
         const options = {
+            fileName: id + 'upload.jpeg',
             fileKey: 'image',
             chunkedMode: false,
-            mimeType: 'multipart/form-data'
+            mimeType: 'image/jpeg'
         };
         return fileTransfer.upload(targetPath, path, options, true);
     }
@@ -293,6 +313,7 @@ let PlaceCategoryPageModule = class PlaceCategoryPageModule {
 PlaceCategoryPageModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
         imports: [
+            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["ReactiveFormsModule"],
             _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
             _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["IonicModule"],
@@ -316,7 +337,7 @@ PlaceCategoryPageModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n    <ion-toolbar>\n        <ion-row>\n            <ion-col size=\"2\">\n                <ion-buttons class=\"space-between\">\n                    <ion-button style=\"color: #eb445a;\">\n                        <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n            </ion-col>\n            <ion-col size=\"10\">\n                <ion-title style=\"margin-left: -70px; text-align: center; padding-inline: 0px;\" (click)=\"onclick()\">Category : {{this.category?.Name}}</ion-title>\n            </ion-col>\n        </ion-row>\n\n\n    </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n\n    <ion-list style=\"background: #f8f8fa; overflow-y: scroll;\">\n        <ion-card style=\"border-radius: 12px;\" *ngFor=\"let place of this.Places\" (click)=\"selectPlace(place._id,'ppc')\">\n            <img [src]=\"place?.Attachement[0].Path\">\n            <ion-item>\n\n                <ion-avatar slot=\"start\" style=\"margin-top: -30px;\">\n                    <img [src]=\"place?.CreatedBy?.Avatar?.Path\">\n                </ion-avatar>\n                <ion-label>\n                    <h2>{{place?.Name}}</h2>\n                    <p>{{place?.Description.substring(0, 100)}}</p>\n                    <app-notice [note]=\"place?.Notice\"></app-notice>\n                    <h3>{{place?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>\n                </ion-label>\n            </ion-item>\n        </ion-card>\n    </ion-list>\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n    <ion-toolbar>\n        <div>\n\n            <ion-row>\n                <ion-col size=\"2\">\n                    <ion-buttons class=\"space-between\">\n                        <ion-button style=\"color: #eb445a;\" routerLink=\"/menu/home\">\n                            <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n                        </ion-button>\n                    </ion-buttons>\n                </ion-col>\n                <ion-col size=\"10\">\n                    <ion-title style=\"margin-left: -20px; text-align: center; padding-inline: 0px;\">Category : {{this.category?.Name}}</ion-title>\n\n                </ion-col>\n\n            </ion-row>\n            <div class=\"item-inner-highlight\"></div>\n        </div>\n\n\n\n    </ion-toolbar>\n\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n    <ion-row>\n        <ion-col size=\"10\">\n            <form [formGroup]=\"credentialsForm\" style=\"margin-left: 10px;\">\n                <div class=\"form-group\">\n                    <ion-label>Category</ion-label>\n                    <ion-select placeholder=\"Choose Category\" id=\"sel1\" okText=\"Ok\" cancelText=\"Dismiss\" (change)=\"selectChangeHandlerCat($event)\" [placeholder]=\"category?.Name\" formControlName=\"category\">\n                        <ion-select-option *ngFor=\"let cat of this.categories\" [value]=\"cat._id\">{{cat.Name}}\n                        </ion-select-option>\n                    </ion-select>\n                </div>\n            </form>\n        </ion-col>\n        <ion-col size=\"2\">\n            <ion-icon style=\"margin-top: 38px;margin-left: 20px; color: #ed1c24;\" name=\"search\" (click)='selectCat()'></ion-icon>\n        </ion-col>\n\n    </ion-row>\n\n    <ion-list style=\"background: #f8f8fa; overflow-y: scroll;\">\n        <ion-card style=\"border-radius: 12px;\" *ngFor=\"let place of this.Places\" (click)=\"selectPlace(place._id,'ppc')\">\n            <img *ngIf=\"place.Attachement.length>0\" [src]=\"place?.Attachement[0].Path\">\n            <ion-item>\n\n                <ion-avatar slot=\"start\" style=\"margin-top: -30px;\">\n                    <img style=\"margin-top: 8px;\" [src]=\"place?.CreatedBy?.Avatar?.Path\">\n                </ion-avatar>\n                <ion-label>\n                    <h2>{{place?.Name}}</h2>\n                    <p>{{place?.Description.substring(0, 100)}}</p>\n                    <app-notice [note]=\"place?.Notice\"></app-notice>\n                    <h3>{{place?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>\n                </ion-label>\n            </ion-item>\n        </ion-card>\n    </ion-list>\n</ion-content>");
 
 /***/ })
 

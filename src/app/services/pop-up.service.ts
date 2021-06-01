@@ -28,12 +28,25 @@ export class PopUpService {
     }))
   }
 
-
   getPlacesByCat(id){
+    this.getPlacesByCAT(id);
+    return this.http.get<any>(`${this.url}/api/Place/Places/Category/${id}`)
+  }
+
+  getPlacesByCAT(id){
     return this.http.get<any>(`${this.url}/api/Place/Places/Category/${id}`).subscribe(response => {
-      //this.MapSubject.next(true)
+      this.MapSubject.next(response.data)
+      console.log('Place', response)
       return response;
-    });
+    })
+  }
+
+  makeCapitalPopupPosition() {
+    return `
+        <h1>
+          <b style="font-size: 1.0rem;">You are here</b>
+        </h1>
+  `
   }
 
   //  ='color: #f2994a' name='star' >${place?.Evaluation[0]?.Notice}</ion-icon>
@@ -42,7 +55,7 @@ export class PopUpService {
     return `
       <ion-buttons>
         <h1>
-          <b> ${place?.Name}</b>
+          <b style="font-size: 1.5rem;"> ${place?.Name}</b>
         </h1>
         <ion-button>
           <ion-icon style=' font-size: 34px; color: #ff3838' name="heart-circle"></ion-icon>
@@ -53,4 +66,6 @@ export class PopUpService {
       <ion-img src='${place?.Attachement[0].Path}' style=' border-radius: 10px !important'></ion-img>
   `
   }
+
+  
 }

@@ -38,7 +38,8 @@
             <div class="form-group">
                 <ion-label>Category</ion-label>
                 <ion-select placeholder="Choose Category" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerCat($event)" formControlName="category">
-                    <ion-select-option *ngFor="let cat of this.categories" [value]="cat._id">{{cat.Name}}</ion-select-option>
+                    <ion-select-option *ngFor="let cat of this.categories" [value]="cat._id">{{cat.Name}}
+                    </ion-select-option>
                 </ion-select>
             </div>
 
@@ -132,12 +133,12 @@
             <div class="form-row" *ngIf="!toggleValue">
                 <div class="form-group col-md-6" style="width: 50%;">
                     <label for="inputCity">Longitude</label>
-                    <input type="text" class="form-control" id="inputCity" placeholder="Longitude">
+                    <input type="text" class="form-control" id="inputCity" placeholder="Longitude" formControlName="lon">
                 </div>
 
                 <div class="form-group col-md-2" style="width: 50%;">
                     <label for="inputZip">Latitude</label>
-                    <input type="text" class="form-control" id="inputZip" placeholder="Latitude">
+                    <input type="text" class="form-control" id="inputZip" placeholder="Latitude" formControlName="lat">
                 </div>
             </div>
 
@@ -173,42 +174,9 @@
         <br>
         <div style="  text-align: center;">
 
-            <ion-button style="padding-left: none;" type="submit" (click)="presentLoading()" color="primary">Create</ion-button>
+            <ion-button style="padding-left: none;" type="submit" (click)="presentLoading()" color="primary">Create
+            </ion-button>
         </div>
-        <div *ngIf="firstresp">
-
-            <p> place resp</p>
-            <p>{{this.firstresp}}</p>
-        </div>
-        <div *ngIf="error">
-
-            <p> error</p>
-            <p>{{this.error }}</p>
-            <p>{{this.error.reqFile }}</p>
-            <p> error.message</p>
-            <p>{{this.error.message}}</p>
-            <p> error.msg</p>
-            <p>{{this.error.msg}}</p>
-            <p> error.toString</p>
-            <p>{{this.error.toString()}}</p>
-        </div>
-        <div *ngIf="showresp">
-
-            <p> img resp</p>
-            <p>{{this.response}}</p>
-            <p>result</p>
-            <p>{{this.response.result}}</p>
-            <p>err</p>
-            <p>{{this.response.error}}</p>
-            <p>message</p>
-            <p>{{this.response.message}}</p>
-            <!-- <p>{{this.response.test}}</p> -->
-            <!-- <p>{{this.response.result}}</p>
-                <p>{{this.response.message}}</p>
-                <p>{{this.response.error}}</p>
-                <p>{{this.error}}</p> -->
-        </div>
-
     </div>
 
 </ion-content>

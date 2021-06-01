@@ -194,19 +194,20 @@ let PlaceService = class PlaceService {
     addPlace(id, credentials) {
         //console.log('___',credentials) 
         return this.http.post(`${this.url}/api/Place/addPlace/${id}`, credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
-            //this.PlaceSubject.next(true)
+            this.PlaceSubject.next(true);
             //console.log('___',response)
             return response;
         }));
     }
     uploadImage(id, img) {
         const fileTransfer = this.transfer.create();
-        const path = this.url + '/api/Place/' + id;
+        const path = this.url + '/api/Place/file/' + id;
         const targetPath = img;
         const options = {
+            fileName: id + 'upload.jpeg',
             fileKey: 'image',
             chunkedMode: false,
-            mimeType: 'multipart/form-data'
+            mimeType: 'image/jpeg'
         };
         return fileTransfer.upload(targetPath, path, options, true);
     }

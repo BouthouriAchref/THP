@@ -76,7 +76,7 @@ export class PlaceService {
   addPlace(id, credentials) {
     //console.log('___',credentials) 
     return this.http.post<any>(`${this.url}/api/Place/addPlace/${id}`, credentials).pipe(map(response => {
-      //this.PlaceSubject.next(true)
+      this.PlaceSubject.next(true)
       //console.log('___',response)
       return response
     }));
@@ -85,13 +85,14 @@ export class PlaceService {
   uploadImage(id, img){
     const fileTransfer: FileTransferObject = this.transfer.create();
     
-    const path = this.url+'/api/Place/'+id;
+    const path = this.url+'/api/Place/file/'+id;
     const targetPath = img;
 
     const options: FileUploadOptions = {
+      fileName: id+'upload.jpeg',
       fileKey: 'image',
       chunkedMode: false,
-      mimeType: 'multipart/form-data'
+      mimeType: 'image/jpeg'
     };
 
     return fileTransfer.upload(targetPath,path,options, true)

@@ -1,31 +1,57 @@
 <ion-header>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <ion-toolbar>
-        <ion-row>
-            <ion-col size="2">
-                <ion-buttons class="space-between">
-                    <ion-button style="color: #eb445a;">
-                        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-                    </ion-button>
-                </ion-buttons>
-            </ion-col>
-            <ion-col size="10">
-                <ion-title style="margin-left: -70px; text-align: center; padding-inline: 0px;" (click)="onclick()">Category : {{this.category?.Name}}</ion-title>
-            </ion-col>
-        </ion-row>
+        <div>
+
+            <ion-row>
+                <ion-col size="2">
+                    <ion-buttons class="space-between">
+                        <ion-button style="color: #eb445a;" routerLink="/menu/home">
+                            <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+                        </ion-button>
+                    </ion-buttons>
+                </ion-col>
+                <ion-col size="10">
+                    <ion-title style="margin-left: -20px; text-align: center; padding-inline: 0px;">Category : {{this.category?.Name}}</ion-title>
+
+                </ion-col>
+
+            </ion-row>
+            <div class="item-inner-highlight"></div>
+        </div>
+
 
 
     </ion-toolbar>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
+    <ion-row>
+        <ion-col size="10">
+            <form [formGroup]="credentialsForm" style="margin-left: 10px;">
+                <div class="form-group">
+                    <ion-label>Category</ion-label>
+                    <ion-select placeholder="Choose Category" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerCat($event)" [placeholder]="category?.Name" formControlName="category">
+                        <ion-select-option *ngFor="let cat of this.categories" [value]="cat._id">{{cat.Name}}
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+            </form>
+        </ion-col>
+        <ion-col size="2">
+            <ion-icon style="margin-top: 38px;margin-left: 20px; color: #ed1c24;" name="search" (click)='selectCat()'></ion-icon>
+        </ion-col>
+
+    </ion-row>
 
     <ion-list style="background: #f8f8fa; overflow-y: scroll;">
         <ion-card style="border-radius: 12px;" *ngFor="let place of this.Places" (click)="selectPlace(place._id,'ppc')">
-            <img [src]="place?.Attachement[0].Path">
+            <img *ngIf="place.Attachement.length>0" [src]="place?.Attachement[0].Path">
             <ion-item>
 
                 <ion-avatar slot="start" style="margin-top: -30px;">
-                    <img [src]="place?.CreatedBy?.Avatar?.Path">
+                    <img style="margin-top: 8px;" [src]="place?.CreatedBy?.Avatar?.Path">
                 </ion-avatar>
                 <ion-label>
                     <h2>{{place?.Name}}</h2>

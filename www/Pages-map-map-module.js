@@ -15759,10 +15759,22 @@ let PopUpService = class PopUpService {
         }));
     }
     getPlacesByCat(id) {
+        this.getPlacesByCAT(id);
+        return this.http.get(`${this.url}/api/Place/Places/Category/${id}`);
+    }
+    getPlacesByCAT(id) {
         return this.http.get(`${this.url}/api/Place/Places/Category/${id}`).subscribe(response => {
-            //this.MapSubject.next(true)
+            this.MapSubject.next(response.data);
+            console.log('Place', response);
             return response;
         });
+    }
+    makeCapitalPopupPosition() {
+        return `
+        <h1>
+          <b style="font-size: 1.0rem;">You are here</b>
+        </h1>
+  `;
     }
     //  ='color: #f2994a' name='star' >${place?.Evaluation[0]?.Notice}</ion-icon>
     //     <ion-icon style='color: #f2994a' name='star-outline'></ion-icon>
@@ -15770,7 +15782,7 @@ let PopUpService = class PopUpService {
         return `
       <ion-buttons>
         <h1>
-          <b> ${place === null || place === void 0 ? void 0 : place.Name}</b>
+          <b style="font-size: 1.5rem;"> ${place === null || place === void 0 ? void 0 : place.Name}</b>
         </h1>
         <ion-button>
           <ion-icon style=' font-size: 34px; color: #ff3838' name="heart-circle"></ion-icon>
@@ -17257,19 +17269,20 @@ let PlaceService = class PlaceService {
     addPlace(id, credentials) {
         //console.log('___',credentials) 
         return this.http.post(`${this.url}/api/Place/addPlace/${id}`, credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
-            //this.PlaceSubject.next(true)
+            this.PlaceSubject.next(true);
             //console.log('___',response)
             return response;
         }));
     }
     uploadImage(id, img) {
         const fileTransfer = this.transfer.create();
-        const path = this.url + '/api/Place/' + id;
+        const path = this.url + '/api/Place/file/' + id;
         const targetPath = img;
         const options = {
+            fileName: id + 'upload.jpeg',
             fileKey: 'image',
             chunkedMode: false,
-            mimeType: 'multipart/form-data'
+            mimeType: 'image/jpeg'
         };
         return fileTransfer.upload(targetPath, path, options, true);
     }
@@ -17355,6 +17368,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_pop_up_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! src/app/services/pop-up.service */ "86hP");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
 /* harmony import */ var src_app_services_place_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! src/app/services/place.service */ "Ome2");
+/* harmony import */ var _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @ionic-native/geolocation/ngx */ "Bfh1");
+
 
 
 
@@ -17370,53 +17385,75 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let MapPage = class MapPage {
-    constructor(popupService, placeService, formBuilder) {
+    constructor(geolocation, popupService, placeService, formBuilder) {
+        this.geolocation = geolocation;
         this.popupService = popupService;
         this.placeService = placeService;
         this.formBuilder = formBuilder;
         this.arrayTest = ['a', 'b', 'v', 'h'];
         this.isOpened = false;
+        this.popupService.MapSubjectEvent.subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            if (res) {
+                this.properties = yield res;
+                this.map.off();
+                this.map.remove();
+                this.initData(this.properties);
+            }
+        }));
     }
     ngOnInit() {
-        console.time('aa');
+        this.getPosition().then(data => {
+            this.Position = data.coords;
+            console.log(this.Position);
+        });
         this.popupService.getAllPlaces().subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             if (res.success) {
                 this.properties = yield res.data;
-                console.log('all', this.properties);
-                this.initData();
+                //console.log('all',this.properties)
+                this.initData(this.properties);
             }
         }));
         this.placeService.getAllCategory().subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.categories = yield res.category;
-            console.log('cat', this.categories);
+            //console.log('cat',this.categories)
         }));
         this.credentialsForm = this.formBuilder.group({
             category: new _angular_forms__WEBPACK_IMPORTED_MODULE_12__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_12__["Validators"].required])
         });
+    }
+    getPosition() {
+        return this.geolocation.getCurrentPosition();
     }
     open() {
         this.isOpened = !this.isOpened;
     }
     selectCat() {
         let id = this.credentialsForm.value.category;
-        this.placeService.getPlacesByCat(id).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            this.properties = yield res.data;
-            //this.initData();
-            console.log('allcat', this.properties);
-        }));
+        this.popupService.getPlacesByCat(id);
     }
     selectChangeHandlerCat(event) {
         this.credentialsForm.controls['category'].setValue(event.target.value);
         //return event.target.value;
     }
-    initData() {
+    initData(properties) {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             // console.timeEnd('aa')
             this.map = new leaflet__WEBPACK_IMPORTED_MODULE_4__["Map"]('map').setView([33.8869, 9.5375], 7);
             leaflet__WEBPACK_IMPORTED_MODULE_4__["tileLayer"]('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom: 6, maxZoom: 20 }).addTo(this.map);
+            var Pos = new leaflet__WEBPACK_IMPORTED_MODULE_4__["Icon"]({
+                iconUrl: '../../assets/blue-marker.png',
+                shadowUrl: '../../assets/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+            const circle = leaflet__WEBPACK_IMPORTED_MODULE_4__["marker"]([this.Position.latitude, this.Position.longitude], { icon: Pos });
+            circle.bindPopup(this.popupService.makeCapitalPopupPosition());
+            circle.addTo(this.map);
             //console.log("_________", el[index].Evaluation.Notice)
             //console.log("places",this.properties)
-            for (let place of yield this.properties) {
+            for (let place of yield properties) {
                 //console.log('________',place.Address.Location)
                 // this.properties.map((place) => {
                 var One = new leaflet__WEBPACK_IMPORTED_MODULE_4__["Icon"]({
@@ -17449,6 +17486,7 @@ let MapPage = class MapPage {
     }
 };
 MapPage.ctorParameters = () => [
+    { type: _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_14__["Geolocation"] },
     { type: src_app_services_pop_up_service__WEBPACK_IMPORTED_MODULE_11__["PopUpService"] },
     { type: src_app_services_place_service__WEBPACK_IMPORTED_MODULE_13__["PlaceService"] },
     { type: _angular_forms__WEBPACK_IMPORTED_MODULE_12__["FormBuilder"] }

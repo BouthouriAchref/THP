@@ -18,16 +18,12 @@ export class CategoryPage implements OnInit {
   ngOnInit() {
     this.place.getAllCategory().subscribe(async (res) => {
       this.categories = await res.category
-      console.log('cat',this.categories)
+      //console.log('cat',this.categories)
     })  
   }
 
 
   selectCategory(id){
     this.router.navigate(['/place-category',{id}]).then();
-  }
-
-  onclick(){
-    this.router.navigate(['/menu/home'])
   }
 }

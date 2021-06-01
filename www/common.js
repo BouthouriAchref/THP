@@ -190,15 +190,16 @@ let ProfileService = class ProfileService {
         });
     }
     uploadImage(id, img) {
-        let path = this.url + '/api/Auth/upload/' + id;
-        var targetPath = img;
-        var options = {
+        const fileTransfer = this.transfer.create();
+        const path = this.url + '/api/Auth/user/upload/' + id;
+        const targetPath = img;
+        const options = {
+            fileName: id + 'upload.jpeg',
             fileKey: 'image',
             chunkedMode: false,
-            mimeType: 'multipart/form-data'
+            mimeType: 'image/jpeg'
         };
-        const fileTransfer = this.transfer.create();
-        return fileTransfer.upload(targetPath, path, options);
+        return fileTransfer.upload(targetPath, path, options, true);
     }
 };
 ProfileService.ctorParameters = () => [

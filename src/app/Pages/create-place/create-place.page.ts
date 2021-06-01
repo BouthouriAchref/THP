@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavParams, LoadingController, ActionSheetController } from '@ionic/angular';
+import { ModalController, NavParams, LoadingController, ActionSheetController, AlertController } from '@ionic/angular';
 import { PlaceService } from 'src/app/services/place.service';
 import { Storage } from '@ionic/storage-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
@@ -34,6 +34,7 @@ export class CreatePlacePage implements OnInit {
     public loadingController: LoadingController,
     private actionSheetCtrl: ActionSheetController,
     private camera: Camera,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -85,27 +86,29 @@ export class CreatePlacePage implements OnInit {
   openCamera() {
     const option: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
+      destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.CAMERA
     }
     this.camera.getPicture(option).then((imageData) => {
-      this.based64Image = 'data:image/jpeg;based64,' + imageData;
+      this.based64Image = imageData
+      //this.based64Image = 'data:image/jpeg;based64,' + imageData;
     })
   }
 
   openGallery() {
     const option: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
+      destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
 
     }
     this.camera.getPicture(option).then((imageData) => {
-      this.based64Image =  imageData;
-      // this.based64Image = 'data:image/jpeg;based64,' + imageData;
+      this.based64Image = imageData 
+      //this.based64Image = 'data:image/jpeg;based64,' + imageData;
     })
   }
 
@@ -152,7 +155,8 @@ export class CreatePlacePage implements OnInit {
       setTimeout(() => {
 
         this.CreatePlace();
-        //this.closeModal();
+        this.closeModal();
+        this.showAlert('Success','Place created successfully')
 
       }, 2000);
     }
@@ -163,13 +167,7 @@ export class CreatePlacePage implements OnInit {
     this.storage.get(ID_USER).then(async (res) => {
       console.log('Form', await this.credentialsForm.value)
       this.placeService.addPlace(await res, await this.credentialsForm.value).subscribe(response => {
-        this.placeService.uploadImage(response._id, this.based64Image).then(res => {
-          this.firstresp = 'hay jet tawa'
-          this.response = res;
-          this.showresp = true
-        }).catch(err => {
-          this.error = JSON.stringify(err).substr(0, 250);
-        })
+        this.placeService.uploadImage(response.place._id, this.based64Image)
       })
     });
   }
@@ -184,6 +182,15 @@ export class CreatePlacePage implements OnInit {
     this.Submit();
     const { role, data } = await loading.onDidDismiss();
     console.log('Loading dismissed!');
+  }
+
+  showAlert(head,msg) {
+    let alert = this.alertController.create({
+      message: msg,
+      header: head,
+      buttons: ['OK']
+    });
+    alert.then(alert => alert.present());
   }
 
   // Submit() {

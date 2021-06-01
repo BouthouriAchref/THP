@@ -1,6 +1,5 @@
 <ion-content>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <div class="header">
         <ion-buttons class="space-between">
             <ion-button style="color: white;" routerLink="/menu/profile">
@@ -13,8 +12,6 @@
             </div>
         </ion-buttons>
         <h2>{{USER?.fullname}}</h2>
-
-
     </div>
 
     <div class="flex">
@@ -27,13 +24,11 @@
                         </ion-button>
                     </ion-buttons>
                     <div>
-                        <img [src]="USER?.Avatar.Path">
+                        <img *ngIf="USER?.Avatar" [src]="USER?.Avatar.Path">
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <div class="ion-padding wrapper" style="padding-top: 0px;">
@@ -41,7 +36,6 @@
             <ion-label>
                 <br>
                 <form [formGroup]="credentialsForm">
-                    <p>{{this.response}}</p>
                     <div class="form-group">
                         <label for="formGroupExampleInput">Name</label>
                         <input type="text" class="form-control" id="formGroupExampleInput" [placeholder]="USER?.fullname" formControlName="fullname">
@@ -49,7 +43,7 @@
 
                     <div class="form-group">
                         <label for="formGroupExampleInput2">Date of Birth</label>
-                        <input class="form-control" type="date" id="example-date-input" formControlName="Birthday">
+                        <input class="form-control" type="date" id="example-date-input" [placeholder]="USER?.Birthday" formControlName="Birthday">
                     </div>
 
 
@@ -70,7 +64,7 @@
 
                     <div class="form-group">
                         <ion-label>Gender</ion-label>
-                        <ion-select placeholder="Choose Gender" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerGender($event)" class="form-control-list" formControlName="Gender">
+                        <ion-select placeholder="Choose Gender" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerGender($event)" class="form-control-list" [placeholder]="USER?.Gender" formControlName="Gender">
                             <ion-select-option value="Male">Male</ion-select-option>
                             <ion-select-option value="Female">Female</ion-select-option>
                         </ion-select>
@@ -78,7 +72,7 @@
 
                     <div class="form-group">
                         <ion-label>Country</ion-label>
-                        <ion-select placeholder="Choose Country" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerContry($event)" class="form-control-list" formControlName="Nationalite">
+                        <ion-select placeholder="Choose Country" id="sel1" okText="Ok" cancelText="Dismiss" (change)="selectChangeHandlerContry($event)" class="form-control-list" [placeholder]="USER?.Nationalite" formControlName="Nationalite">
                             <ion-select-option value="Tunisie">Tunisie</ion-select-option>
                             <ion-select-option value="Maroc">Maroc</ion-select-option>
                             <ion-select-option value="Algerie">Algerie</ion-select-option>
@@ -89,9 +83,9 @@
 
                         </ion-select>
                     </div>
+                    <div>
 
-                    <!-- <select name="nationality" class="form-control" id="sel1" data-live-search="true">
-
+                        <!-- <select name="nationality" class="form-control" id="sel1" data-live-search="true">
               <option value="">-- select one --</option>
               <option class="op" value="afghan"><i class="ae flag"></i>Afghan</option>
               <option class="op" value="albanian"><i class="united states flag"></i>Albanian</option>
@@ -287,40 +281,43 @@
               <option value="zimbabwean">Zimbabwean</option>
             </select> -->
 
-                    <div>
-
                         <label for="formGroupExampleInput">Change Passwod</label>
 
                         <div class="input-group" style="margin: 0 0 5px;">
                             <input class="form-control" #passInput [type]="showPassword ? 'text' : 'password'" placeholder="Type your current password" formControlName="oldpassword">
                             <span class="input-group-btn">
-                <!-- <button class="btn btn-default" type="submit">
-                  <ion-icon name="eye"></ion-icon>
-                </button> -->
-                <ion-buttons>
-                  <ion-button (click)="showHidepassword()">
-                    <ion-icon *ngIf="showPassword" slot="icon-only" name="eye"></ion-icon>
-                    <ion-icon *ngIf="!showPassword" slot="icon-only" name="eye-off"></ion-icon>
-                  </ion-button>
-                </ion-buttons>
-              </span>
+                                <!-- <button class="btn btn-default" type="submit">
+                                <ion-icon name="eye"></ion-icon>
+                                </button> -->
+                                <ion-buttons>
+                                    <ion-button (click)="showHidepassword()">
+                                        <ion-icon *ngIf="showPassword" slot="icon-only" name="eye"></ion-icon>
+                                        <ion-icon *ngIf="!showPassword" slot="icon-only" name="eye-off"></ion-icon>
+                                    </ion-button>
+                                </ion-buttons>
+                            </span>
                         </div>
 
                         <div class="input-group" style="margin: 0 0 5px;">
                             <input class="form-control" #passInput [type]="showPassword1 ? 'text' : 'password'" placeholder="Type your new password (6 characters min)" formControlName="newpassword">
                             <span class="input-group-btn">
-              </span>
+                            </span>
                         </div>
 
                         <div class="input-group" style="margin: 0 0 5px;">
                             <input class="form-control" #passInput [type]="showPassword2 ? 'text' : 'password'" placeholder="Confirm your new password" formControlName="confirmpassword">
                             <span class="input-group-btn">
-   
-              </span>
+
+                            </span>
                         </div>
                     </div>
                 </form>
             </ion-label>
         </ion-grid>
     </div>
+
+    <!-- <p>response</p>
+    <p>{{this.response | json}}</p>
+    <p>error</p>
+    <p>{{this.error | json}}</p> -->
 </ion-content>

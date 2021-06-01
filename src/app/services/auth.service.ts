@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   register(credentials) {
-    return this.http.post(`${this.url}/api/Auth/register`, credentials).pipe(
+    return this.http.post(`${this.url}/api/Auth/register`, credentials, ).pipe(
       catchError(e => {
         this.showAlert(e.error.msg);
         throw new Error(e);
@@ -66,6 +66,7 @@ export class AuthService {
   login(credentials) {
     return this.http.post(`${this.url}/api/Auth/login`, credentials).pipe(
       tap(async res => {
+        // await this.storage.create();
         await this.storage.set(ID_USER, res['id']);
         await this.storage.set(TOKEN_KEY, res['token']);
         this.user = this.helper.decodeToken(res['token']);

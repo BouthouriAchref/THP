@@ -24,6 +24,8 @@ export class HomePage {
     slidesPerView: 1.1,
   };
 
+  SearchData: any= [];
+
   categoriesSliderConfig = {
     slidesPerView: 2.5,
   };
@@ -35,17 +37,19 @@ export class HomePage {
   recommendedPlaces: any[] = [];
 
   constructor(private formBuilder: FormBuilder,private profile: ProfileService, private storage: Storage, private fb: FbService, private Auth: AuthService, private auth: AuthGuardService, private router: Router, private alertController: AlertController, private data: DataService, private place: PlaceService) {
+    this.isOpened = false;
     this.profile.ProfileSubjectEvent.subscribe(res => {
       this.USER = res;
       //console.log('___',res)
     })
+    this.initSerchData();
   }
 
   ngOnInit() {
     this.place.getAllPlaces().subscribe(async (res) => {
       if(res.success){
         this.places = await res.data;
-        console.log('__',this.places)
+        //console.log('__',this.places)
       }
       for (let place of this.places){
       if (place.Notice >= 4) {
@@ -55,11 +59,11 @@ export class HomePage {
       }
       
     }
-    console.log(this.populairePlaces)
+    //console.log(this.populairePlaces)
       
       this.place.getAllCategory().subscribe(async (res) => {
         this.categories = await res.category
-        console.log('cat',this.categories)
+        //console.log('cat',this.categories)
       })    
     //this.categories = this.data.getCategories();
     // for (let place of this.places) {
@@ -79,6 +83,27 @@ export class HomePage {
 
   }
 
+  initSerchData(){
+    this.SearchData = [{
+      "name": "tunis"
+    },
+    {
+      "name": "bizert"
+    }
+  ]
+  }
+
+  FilterSearch(event: any){
+    const val = event.target.value;
+    console.log('val',val);
+    if (val && val.trim() != ''){
+      this.SearchData = this.SearchData.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) >-1)
+      })
+      console.log(this.SearchData)
+    }
+  }
+
 
   cmo() {
     console.log('___', this.credentialsForm.value)
@@ -94,8 +119,6 @@ export class HomePage {
     //return event.target.value;
     
   }
-
-
 
   selectPlace(id){
     this.router.navigate(['/place', {id}]).then();

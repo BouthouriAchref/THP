@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<link href=\"https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap\" rel=\"stylesheet\">\n\n<ion-header class=\"ion-no-border\">\n\t<ion-toolbar>\n    \n\t\t<ion-title class=\"ion-text-center custom-font\">Sign Up</ion-title>\n    <ion-buttons>\n      <ion-button style=\"color: #ed1c24;\" routerLink=\"/menu/home\">\n        <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n\t</ion-toolbar>\n\n</ion-header>\n\n<ion-content fullscreen=\"true\">\n\n  <!-- <svg class=\"back-blob\" viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path fill=\"#ED1C25\" d=\"M68.6,-33.5C81.6,-17.2,79.6,13.8,65.7,37.6C51.8,61.3,25.9,77.8,2.1,76.6C-21.7,75.4,-43.5,56.5,-54.2,34.6C-65,12.7,-64.8,-12.3,-53.9,-27.4C-43,-42.4,-21.5,-47.6,3.2,-49.4C27.9,-51.2,55.7,-49.7,68.6,-33.5Z\" transform=\"translate(117.5 120)\" />\n</svg> -->\n\n<div class=\"row\">\n    <img src=\"../../../assets/logo_THP1.png\">\n</div>\n\n<div class=\"ion-padding\" style=\"padding-top: 0px; padding-bottom: 0px;\">\n  <form class=\"ion-padding\" style=\"padding-top: 0px; padding-bottom: 0px;\" [formGroup]=\"credentialsForm\">\n\n    <div class=\"wrap-input\">\n    <input class=\"input\" type=\"text\" name=\"user-name\" placeholder=\"Full Name\" formControlName=\"fullname\">\n    </div>\n\n    <div class=\"wrap-input\">\n   <input class=\"input\" type=\"text\" name=\"user-email\" placeholder=\"Email\" #email formControlName=\"email\">\n  \n    </div>\n\n    <div class=\"wrap-input\">\n      <input class=\"input\" type=\"password\" name=\"user-password\" placeholder=\"Password\" #password formControlName=\"password\">\n      \n       </div>\n\n    <div class=\"wrap-input\">\n    <input class=\"input\" type=\"password\" name=\"password\" placeholder=\"Confirm Password\" formControlName=\"ConfirmPassword\">\n    </div> \n\n    <div class=\"container-form-btn\">\n      <button class=\"form-btn custom-font\" (click)=\"register()\">\n      SignUp\n      </button>\n    </div>   \n\n\n  </form>\n</div>\n\n\n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n\t<ion-toolbar>\n\t\t<p class=\"ion-text-center custom-font\">Already have an account? <a routerLink=\"/login\">Sign In</a></p>\n\t</ion-toolbar>\n</ion-footer>");
+/* harmony default export */ __webpack_exports__["default"] = ("<link href=\"https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap\" rel=\"stylesheet\">\n\n<ion-header class=\"ion-no-border\">\n    <ion-toolbar>\n\n        <ion-title class=\"ion-text-center custom-font\">Sign Up</ion-title>\n        <ion-buttons>\n            <ion-button style=\"color: #ed1c24;\" routerLink=\"/menu/home\">\n                <ion-icon slot=\"icon-only\" name=\"arrow-back-outline\"></ion-icon>\n            </ion-button>\n        </ion-buttons>\n    </ion-toolbar>\n\n</ion-header>\n\n<ion-content fullscreen=\"true\">\n\n    <!-- <svg class=\"back-blob\" viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path fill=\"#ED1C25\" d=\"M68.6,-33.5C81.6,-17.2,79.6,13.8,65.7,37.6C51.8,61.3,25.9,77.8,2.1,76.6C-21.7,75.4,-43.5,56.5,-54.2,34.6C-65,12.7,-64.8,-12.3,-53.9,-27.4C-43,-42.4,-21.5,-47.6,3.2,-49.4C27.9,-51.2,55.7,-49.7,68.6,-33.5Z\" transform=\"translate(117.5 120)\" />\n</svg> -->\n\n    <div class=\"row\">\n        <img src=\"../../../assets/logo_THP1.png\">\n    </div>\n\n    <div class=\"ion-padding\" style=\"padding-top: 0px; padding-bottom: 0px;\">\n        <form class=\"ion-padding\" style=\"padding-top: 0px; padding-bottom: 0px;\" [formGroup]=\"credentialsForm\">\n\n            <div class=\"wrap-input\">\n                <input class=\"input\" type=\"text\" name=\"user-name\" placeholder=\"Full Name\" formControlName=\"fullname\">\n            </div>\n\n            <div class=\"wrap-input\">\n                <input class=\"input\" type=\"text\" name=\"user-email\" placeholder=\"Email\" #email formControlName=\"email\">\n\n            </div>\n\n            <div class=\"wrap-input\">\n                <input class=\"input\" type=\"password\" name=\"user-password\" placeholder=\"Password\" #password formControlName=\"password\">\n\n            </div>\n\n            <div class=\"wrap-input\">\n                <input class=\"input\" type=\"password\" name=\"password\" placeholder=\"Confirm Password\" formControlName=\"ConfirmPassword\">\n            </div>\n\n            <div class=\"container-form-btn\">\n                <button class=\"form-btn custom-font\" (click)=\"register()\">\n      SignUp\n      </button>\n            </div>\n\n\n        </form>\n    </div>\n\n\n\n</ion-content>\n\n<ion-footer class=\"ion-no-border\">\n    <ion-toolbar>\n        <p class=\"ion-text-center custom-font\">Already have an account? <a routerLink=\"/login\" style=\"color: #ed1c24;\">Sign In</a></p>\n    </ion-toolbar>\n</ion-footer>");
 
 /***/ }),
 
@@ -29,8 +29,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/auth.service */ "lGQG");
-/* harmony import */ var src_app_services_fb_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/fb.service */ "SLMv");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/angular */ "TEn/");
+/* harmony import */ var src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/auth.service */ "lGQG");
+/* harmony import */ var src_app_services_fb_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/services/fb.service */ "SLMv");
+
 
 
 
@@ -40,14 +42,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let SignUpPage = class SignUpPage {
-    constructor(fb, router, formBuilder, authService
+    constructor(alertController, fb, router, formBuilder, authService
     // public authSerives: AuthenticationService,
     // public router:Router
     ) {
+        this.alertController = alertController;
         this.fb = fb;
         this.router = router;
         this.formBuilder = formBuilder;
         this.authService = authService;
+        this.DefaultAvatar = '60b136ed8ec9b0001595d5db';
     }
     ngOnInit() {
         this.credentialsForm = this.formBuilder.group({
@@ -55,25 +59,42 @@ let SignUpPage = class SignUpPage {
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].email]),
             password: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].minLength(6)]),
             ConfirmPassword: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].minLength(6)]),
+            Avatar: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"]('')
         });
     }
     register() {
-        this.authService.register(this.credentialsForm.value).subscribe(res => {
-            console.log(this.credentialsForm.value);
-            this.authService.login(this.credentialsForm.value);
-        });
+        if (this.credentialsForm.valid) {
+            this.credentialsForm.controls['Avatar'].patchValue(this.DefaultAvatar);
+            this.authService.register(this.credentialsForm.value).subscribe(res => {
+                //console.log(this.credentialsForm.value);
+                //this.authService.login(this.credentialsForm.value)
+                this.router.navigate(['/login']);
+            });
+        }
+        else {
+            this.showAlert('Faild', 'Fullname, Email and Password are required');
+        }
     }
     login() {
         this.fb.loginFacebook().then(() => {
             this.router.navigate(['menu/profile']);
         });
     }
+    showAlert(head, msg) {
+        let alert = this.alertController.create({
+            message: msg,
+            header: head,
+            buttons: ['OK']
+        });
+        alert.then(alert => alert.present());
+    }
 };
 SignUpPage.ctorParameters = () => [
-    { type: src_app_services_fb_service__WEBPACK_IMPORTED_MODULE_7__["FbService"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_6__["AlertController"] },
+    { type: src_app_services_fb_service__WEBPACK_IMPORTED_MODULE_8__["FbService"] },
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] },
     { type: _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"] },
-    { type: src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_6__["AuthService"] }
+    { type: src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_7__["AuthService"] }
 ];
 SignUpPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
