@@ -40,6 +40,10 @@ export class ProfilePage implements OnInit {
     private fb: FbService, public modalController: ModalController, public alertController: AlertController,
     private placeService: PlaceService
   ) {
+    this.profile.ProfileSubjectEvent.subscribe(res => {
+      this.USER = res;
+      //console.log('_in edit profile__',res)
+    })
     this.placeService.PlaceSubjectEvent.subscribe(res => {
       if (res) {
         this.storage.get(this.ID_USER).then((res) => {
@@ -50,6 +54,11 @@ export class ProfilePage implements OnInit {
         })
       }
     })
+    this.profile.EditProfileSubjectEvent.subscribe(res => {
+      if(res){
+        this.ngOnInit();
+      }
+    })
   }
 
 
@@ -58,7 +67,7 @@ export class ProfilePage implements OnInit {
       //console.log('res',res)
       this.profile.findUserById(res).subscribe((user: any) => {
         this.USER = user;
-        //console.log(this.USER);
+        console.log(this.USER);
       });
     });
   }

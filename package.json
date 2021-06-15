@@ -47,6 +47,8 @@
         "esri-leaflet-geocoder": "^3.0.0",
         "firebase": "^8.2.10",
         "leaflet": "^1.7.1",
+        "leaflet-control-geocoder": "^2.3.0",
+        "leaflet-routing-machine": "^3.2.12",
         "rxjs": "~6.6.0",
         "rxjs-compat": "^6.6.7",
         "tslib": "^2.0.0",

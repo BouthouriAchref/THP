@@ -57,10 +57,12 @@ let HomePage = class HomePage {
             slidesPerView: 1.1,
         };
         this.SearchData = [];
+        this.Search = false;
         this.categoriesSliderConfig = {
             slidesPerView: 2.5,
         };
         this.isOpened = false;
+        this.isEmty = false;
         this.populairePlaces = [];
         this.recommendedPlaces = [];
         this.isOpened = false;
@@ -68,32 +70,31 @@ let HomePage = class HomePage {
             this.USER = res;
             //console.log('___',res)
         });
-        this.initSerchData();
+        this.place.PlaceSubjectEvent.subscribe(res => {
+            if (res) {
+                this.place.getAllPlaces().subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+                    if (res.success) {
+                        this.places = null;
+                        this.places = yield res.data;
+                        //console.log('__',this.places)
+                    }
+                    this.triPlaces(this.places);
+                }));
+            }
+        });
     }
     ngOnInit() {
         this.place.getAllPlaces().subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             if (res.success) {
                 this.places = yield res.data;
-                //console.log('__',this.places)
+                console.log('__', this.places);
             }
-            for (let place of this.places) {
-                if (place.Notice >= 4) {
-                    this.populairePlaces.push(place);
-                }
-                else {
-                    this.recommendedPlaces.push(place);
-                }
-            }
+            this.triPlaces(this.places);
             //console.log(this.populairePlaces)
             this.place.getAllCategory().subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
                 this.categories = yield res.category;
                 //console.log('cat',this.categories)
             }));
-            //this.categories = this.data.getCategories();
-            // for (let place of this.places) {
-            //   place.noteArray.length = place.Notice;
-            //   place.noteArray2.length = (5 - place.note);
-            // }
             if (this.canActivatefb() || this.canActivate()) {
                 this.getAvatar();
             }
@@ -102,23 +103,42 @@ let HomePage = class HomePage {
             category: new _angular_forms__WEBPACK_IMPORTED_MODULE_13__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_13__["Validators"].required])
         });
     }
-    initSerchData() {
-        this.SearchData = [{
-                "name": "tunis"
-            },
-            {
-                "name": "bizert"
+    triPlaces(places) {
+        this.populairePlaces = [];
+        this.recommendedPlaces = [];
+        for (let place of this.places) {
+            if (place.Notice >= 4) {
+                this.populairePlaces.push(place);
             }
-        ];
+            else {
+                this.recommendedPlaces.push(place);
+            }
+        }
     }
     FilterSearch(event) {
+        this.Search = true;
         const val = event.target.value;
-        console.log('val', val);
+        //console.log('val', val);
         if (val && val.trim() != '') {
-            this.SearchData = this.SearchData.filter((item) => {
-                return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+            this.places = this.places.filter((item) => {
+                return (item.Name.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.Address.Department.toLowerCase().indexOf(val.toLowerCase()) > -1);
             });
-            console.log(this.SearchData);
+            this.populairePlaces = this.places;
+            if (this.places.length == 0) {
+                this.isEmty = true;
+            }
+            //console.log(this.places)
+        }
+        if (val == '') {
+            this.place.getAllPlaces().subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+                if (res.success) {
+                    this.places = yield res.data;
+                    this.triPlaces(this.places);
+                    this.Search = false;
+                    this.isEmty = false;
+                    console.log('__', this.places);
+                }
+            }));
         }
     }
     cmo() {
@@ -414,9 +434,23 @@ let PlaceService = class PlaceService {
         })));
     }
     addPlace(id, credentials) {
+        this.PlaceSubject.next(true);
         //console.log('___',credentials) 
         return this.http.post(`${this.url}/api/Place/addPlace/${id}`, credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
-            this.PlaceSubject.next(true);
+            //console.log('___',response)
+            return response;
+        }));
+    }
+    deletePlaceById(idUser, idPlace) {
+        this.PlaceSubject.next(true);
+        return this.http.delete(`${this.url}/api/Place/places/${idUser}/${idPlace}`).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
+            //console.log('___',response)
+            return response;
+        }));
+    }
+    deleteEvaluationById(idPlace, idEval) {
+        this.PlaceSubject.next(true);
+        return this.http.delete(`${this.url}/api/evaluation/${idPlace}/${idEval}`).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
             //console.log('___',response)
             return response;
         }));
@@ -462,6 +496,13 @@ let PlaceService = class PlaceService {
         });
         alert.then(alert => alert.present());
     }
+    uploadImagePlace(id, image) {
+        //console.log('___',credentials) 
+        return this.http.post(`${this.url}/api/Place/file/${id}`, image).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
+            //console.log('1',response)
+            return response;
+        }));
+    }
 };
 PlaceService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] },
@@ -500,7 +541,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\">\n    <ion-item lines=\"Categories\">\n\n\n        <!-- <ion-avatar slot=\"end\" *ngIf=\"canActivate()\">\n      <div class=\"border\">\n        <img src=\"../../../assets/l.png\" routerLink=\"/menu/profile\">\n      </div>\n    </ion-avatar> -->\n\n        <ion-avatar slot=\"end\" *ngIf=\"canActivate() || canActivatefb()\">\n            <div class=\"border\">\n                <div class=\"border_white\">\n                    <div class=\"img_box\">\n                        <img [src]=\"USER?.Avatar?.Path\" routerLink=\"/menu/profile\">\n                    </div>\n                </div>\n            </div>\n        </ion-avatar>\n\n\n\n\n        <!-- <ion-avatar slot=\"end\" *ngIf=\"canActivate()\">\n      <div class=\"border\">\n        <img src=\"../../../assets/l2.png\" routerLink=\"/menu/profile\">\n      </div>\n    </ion-avatar> -->\n\n        <!-- <ion-avatar (click)=\"Logout()\" slot=\"end\" *ngIf=\"canActivate()\">\n      <img src=\"../../../assets/dec2.png\">\n    </ion-avatar> -->\n\n        <ion-avatar (click)=\"Logout()\" slot=\"end\" *ngIf=\"canActivate() || canActivatefb()\">\n            <div class=\"border\">\n                <div class=\"border_white\">\n                    <img src=\"../../../assets/dec2.png\" routerLink=\"/login\">\n                </div>\n            </div>\n        </ion-avatar>\n\n        <ion-button routerLink=\"/login\" slot=\"end\" color=\"primary\" *ngIf=\"!canActivate() && !canActivatefb()\">Sign in\n        </ion-button>\n\n        <ion-label>\n            <h2>Find, </h2>\n            <h1 style=\"font-size: 23px;\">Place near you !!</h1>\n        </ion-label>\n    </ion-item>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n    <div class=\"ion-padding wrapper\">\n        <ion-buttons style=\"padding-bottom: 10px;\">\n            <ion-searchbar (ionInput)=\"FilterSearch($event)\"></ion-searchbar>\n            <ion-button (click)='open()'>\n                <ion-icon slot=\"icon-only\" name=\"options-outline\"></ion-icon>\n            </ion-button>\n        </ion-buttons>\n        <div *ngIf=\"isOpened\">\n            <ion-row>\n                <ion-col size=\"10\">\n                    <form [formGroup]=\"credentialsForm\">\n                        <div class=\"form-group\">\n                            <ion-label>Category</ion-label>\n                            <ion-select placeholder=\"Choose Category\" id=\"sel1\" okText=\"Ok\" cancelText=\"Dismiss\" (change)=\"selectChangeHandlerCat($event)\" formControlName=\"category\">\n                                <ion-select-option *ngFor=\"let cat of this.categories\" [value]=\"cat._id\">{{cat.Name}}\n                                </ion-select-option>\n                            </ion-select>\n                        </div>\n                    </form>\n                </ion-col>\n                <ion-col size=\"2\">\n                    <ion-icon style=\"margin-top: 38px;margin-left: 20px; color: #ed1c24;\" name=\"search\" (click)='selectCat()'></ion-icon>\n                </ion-col>\n\n            </ion-row>\n\n\n        </div>\n\n        <ion-grid class=\"ion-no-padding\">\n            <ion-row class=\"ion-align-items-baseline\">\n                <ion-col size=\"6\">\n                    <h4 class=\"title\">\n                        Popular Places\n                    </h4>\n                </ion-col>\n                <ion-col size=\"6\">\n                    <h4 class=\"more ion-text-end\">\n                        Show more\n                    </h4>\n                </ion-col>\n            </ion-row>\n        </ion-grid>\n\n    </div>\n\n    <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n            <ion-col size=\"12\">\n                <ion-slides [options]=\"sliderConfig\">\n\n                    <ion-slide *ngFor=\"let place of populairePlaces\">\n                        <ion-card class=\"card\">\n                            <ion-card-content class=\"ion-text-left\" (click)=\"selectPlace(place._id)\">\n                                <div class=\"img-wrapper\">\n                                    <ion-img *ngIf=\"place.Attachement.length>0\" [src]=\"place.Attachement[0].Path\"></ion-img>\n                                </div>\n                                <ion-card-title class=\"title\">{{place.Name}}</ion-card-title>\n                                <ion-card-subtitle>{{place.Description.substring(0, 145)}}...</ion-card-subtitle>\n                                <app-notice [note]=\"place.Notice\"></app-notice>\n                            </ion-card-content>\n                        </ion-card>\n                    </ion-slide>\n                </ion-slides>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n    <div class=\"ion-padding-horizontal wrapper\">\n        <ion-grid class=\"ion-no-padding\">\n            <ion-row class=\"ion-align-items-baseline\">\n                <ion-col size=\"6\">\n                    <h4 class=\"title\">\n                        Explore Categories\n                    </h4>\n                </ion-col>\n                <ion-col size=\"6\">\n                    <h4 class=\"more ion-text-end\" routerLink=\"/category\">\n                        Show more\n                    </h4>\n                </ion-col>\n            </ion-row>\n        </ion-grid>\n    </div>\n    <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n            <ion-col size=\"12\">\n                <div class=\"category-slider ion-padding-start\">\n                    <ion-slides [options]=\"{ slidesPerView: 'auto', zoom: false, grabCursor: true }\">\n                        <ion-slide *ngFor=\"let category of this.categories\">\n                            <ion-col (click)=\"selectCategory(category._id)\">\n                                <h4>{{ category.Name }}</h4>\n                                <img *ngIf=\"category?.Attachement\" [src]=\"category?.Attachement?.Path\" />\n                            </ion-col>\n\n                        </ion-slide>\n                    </ion-slides>\n                </div>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n    <div class=\"ion-padding-horizontal wrapper\">\n        <ion-grid class=\"ion-no-padding\">\n            <ion-row class=\"ion-align-items-baseline\">\n                <ion-col size=\"6\">\n                    <h4 class=\"title\">\n                        Recommended Places\n                    </h4>\n                </ion-col>\n                <ion-col size=\"6\">\n                    <h4 class=\"more ion-text-end\">\n                        Show more\n                    </h4>\n                </ion-col>\n            </ion-row>\n        </ion-grid>\n    </div>\n    <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n            <ion-col size=\"12\">\n                <ion-slides [options]=\"sliderConfig\" style=\"margin-bottom: 20px;\">\n                    <ion-slide *ngFor=\"let place of recommendedPlaces\">\n                        <ion-card class=\"card\">\n                            <ion-card-content class=\"ion-text-left\" (click)=\"selectPlace(place._id)\">\n                                <div class=\"img-wrapper\">\n                                    <ion-img *ngIf=\"place.Attachement.length>0\" [src]=\"place.Attachement[0].Path\"></ion-img>\n                                </div>\n                                <ion-card-title class=\"title\">{{place.Name}}</ion-card-title>\n                                <ion-card-subtitle>{{place.Description.substring(0, 150)}}...</ion-card-subtitle>\n                                <app-notice [note]=\"place?.Notice\"></app-notice>\n                            </ion-card-content>\n                        </ion-card>\n                    </ion-slide>\n                </ion-slides>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header class=\"ion-no-border\">\n    <ion-item lines=\"Categories\">\n\n\n        <!-- <ion-avatar slot=\"end\" *ngIf=\"canActivate()\">\n      <div class=\"border\">\n        <img src=\"../../../assets/l.png\" routerLink=\"/menu/profile\">\n      </div>\n    </ion-avatar> -->\n\n        <ion-avatar slot=\"end\" *ngIf=\"canActivate() || canActivatefb()\">\n            <div class=\"border\">\n                <div class=\"border_white\">\n                    <div class=\"img_box\">\n                        <img [src]=\"USER?.Avatar?.Path\" routerLink=\"/menu/profile\">\n                    </div>\n                </div>\n            </div>\n        </ion-avatar>\n\n        <!-- <ion-avatar slot=\"end\" *ngIf=\"canActivate()\">\n      <div class=\"border\">\n        <img src=\"../../../assets/l2.png\" routerLink=\"/menu/profile\">\n      </div>\n    </ion-avatar> -->\n\n        <!-- <ion-avatar (click)=\"Logout()\" slot=\"end\" *ngIf=\"canActivate()\">\n      <img src=\"../../../assets/dec2.png\">\n    </ion-avatar> -->\n\n        <ion-avatar (click)=\"Logout()\" slot=\"end\" *ngIf=\"canActivate() || canActivatefb()\">\n            <div class=\"border\">\n                <div class=\"border_white\">\n                    <img src=\"../../../assets/dec2.png\" routerLink=\"/login\">\n                </div>\n            </div>\n        </ion-avatar>\n\n        <ion-button routerLink=\"/login\" slot=\"end\" color=\"primary\" *ngIf=\"!canActivate() && !canActivatefb()\">Sign in\n        </ion-button>\n\n        <ion-label>\n            <h2>Find, </h2>\n            <h1 style=\"font-size: 23px;\">Place near you !!</h1>\n        </ion-label>\n    </ion-item>\n    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\" integrity=\"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm\" crossorigin=\"anonymous\">\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n    <div class=\"ion-padding wrapper\">\n        <ion-buttons style=\"padding-bottom: 10px;\">\n            <ion-searchbar (ionInput)=\"FilterSearch($event)\"></ion-searchbar>\n            <ion-button (click)='open()'>\n                <ion-icon slot=\"icon-only\" name=\"options-outline\"></ion-icon>\n            </ion-button>\n        </ion-buttons>\n        <div *ngIf=\"isOpened\">\n            <ion-row>\n                <ion-col size=\"10\">\n                    <form [formGroup]=\"credentialsForm\">\n                        <div class=\"form-group\">\n                            <ion-label>Category</ion-label>\n                            <ion-select placeholder=\"Choose Category\" id=\"sel1\" okText=\"Ok\" cancelText=\"Dismiss\" (change)=\"selectChangeHandlerCat($event)\" formControlName=\"category\">\n                                <ion-select-option *ngFor=\"let cat of this.categories\" [value]=\"cat._id\">{{cat.Name}}\n                                </ion-select-option>\n                            </ion-select>\n                        </div>\n                    </form>\n                </ion-col>\n                <ion-col size=\"2\">\n                    <ion-icon style=\"margin-top: 38px;margin-left: 20px; color: #ed1c24;\" name=\"search\" (click)='selectCat()'></ion-icon>\n                </ion-col>\n\n            </ion-row>\n\n\n        </div>\n\n        <ion-grid class=\"ion-no-padding\" *ngIf=\"!Search\">\n            <ion-row class=\"ion-align-items-baseline\">\n                <ion-col size=\"6\">\n                    <h4 class=\"title\">\n                        Popular Places\n                    </h4>\n                </ion-col>\n                <ion-col size=\"6\">\n                    <h4 class=\"more ion-text-end\">\n                        Show more\n                    </h4>\n                </ion-col>\n            </ion-row>\n        </ion-grid>\n\n        <ion-grid class=\"ion-no-padding\" *ngIf=\"Search\">\n            <ion-row class=\"ion-align-items-baseline\">\n                <ion-col size=\"6\">\n                    <h4 class=\"title\">\n                        Places to Search\n                    </h4>\n                </ion-col>\n            </ion-row>\n        </ion-grid>\n\n    </div>\n\n    <ion-grid class=\"ion-no-padding\" *ngIf=\"this.isEmty\">\n        <ion-row>\n            <ion-col size=\"12\">\n                <ion-slides>\n                    <ion-slide>\n                        <ion-card style=\"background-color: #f0f2f5; margin: 0; width: 80%; margin-bottom: 10px; border-radius: 14px;\">\n                            <ion-card-content class=\"ion-text-left\">\n                                <ion-card-title class=\"title\">\n                                    <div class=\"ion-padding wrapper\" style=\"text-align: center; font-variant: all-small-caps;\">\n                                        <ion-grid class=\"ion-no-padding\">\n                                            <ion-row class=\"ion-align-items-baseline\">\n                                                <ion-col size=\"12\">\n                                                    <h4 class=\"title\">\n                                                        No Places With This Search\n                                                    </h4>\n                                                </ion-col>\n                                            </ion-row>\n                                        </ion-grid>\n                                    </div>\n                                </ion-card-title>\n                                <ion-card-subtitle></ion-card-subtitle>\n                                <ion-card-subtitle></ion-card-subtitle>\n                            </ion-card-content>\n                        </ion-card>\n                    </ion-slide>\n                </ion-slides>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n\n    <ion-grid class=\"ion-no-padding\" *ngIf=\"!Search\">\n        <ion-row>\n            <ion-col size=\"12\">\n                <ion-slides [options]=\"sliderConfig\">\n\n                    <ion-slide *ngFor=\"let place of populairePlaces\">\n                        <ion-card class=\"card\">\n                            <ion-card-content class=\"ion-text-left\" (click)=\"selectPlace(place._id)\">\n                                <div class=\"img-wrapper\">\n                                    <ion-img *ngIf=\"place.Attachement.length>0\" [src]=\"place.Attachement[0].Path\"></ion-img>\n                                </div>\n                                <ion-card-title class=\"title\">{{place.Name}}</ion-card-title>\n                                <ion-card-subtitle>{{place.Description.substring(0, 145)}}...</ion-card-subtitle>\n                                <app-notice [note]=\"place.Notice\"></app-notice>\n                            </ion-card-content>\n                        </ion-card>\n                    </ion-slide>\n                </ion-slides>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n\n    <ion-grid class=\"ion-no-padding\" *ngIf=\"Search\">\n        <ion-row>\n            <ion-col size=\"12\">\n                <ion-slides [options]=\"sliderConfig\">\n\n                    <ion-slide *ngFor=\"let place of populairePlaces\">\n                        <ion-card class=\"card\">\n                            <ion-card-content class=\"ion-text-left\" (click)=\"selectPlace(place._id)\">\n                                <div class=\"img-wrapper\">\n                                    <ion-img *ngIf=\"place.Attachement.length>0\" [src]=\"place.Attachement[0].Path\"></ion-img>\n                                </div>\n                                <ion-card-title class=\"title\">{{place.Name}}</ion-card-title>\n                                <ion-card-subtitle>{{place.Description.substring(0, 145)}}...</ion-card-subtitle>\n                                <app-notice [note]=\"place.Notice\"></app-notice>\n                            </ion-card-content>\n                        </ion-card>\n                    </ion-slide>\n                </ion-slides>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n    <div class=\"ion-padding-horizontal wrapper\">\n        <ion-grid class=\"ion-no-padding\">\n            <ion-row class=\"ion-align-items-baseline\">\n                <ion-col size=\"6\">\n                    <h4 class=\"title\">\n                        Explore Categories\n                    </h4>\n                </ion-col>\n                <ion-col size=\"6\">\n                    <h4 class=\"more ion-text-end\" routerLink=\"/category\">\n                        Show more\n                    </h4>\n                </ion-col>\n            </ion-row>\n        </ion-grid>\n    </div>\n    <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n            <ion-col size=\"12\">\n                <div class=\"category-slider ion-padding-start\">\n                    <ion-slides [options]=\"{ slidesPerView: 'auto', zoom: false, grabCursor: true }\">\n                        <ion-slide *ngFor=\"let category of this.categories\">\n                            <ion-col (click)=\"selectCategory(category._id)\">\n                                <h4>{{ category.Name }}</h4>\n                                <img *ngIf=\"category?.Attachement\" [src]=\"category?.Attachement?.Path\" />\n                            </ion-col>\n\n                        </ion-slide>\n                    </ion-slides>\n                </div>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n    <div class=\"ion-padding-horizontal wrapper\">\n        <ion-grid class=\"ion-no-padding\">\n            <ion-row class=\"ion-align-items-baseline\">\n                <ion-col size=\"6\">\n                    <h4 class=\"title\">\n                        Recommended Places\n                    </h4>\n                </ion-col>\n                <ion-col size=\"6\">\n                    <h4 class=\"more ion-text-end\">\n                        Show more\n                    </h4>\n                </ion-col>\n            </ion-row>\n        </ion-grid>\n    </div>\n    <ion-grid class=\"ion-no-padding\">\n        <ion-row>\n            <ion-col size=\"12\">\n                <ion-slides [options]=\"sliderConfig\" style=\"margin-bottom: 20px;\">\n                    <ion-slide *ngFor=\"let place of recommendedPlaces\">\n                        <ion-card class=\"card\">\n                            <ion-card-content class=\"ion-text-left\" (click)=\"selectPlace(place._id)\">\n                                <div class=\"img-wrapper\">\n                                    <ion-img *ngIf=\"place.Attachement.length>0\" [src]=\"place.Attachement[0].Path\"></ion-img>\n                                </div>\n                                <ion-card-title class=\"title\">{{place.Name}}</ion-card-title>\n                                <ion-card-subtitle>{{place.Description.substring(0, 150)}}...</ion-card-subtitle>\n                                <app-notice [note]=\"place?.Notice\"></app-notice>\n                            </ion-card-content>\n                        </ion-card>\n                    </ion-slide>\n                </ion-slides>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>");
 
 /***/ }),
 

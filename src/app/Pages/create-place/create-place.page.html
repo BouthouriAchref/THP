@@ -165,8 +165,9 @@
                     <button ion-fab (click)="presentActionSheet()"><ion-icon name="camera"></ion-icon></button>
                 </ion-fab>
             </div> -->
+            <!-- <input type="file" *ngIf="this.Platform" (change)="onFileSelected($event)"> -->
             <ion-buttons>
-                <ion-button style="border: 1px solid; width: 260px; border-radius: 10px;" (click)="presentActionSheet()">
+                <ion-button style="border: 1px solid; width: 280px; border-radius: 10px; background-color: #ffff; color: #ed1c24;" (click)="presentActionSheet()">
                     <ion-icon name="image-outline"></ion-icon>
                 </ion-button>
             </ion-buttons>
@@ -174,7 +175,7 @@
         <br>
         <div style="  text-align: center;">
 
-            <ion-button style="padding-left: none;" type="submit" (click)="presentLoading()" color="primary">Create
+            <ion-button style="padding-left: none;" type="submit" (click)="AddPlace()" color="primary">Create
             </ion-button>
         </div>
     </div>

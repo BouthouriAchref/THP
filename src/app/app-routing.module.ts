@@ -25,6 +25,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./Pages/profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuardService]
+  },
+  {
     path: 'rate',
     loadChildren: () => import('./Pages/rate/rate.module').then( m => m.RatePageModule),
     canActivate: [AuthGuardService]

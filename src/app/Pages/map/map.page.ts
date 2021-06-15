@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import * as Leaflet from 'leaflet';
+import "leaflet-routing-machine";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "leaflet/dist/leaflet.css";
 import 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
-import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
-import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder";
+import "leaflet-control-geocoder"
 import { PopUpService } from 'src/app/services/pop-up.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlaceService } from 'src/app/services/place.service';
 import { Geolocation }from '@ionic-native/geolocation/ngx'
-
+declare var L: any;
 @Component({
   selector: 'app-map',
   templateUrl: 'map.page.html',
@@ -18,6 +19,8 @@ import { Geolocation }from '@ionic-native/geolocation/ngx'
 })
 export class MapPage implements OnInit {
   map: Leaflet.Map;
+  mapVersion: string;
+  toggleValue: boolean = true;
   properties: any;
   Position: any;
   categories: any;
@@ -41,21 +44,23 @@ export class MapPage implements OnInit {
     }
 
   ngOnInit() {
-    this.getPosition().then(data => {
-      this.Position = data.coords
-      console.log(this.Position)
+    this.mapVersion = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    this.getPosition().then(async data => {
+      this.Position = await data.coords
+      //console.log(this.Position)
+      
+      this.popupService.getAllPlaces().subscribe(async (res) => {
+        if (res.success) {
+          this.properties = await res.data;
+          //console.log('all',this.properties)
+          this.initData(this.properties);
+        }
+      });
+      this.placeService.getAllCategory().subscribe(async (res) => {
+        this.categories = await res.category
+        //console.log('cat',this.categories)
+      })  
     })
-    this.popupService.getAllPlaces().subscribe(async (res) => {
-      if (res.success) {
-        this.properties = await res.data;
-        //console.log('all',this.properties)
-        this.initData(this.properties);
-      }
-    });
-    this.placeService.getAllCategory().subscribe(async (res) => {
-      this.categories = await res.category
-      //console.log('cat',this.categories)
-    })  
     this.credentialsForm = this.formBuilder.group({
       category: new FormControl('', [Validators.required])
 
@@ -64,8 +69,33 @@ export class MapPage implements OnInit {
     
   }
 
-  getPosition(): Promise<any> {
-    return this.geolocation.getCurrentPosition();
+  FilterSearch(event: any) {
+    const val = event.target.value;
+    console.log('val', val);
+    if (val && val.trim() != '') {
+      this.properties = this.properties.filter((item) => {
+        return (item.Name.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.Address.Department.toLowerCase().indexOf(val.toLowerCase()) > -1)
+      })
+      console.log(this.properties)
+      this.map.off();
+      this.map.remove();
+      this.initData(this.properties)
+    }
+    if (val == ''){
+      this.popupService.getAllPlaces().subscribe(async (res) => {
+        if (res.success) {
+          this.properties = await res.data;
+          //console.log('all',this.properties)
+          this.map.off();
+          this.map.remove();
+          this.initData(this.properties);
+        }
+      });
+    }
+  }
+
+  async getPosition(): Promise<any> {
+    return await this.geolocation.getCurrentPosition();
   }
 
   open() {
@@ -83,11 +113,27 @@ export class MapPage implements OnInit {
     
   }
 
+  changeMap(){
+    this.toggleValue = !this.toggleValue;
+    if(this.toggleValue){
+      this.mapVersion = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+      } else {  
+      this.mapVersion = 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
+      }
+      this.map.off()
+      this.map.remove()
+      this.initData(this.properties)
+  }
+
+
   async initData(properties) {
     // console.timeEnd('aa')
-    this.map = new Leaflet.Map('map').setView([33.8869, 9.5375], 7)
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom: 6, maxZoom: 20 }).addTo(this.map);
-    
+    this.map = new Leaflet.Map('map').setView([33.8869, 9.5375], 1)
+    Leaflet.tileLayer(this.mapVersion, { minZoom: 6, maxZoom: 20 }).addTo(this.map);
+    L.Routing.control({
+      geocoder: L.Control.Geocoder.nominatim()
+    }).addTo(this.map);
+
     var Pos = new Leaflet.Icon({
       iconUrl: '../../assets/blue-marker.png',
       shadowUrl: '../../assets/marker-shadow.png',
@@ -125,7 +171,7 @@ export class MapPage implements OnInit {
         shadowSize: [41, 41]
       });
 
-      if ((place.Evaluation.Notice <= 2) || (place.Evaluation.Notice == null)) {
+      if ((place.Notice <= 2) || (place.Notice == null)) {
         this.caseStatus = One
       } else {
         this.caseStatus = Two

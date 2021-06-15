@@ -23,8 +23,6 @@ export class FbService {
   constructor( private router: Router,private helper: JwtHelperService, private storage: Storage, private plt: Platform,private http: HttpClient, private auth: AuthService) { 
     this.plt.ready().then(() => {
       this.checkToken();
-      //this.logoutFacebook();
-    
     });
   }
 
@@ -52,7 +50,7 @@ export class FbService {
   }
 
   async loginFacebook() {
-    const FACEBOOK_PERMISSIONS = ['email', 'user_birthday'];
+    const FACEBOOK_PERMISSIONS = ['email'];
     const result = await this.fbLogin.login({ permissions: FACEBOOK_PERMISSIONS });
     //console.log('RESULT', result)
     //console.log('result',result.accessToken.token)
@@ -104,7 +102,7 @@ export class FbService {
     //console.log('this.storage.get(TOKEN_KEY));', await this.storage.get(TOKEN_KEY))
     await this.storage.clear();
     this.authenticationState.next(false);
-    //await this.fbLogin.logout();
+    await this.fbLogin.logout();
     
     this.user = null;
     this.token = null;

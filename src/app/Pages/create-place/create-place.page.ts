@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavParams, LoadingController, ActionSheetController, AlertController } from '@ionic/angular';
+import { ModalController, NavParams, LoadingController, ActionSheetController, AlertController, Platform, isPlatform } from '@ionic/angular';
 import { PlaceService } from 'src/app/services/place.service';
 import { Storage } from '@ionic/storage-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
@@ -15,15 +15,17 @@ const ID_USER = 'id';
 })
 export class CreatePlacePage implements OnInit {
   id: number;
+  idPlace: any;
   toggleValue: boolean = true;
   credentialsForm: FormGroup;
   based64Image: String;
+  selectedFile: File = null;
   response: any;
   firstresp: any;
   error: any;
   categories: any;
-  
-  showresp = false
+  showresp = false;
+  Platform : boolean;
 
   constructor(
     private modalController: ModalController,
@@ -59,6 +61,15 @@ export class CreatePlacePage implements OnInit {
     })
   }
 
+  setupPlatform() {
+    if (isPlatform('desktop')) {
+      this.Platform = false
+    } else if (isPlatform('cordova')) {
+      this.Platform = true
+    } 
+  }
+
+
   async closeModal() {
     const onCloseData: string = "Wrapped Up!";
     await this.modalController.dismiss(onCloseData);
@@ -91,8 +102,8 @@ export class CreatePlacePage implements OnInit {
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: this.camera.PictureSourceType.CAMERA
     }
-    this.camera.getPicture(option).then((imageData) => {
-      this.based64Image = imageData
+    this.camera.getPicture(option).then(async (imageData) => {
+      this.based64Image = await imageData
       //this.based64Image = 'data:image/jpeg;based64,' + imageData;
     })
   }
@@ -106,8 +117,8 @@ export class CreatePlacePage implements OnInit {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
 
     }
-    this.camera.getPicture(option).then((imageData) => {
-      this.based64Image = imageData 
+    this.camera.getPicture(option).then(async (imageData) => {
+      this.based64Image = await imageData
       //this.based64Image = 'data:image/jpeg;based64,' + imageData;
     })
   }
@@ -166,8 +177,8 @@ export class CreatePlacePage implements OnInit {
     // console.log('AddPlace',this.credentialsForm.value)
     this.storage.get(ID_USER).then(async (res) => {
       console.log('Form', await this.credentialsForm.value)
-      this.placeService.addPlace(await res, await this.credentialsForm.value).subscribe(response => {
-        this.placeService.uploadImage(response.place._id, this.based64Image)
+      this.placeService.addPlace(await res, await this.credentialsForm.value).subscribe(async response => {
+        this.placeService.uploadImage(await response.place._id, this.based64Image)
       })
     });
   }
@@ -208,5 +219,37 @@ export class CreatePlacePage implements OnInit {
   //     this.closeModal();
   //   })
   // }
+
+  onFileSelected(event) {
+    this.selectedFile = <File>event.target.files[0];
+    console.log('file',this.selectedFile)
+  }
+
+  AddPlace() {
+    console.log('__', this.credentialsForm.value)
+    if (this.credentialsForm.valid) {
+      this.storage.get(ID_USER).then(async (res) => {
+      this.placeService.addPlace(res, this.credentialsForm.value).subscribe(res => {
+        this.idPlace = res.place._id
+        console.log(res, this.idPlace)
+        if(res.msg =="succes"){
+          this.onUpload(this.idPlace);
+        }
+        
+      })
+    })
+  }
+  this.closeModal();
+  this.showAlert('Success','Place created successfully')
+  }
+
+  onUpload(id) {
+      const fb = new FormData();
+      fb.append('image', this.selectedFile)
+      this.placeService.uploadImagePlace(id, fb).subscribe(res => {
+        console.log(res)
+      })
+    }
+
 
 }

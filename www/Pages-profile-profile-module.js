@@ -59,6 +59,10 @@ let ProfilePage = class ProfilePage {
             spaceBetween: -40,
             slidesPerView: 1.1,
         };
+        this.profile.ProfileSubjectEvent.subscribe(res => {
+            this.USER = res;
+            //console.log('_in edit profile__',res)
+        });
         this.placeService.PlaceSubjectEvent.subscribe(res => {
             if (res) {
                 this.storage.get(this.ID_USER).then((res) => {
@@ -69,13 +73,18 @@ let ProfilePage = class ProfilePage {
                 });
             }
         });
+        this.profile.EditProfileSubjectEvent.subscribe(res => {
+            if (res) {
+                this.ngOnInit();
+            }
+        });
     }
     ngOnInit() {
         this.storage.get(this.ID_USER).then((res) => {
             //console.log('res',res)
             this.profile.findUserById(res).subscribe((user) => {
                 this.USER = user;
-                //console.log(this.USER);
+                console.log(this.USER);
             });
         });
     }

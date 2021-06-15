@@ -1375,6 +1375,7 @@ sub {
 }
 .leaflet-right {
     right: 0;
+    width: 100%;
 }
 .leaflet-bottom {
     bottom: 0;
@@ -1657,6 +1658,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-touch .leaflet-bar {
     border: 2px solid rgba(0, 0, 0, 0.2);
     background-clip: padding-box;
+    width: 50%;
 }
 /* popup */
 .leaflet-popup {

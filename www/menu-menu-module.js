@@ -99,7 +99,7 @@ const routes = [
             },
             {
                 path: 'map',
-                loadChildren: () => Promise.all(/*! import() | Pages-map-map-module */[__webpack_require__.e("common"), __webpack_require__.e("Pages-map-map-module")]).then(__webpack_require__.bind(null, /*! ../Pages/map/map.module */ "DYjT")).then(m => m.MapPageModule)
+                loadChildren: () => Promise.all(/*! import() | Pages-map-map-module */[__webpack_require__.e("default~Pages-map-map-module~Pages-place-place-module"), __webpack_require__.e("common"), __webpack_require__.e("Pages-map-map-module")]).then(__webpack_require__.bind(null, /*! ../Pages/map/map.module */ "DYjT")).then(m => m.MapPageModule)
             },
             {
                 path: 'profile',

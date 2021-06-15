@@ -38,6 +38,7 @@ const environment = {
     // },
     url: 'https://tunisian-hidden-places.herokuapp.com'
     //url: 'http://localhost:3000'
+    //url: 'http://192.162.70.235:3003'
 };
 /*
  * For easier debugging in development mode, you can import the following file
@@ -168,7 +169,6 @@ let FbService = class FbService {
         this.authenticationState = new rxjs__WEBPACK_IMPORTED_MODULE_9__["BehaviorSubject"](false);
         this.plt.ready().then(() => {
             this.checkToken();
-            //this.logoutFacebook();
         });
     }
     checkToken() {
@@ -193,7 +193,7 @@ let FbService = class FbService {
     }
     loginFacebook() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            const FACEBOOK_PERMISSIONS = ['email', 'user_birthday'];
+            const FACEBOOK_PERMISSIONS = ['email'];
             const result = yield this.fbLogin.login({ permissions: FACEBOOK_PERMISSIONS });
             //console.log('RESULT', result)
             //console.log('result',result.accessToken.token)
@@ -249,7 +249,7 @@ let FbService = class FbService {
             //console.log('this.storage.get(TOKEN_KEY));', await this.storage.get(TOKEN_KEY))
             yield this.storage.clear();
             this.authenticationState.next(false);
-            //await this.fbLogin.logout();
+            yield this.fbLogin.logout();
             this.user = null;
             this.token = null;
         });
@@ -980,7 +980,7 @@ const routes = [
     },
     {
         path: 'place',
-        loadChildren: () => Promise.all(/*! import() | Pages-place-place-module */[__webpack_require__.e("default~Pages-place-place-module~Pages-rate-rate-module"), __webpack_require__.e("common"), __webpack_require__.e("Pages-place-place-module")]).then(__webpack_require__.bind(null, /*! ./Pages/place/place.module */ "/195")).then(m => m.PlacePageModule)
+        loadChildren: () => Promise.all(/*! import() | Pages-place-place-module */[__webpack_require__.e("default~Pages-map-map-module~Pages-place-place-module"), __webpack_require__.e("common"), __webpack_require__.e("Pages-place-place-module")]).then(__webpack_require__.bind(null, /*! ./Pages/place/place.module */ "/195")).then(m => m.PlacePageModule)
     },
     {
         path: 'edit-profile',
@@ -988,8 +988,13 @@ const routes = [
         canActivate: [_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_3__["AuthGuardService"]]
     },
     {
+        path: 'profile',
+        loadChildren: () => Promise.all(/*! import() | Pages-profile-profile-module */[__webpack_require__.e("default~Pages-create-place-create-place-module~Pages-profile-profile-module"), __webpack_require__.e("common"), __webpack_require__.e("Pages-profile-profile-module")]).then(__webpack_require__.bind(null, /*! ./Pages/profile/profile.module */ "wjNX")).then(m => m.ProfilePageModule),
+        canActivate: [_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_3__["AuthGuardService"]]
+    },
+    {
         path: 'rate',
-        loadChildren: () => Promise.all(/*! import() | Pages-rate-rate-module */[__webpack_require__.e("default~Pages-place-place-module~Pages-rate-rate-module"), __webpack_require__.e("Pages-rate-rate-module")]).then(__webpack_require__.bind(null, /*! ./Pages/rate/rate.module */ "8eyD")).then(m => m.RatePageModule),
+        loadChildren: () => Promise.all(/*! import() | Pages-rate-rate-module */[__webpack_require__.e("common"), __webpack_require__.e("Pages-rate-rate-module")]).then(__webpack_require__.bind(null, /*! ./Pages/rate/rate.module */ "8eyD")).then(m => m.RatePageModule),
         canActivate: [_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_3__["AuthGuardService"]]
     },
     {

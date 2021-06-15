@@ -31,6 +31,11 @@ export class EditProfilePage implements OnInit {
       this.USER = res;
       //console.log('_in edit profile__',res)
     })
+    this.profile.EditProfileSubjectEvent.subscribe(res => {
+      if(res){
+        this.ngOnInit();
+      }
+    })
 
   }
   
@@ -133,14 +138,24 @@ export class EditProfilePage implements OnInit {
   }
 
   Submit(){
-    //console.log('_____',this.credentialsForm.value)
-    if(this.credentialsForm.valid){
-      this.profile.updateProfile(this.USER._id,this.credentialsForm.value)
-      this.showAlert('Info','Profile Update Successfully')
-    }else {
-      this.showAlert('Warning','You need to update your contact')
+    // console.log('_____',this.credentialsForm.value.oldpassword)
+    // console.log('_____',this.credentialsForm.value.newpassword)
+    // console.log('_____',this.credentialsForm.value.confirmpassword)
+    if (this.credentialsForm.valid){
+    if (this.credentialsForm.value.oldpassword && this.credentialsForm.value.newpassword == this.credentialsForm.value.confirmpassword){
+      this.profile.updatePassword(this.USER._id,this.credentialsForm.value).subscribe(res => {
+        if(res.updatePassword){
+        //this.profile.updateProfile(this.USER._id,this.credentialsForm.value)
+        this.credentialsForm.reset();
+        this.showAlert('Info','Profile Update Successfully')
+        } else {
+          this.showAlert(res.head,res.message);
+        }
+      })
     }
-
+  } else {
+      this.showAlert('Warning','You need to your Password')
+    }
   }
 
   showAlert(head,msg) {

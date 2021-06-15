@@ -51,7 +51,7 @@ let SignUpPage = class SignUpPage {
         this.router = router;
         this.formBuilder = formBuilder;
         this.authService = authService;
-        this.DefaultAvatar = '60b136ed8ec9b0001595d5db';
+        this.DefaultAvatar = '60c7567f55b8ac0015ac2de8';
     }
     ngOnInit() {
         this.credentialsForm = this.formBuilder.group({

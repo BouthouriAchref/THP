@@ -24,7 +24,7 @@ export class PlaceCategoryPage implements OnInit {
     });
     this.placeService.getPlacesByCat(this.id).subscribe(async res => {
       this.Places = await res.data;
-      //console.log(this.Places)
+      console.log(this.Places)
     })
     this.placeService.getCategoryById(this.id).subscribe(async res => {
       this.category = await res.data;

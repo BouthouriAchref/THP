@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/logo_thp_c"
+        android:icon="@mipmap/logo_thp_r2"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo_thp_r"
         android:supportsRtl="true"

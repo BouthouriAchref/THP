@@ -24,8 +24,8 @@ export class HomePage {
     slidesPerView: 1.1,
   };
 
-  SearchData: any= [];
-
+  SearchData: any = [];
+  Search : boolean = false;
   categoriesSliderConfig = {
     slidesPerView: 2.5,
   };
@@ -33,74 +33,94 @@ export class HomePage {
   categories: any;
   places: any;
   isOpened = false;
+  isEmty: boolean = false;
   populairePlaces: any[] = [];
   recommendedPlaces: any[] = [];
 
-  constructor(private formBuilder: FormBuilder,private profile: ProfileService, private storage: Storage, private fb: FbService, private Auth: AuthService, private auth: AuthGuardService, private router: Router, private alertController: AlertController, private data: DataService, private place: PlaceService) {
+  constructor(private formBuilder: FormBuilder, private profile: ProfileService, private storage: Storage, private fb: FbService, private Auth: AuthService, private auth: AuthGuardService, private router: Router, private alertController: AlertController, private data: DataService, private place: PlaceService) {
     this.isOpened = false;
     this.profile.ProfileSubjectEvent.subscribe(res => {
       this.USER = res;
       //console.log('___',res)
     })
-    this.initSerchData();
+    this.place.PlaceSubjectEvent.subscribe(res => {
+      if (res) {
+        this.place.getAllPlaces().subscribe(async (res) => {
+          if (res.success) {
+            this.places = null;
+            this.places = await res.data;
+            //console.log('__',this.places)
+          }
+          this.triPlaces(this.places)
+        })
+
+      }
+    })
+
   }
 
   ngOnInit() {
     this.place.getAllPlaces().subscribe(async (res) => {
-      if(res.success){
+      if (res.success) {
         this.places = await res.data;
-        //console.log('__',this.places)
+        console.log('__', this.places)
       }
-      for (let place of this.places){
+      this.triPlaces(this.places)
+      //console.log(this.populairePlaces)
+
+      this.place.getAllCategory().subscribe(async (res) => {
+        this.categories = await res.category
+        //console.log('cat',this.categories)
+      })
+
+      if (this.canActivatefb() || this.canActivate()) {
+        this.getAvatar();
+      }
+      
+    });
+    this.credentialsForm = this.formBuilder.group({
+      category: new FormControl('', [Validators.required])
+
+    });
+  }
+  
+
+  triPlaces(places) {
+    this.populairePlaces = [];
+    this.recommendedPlaces = [];
+    for (let place of this.places) {
       if (place.Notice >= 4) {
         this.populairePlaces.push(place)
       } else {
         this.recommendedPlaces.push(place)
       }
-      
     }
-    //console.log(this.populairePlaces)
-      
-      this.place.getAllCategory().subscribe(async (res) => {
-        this.categories = await res.category
-        //console.log('cat',this.categories)
-      })    
-    //this.categories = this.data.getCategories();
-    // for (let place of this.places) {
-    //   place.noteArray.length = place.Notice;
-    //   place.noteArray2.length = (5 - place.note);
-    // }
-    if (this.canActivatefb() || this.canActivate()) {
-      this.getAvatar();
-    }
-    });
-
-    this.credentialsForm = this.formBuilder.group({
-      category: new FormControl('', [Validators.required])
-
-    });
-
-
   }
 
-  initSerchData(){
-    this.SearchData = [{
-      "name": "tunis"
-    },
-    {
-      "name": "bizert"
-    }
-  ]
-  }
-
-  FilterSearch(event: any){
+  FilterSearch(event: any) {
+    this.Search = true;
     const val = event.target.value;
-    console.log('val',val);
-    if (val && val.trim() != ''){
-      this.SearchData = this.SearchData.filter((item) => {
-        return (item.name.toLowerCase().indexOf(val.toLowerCase()) >-1)
+    //console.log('val', val);
+    if (val && val.trim() != '') {
+      this.places = this.places.filter((item) => {
+        return (item.Name.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.Address.Department.toLowerCase().indexOf(val.toLowerCase()) > -1)
       })
-      console.log(this.SearchData)
+      this.populairePlaces = this.places
+      if (this.places.length==0){
+        this.isEmty = true
+      }
+      //console.log(this.places)
+    }
+    if(val == ''){
+      this.place.getAllPlaces().subscribe(async (res) => {
+        if (res.success) {
+          this.places = await res.data;
+          this.triPlaces(this.places)
+          this.Search = false;
+          this.isEmty = false;
+          console.log('__', this.places)
+        }
+      })
     }
   }
 
@@ -109,32 +129,32 @@ export class HomePage {
     console.log('___', this.credentialsForm.value)
   }
 
-  selectCat(){
+  selectCat() {
     let id = this.credentialsForm.value.category;
-    this.router.navigate(['/place-category',{id}]).then();
+    this.router.navigate(['/place-category', { id }]).then();
   }
 
   selectChangeHandlerCat(event) {
     this.credentialsForm.controls['category'].setValue(event.target.value);
     //return event.target.value;
-    
+
   }
 
-  selectPlace(id){
-    this.router.navigate(['/place', {id}]).then();
+  selectPlace(id) {
+    this.router.navigate(['/place', { id }]).then();
   }
 
-  selectCategory(id){
-    this.router.navigate(['/place-category',{id}]).then();
+  selectCategory(id) {
+    this.router.navigate(['/place-category', { id }]).then();
   }
 
-  getAvatar(){
-      this.storage.get(ID_USER).then( (res) => {
-         this.profile.findUserById(res).subscribe(async (user: any) => {
-          this.USER = await user;
-          //console.log(this.USER);
-        });
+  getAvatar() {
+    this.storage.get(ID_USER).then((res) => {
+      this.profile.findUserById(res).subscribe(async (user: any) => {
+        this.USER = await user;
+        //console.log(this.USER);
       });
+    });
   }
 
   open() {
@@ -171,13 +191,13 @@ export class HomePage {
   }
 
   Logout() {
-    if (this.canActivate){
+    if (this.canActivate) {
       this.Auth.logout();
     }
-    if (this.canActivatefb){
+    if (this.canActivatefb) {
       this.fb.logoutFacebook();
     }
-    
+
   }
 
 

@@ -18,9 +18,6 @@
             </div>
         </ion-avatar>
 
-
-
-
         <!-- <ion-avatar slot="end" *ngIf="canActivate()">
       <div class="border">
         <img src="../../../assets/l2.png" routerLink="/menu/profile">
@@ -80,7 +77,7 @@
 
         </div>
 
-        <ion-grid class="ion-no-padding">
+        <ion-grid class="ion-no-padding" *ngIf="!Search">
             <ion-row class="ion-align-items-baseline">
                 <ion-col size="6">
                     <h4 class="title">
@@ -95,9 +92,71 @@
             </ion-row>
         </ion-grid>
 
+        <ion-grid class="ion-no-padding" *ngIf="Search">
+            <ion-row class="ion-align-items-baseline">
+                <ion-col size="6">
+                    <h4 class="title">
+                        Places to Search
+                    </h4>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
     </div>
 
-    <ion-grid class="ion-no-padding">
+    <ion-grid class="ion-no-padding" *ngIf="this.isEmty">
+        <ion-row>
+            <ion-col size="12">
+                <ion-slides>
+                    <ion-slide>
+                        <ion-card style="background-color: #f0f2f5; margin: 0; width: 80%; margin-bottom: 10px; border-radius: 14px;">
+                            <ion-card-content class="ion-text-left">
+                                <ion-card-title class="title">
+                                    <div class="ion-padding wrapper" style="text-align: center; font-variant: all-small-caps;">
+                                        <ion-grid class="ion-no-padding">
+                                            <ion-row class="ion-align-items-baseline">
+                                                <ion-col size="12">
+                                                    <h4 class="title">
+                                                        No Places With This Search
+                                                    </h4>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </div>
+                                </ion-card-title>
+                                <ion-card-subtitle></ion-card-subtitle>
+                                <ion-card-subtitle></ion-card-subtitle>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="ion-no-padding" *ngIf="!Search">
+        <ion-row>
+            <ion-col size="12">
+                <ion-slides [options]="sliderConfig">
+
+                    <ion-slide *ngFor="let place of populairePlaces">
+                        <ion-card class="card">
+                            <ion-card-content class="ion-text-left" (click)="selectPlace(place._id)">
+                                <div class="img-wrapper">
+                                    <ion-img *ngIf="place.Attachement.length>0" [src]="place.Attachement[0].Path"></ion-img>
+                                </div>
+                                <ion-card-title class="title">{{place.Name}}</ion-card-title>
+                                <ion-card-subtitle>{{place.Description.substring(0, 145)}}...</ion-card-subtitle>
+                                <app-notice [note]="place.Notice"></app-notice>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="ion-no-padding" *ngIf="Search">
         <ion-row>
             <ion-col size="12">
                 <ion-slides [options]="sliderConfig">

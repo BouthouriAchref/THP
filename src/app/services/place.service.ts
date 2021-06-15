@@ -74,12 +74,29 @@ export class PlaceService {
   }
 
   addPlace(id, credentials) {
+    this.PlaceSubject.next(true)
     //console.log('___',credentials) 
     return this.http.post<any>(`${this.url}/api/Place/addPlace/${id}`, credentials).pipe(map(response => {
-      this.PlaceSubject.next(true)
+      
       //console.log('___',response)
       return response
     }));
+  }
+
+  deletePlaceById(idUser,idPlace) {
+    this.PlaceSubject.next(true)
+    return this.http.delete<any>(`${this.url}/api/Place/places/${idUser}/${idPlace}`).pipe(map(response => {
+      //console.log('___',response)
+      return response;
+    }))
+  }
+
+  deleteEvaluationById(idPlace,idEval) {
+    this.PlaceSubject.next(true)
+    return this.http.delete<any>(`${this.url}/api/evaluation/${idPlace}/${idEval}`).pipe(map(response => {
+      //console.log('___',response)
+      return response;
+    }))
   }
 
   uploadImage(id, img){
@@ -129,5 +146,13 @@ export class PlaceService {
       buttons: ['OK']
     });
     alert.then(alert => alert.present());
+  }
+
+  uploadImagePlace(id, image) {
+    //console.log('___',credentials) 
+    return this.http.post<any>(`${this.url}/api/Place/file/${id}`,image).pipe(map(response => {
+      //console.log('1',response)
+      return response
+    }));
   }
 }

@@ -13,6 +13,8 @@ export class ProfileService {
 
   ProfileSubject = new Subject();
   ProfileSubjectEvent = this.ProfileSubject.asObservable();
+  EditProfileSubject = new Subject();
+  EditProfileSubjectEvent = this.EditProfileSubject.asObservable();
 
   constructor(private http: HttpClient, private transfer: FileTransfer) { }
 
@@ -24,7 +26,7 @@ export class ProfileService {
   findUserByID(id){
     this.http.get<any>(`${this.url}/api/Auth/user/${id}`).subscribe(response => {
       this.ProfileSubject.next(response)
-       console.log('__in service_',response)
+       //console.log('__in service_',response)
       return response
     })
   }
@@ -43,7 +45,12 @@ export class ProfileService {
     })
   }
 
+  updatePassword(id, crendentials){
+    return this.http.put<any>(`${this.url}/api/Auth/user/password/${id}`,crendentials)
+  }
+
   uploadImage(id, img){
+    this.EditProfileSubject.next(true)
     const fileTransfer: FileTransferObject = this.transfer.create();
     
     const path = this.url+'/api/Auth/user/upload/'+id;

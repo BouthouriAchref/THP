@@ -76,7 +76,7 @@ let PlaceCategoryPage = class PlaceCategoryPage {
         });
         this.placeService.getPlacesByCat(this.id).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.Places = yield res.data;
-            //console.log(this.Places)
+            console.log(this.Places);
         }));
         this.placeService.getCategoryById(this.id).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.category = yield res.data;
@@ -205,9 +205,23 @@ let PlaceService = class PlaceService {
         })));
     }
     addPlace(id, credentials) {
+        this.PlaceSubject.next(true);
         //console.log('___',credentials) 
         return this.http.post(`${this.url}/api/Place/addPlace/${id}`, credentials).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
-            this.PlaceSubject.next(true);
+            //console.log('___',response)
+            return response;
+        }));
+    }
+    deletePlaceById(idUser, idPlace) {
+        this.PlaceSubject.next(true);
+        return this.http.delete(`${this.url}/api/Place/places/${idUser}/${idPlace}`).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
+            //console.log('___',response)
+            return response;
+        }));
+    }
+    deleteEvaluationById(idPlace, idEval) {
+        this.PlaceSubject.next(true);
+        return this.http.delete(`${this.url}/api/evaluation/${idPlace}/${idEval}`).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
             //console.log('___',response)
             return response;
         }));
@@ -252,6 +266,13 @@ let PlaceService = class PlaceService {
             buttons: ['OK']
         });
         alert.then(alert => alert.present());
+    }
+    uploadImagePlace(id, image) {
+        //console.log('___',credentials) 
+        return this.http.post(`${this.url}/api/Place/file/${id}`, image).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(response => {
+            //console.log('1',response)
+            return response;
+        }));
     }
 };
 PlaceService.ctorParameters = () => [

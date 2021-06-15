@@ -15,6 +15,7 @@ export const environment = {
   // },
   url: 'https://tunisian-hidden-places.herokuapp.com'
   //url: 'http://localhost:3000'
+  //url: 'http://192.162.70.235:3003'
 };
 
 /*

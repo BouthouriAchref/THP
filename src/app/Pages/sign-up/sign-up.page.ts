@@ -12,7 +12,7 @@ import { FbService } from 'src/app/services/fb.service';
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
-  DefaultAvatar = '60b136ed8ec9b0001595d5db'
+  DefaultAvatar = '60c7567f55b8ac0015ac2de8'
   credentialsForm: FormGroup;
   constructor( private alertController: AlertController,private fb:FbService,private router: Router, private formBuilder: FormBuilder, private authService: AuthService
     // public authSerives: AuthenticationService,

@@ -1,14 +1,16 @@
 <ion-content [fullscreen]>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
     <div class="image-slider">
 
         <div class="header">
             <ion-buttons class="space-between">
-                <ion-button style="color: white;" routerLink="/menu/home">
+                <ion-button style="color: white;" routerLink="/menu/home" (click)="initMap()">
                     <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
                 </ion-button>
                 <div>
                     <ion-button (click)="socialShare()">
-                        <ion-icon name="share-social-outline"></ion-icon>
+                        <ion-icon name="share-social-outline" style="    color: white;"></ion-icon>
                     </ion-button>
                     <ion-button (click)="Like(Place?._id)" [style]="like ? 'color: red;' : 'color: white;'">
                         <ion-icon slot="icon-only" name="heart"></ion-icon>
@@ -24,22 +26,36 @@
     </div>
 
     <div class="profile-info">
-        <div class="user-info">
-            <div class="basic-info">
-                <h1>{{Place?.Name}}</h1>
-                <p>
-                    <app-notice [note]="Place?.Notice"></app-notice>
-                </p>
-                <p>
-                    <ion-icon name="location-outline"></ion-icon>
-                    {{Place?.Name}}, {{Place?.Address?.Department}}
-                </p>
-                <p>
-                    <ion-icon name="search-outline"></ion-icon>
-                    {{Place?.Category?.Name}}
-                </p>
-            </div>
-        </div>
+        <ion-row>
+            <ion-col size="10">
+
+                <div class="user-info">
+                    <div class="basic-info">
+                        <h1>{{Place?.Name}}</h1>
+                        <p>
+                            <app-notice [note]="Place?.Notice"></app-notice>
+                        </p>
+                        <p>
+                            <ion-icon name="location-outline"></ion-icon>
+                            {{Place?.Address?.City}}, {{Place?.Address?.Department}}
+                        </p>
+                        <p>
+                            <ion-icon name="search-outline"></ion-icon>
+                            {{Place?.Category?.Name}}
+                        </p>
+                    </div>
+                </div>
+            </ion-col>
+            <ion-col size="2">
+                <ion-buttons *ngIf="(this.canActivate() || this.canActivatefb()) && this.DeletePlace">
+                    <ion-button style="margin-top: 20px; color: #ed1c24;" (click)="deletePlace(Place?._id)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+            </ion-col>
+        </ion-row>
+
+
         <div class="about-me">
             <h1>Description</h1>
 
@@ -86,52 +102,53 @@
 
         <ion-list style="background: #f8f8fa; overflow-y: scroll;">
             <ion-card style="border-radius: 12px;" *ngFor="let eval of Place?.Evaluation">
-                <ion-item>
-                    <ion-avatar slot="start" style="margin-top: -30px;">
-                        <img [src]="eval?.CreatedBy?.Avatar?.Path">
-                    </ion-avatar>
-                    <ion-label>
-                        <h2>{{eval?.CreatedBy?.fullname}}</h2>
-                        <p>{{eval?.Comment}}</p>
-                        <app-notice [note]="eval?.Notice"></app-notice>
-                        <!-- <p style="white-space: break-spaces;" *ngIf="!seeMore" (click)="seeMore = true">{{('Djerba, an island off
-                the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by
-                Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft
-                markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a
-                pilgrimage site for North African Jews').substring(0,100)}}
-                <span style="color: rgb(0, 0, 0);">... See more</span>
-                <span class="more-less"></span>
-              </p>
-              <p style="white-space: break-spaces;" *ngIf="seeMore" (click)="seeMore = false">{{('Djerba, an island off
-                the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by
-                Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft
-                markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a
-                pilgrimage site for North African Jews')}}
-                <span class="more-less" style="color: rgb(0, 0, 0);"> See less</span>
-              </p> -->
-                        <h3>{{eval?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>
-                    </ion-label>
-                </ion-item>
+                <ion-row>
+                    <ion-col size="11">
+                        <ion-item>
+                            <ion-avatar slot="start" style="margin-top: -30px;">
+                                <img [src]="eval?.CreatedBy?.Avatar?.Path">
+                            </ion-avatar>
+                            <ion-label>
+                                <h2>{{eval?.CreatedBy?.fullname}}</h2>
+                                <p>{{eval?.Comment}}</p>
+                                <app-notice [note]="eval?.Notice"></app-notice>
+                                <h3>{{eval?.CreatedAt?.substring(0,10).replace('-','/').replace('-','/')}}</h3>
+                            </ion-label>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-icon name="close-outline" *ngIf="((this.canActivate() || this.canActivatefb()) && (this.User?._id == eval?.CreatedBy?._id))" (click)="DeleteComment(Place._id,eval._id)"></ion-icon>
+                    </ion-col>
+                </ion-row>
             </ion-card>
         </ion-list>
 
 
+        <!-- <p style="white-space: break-spaces;" *ngIf="!seeMore" (click)="seeMore = true">{{('Djerba, an island off
+            the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by
+            Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft
+            markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a
+            pilgrimage site for North African Jews').substring(0,100)}}
+            <span style="color: rgb(0, 0, 0);">... See more</span>
+            <span class="more-less"></span>
+        </p>
+        <p style="white-space: break-spaces;" *ngIf="seeMore" (click)="seeMore = false">{{('Djerba, an island off
+            the coast of Tunisia, is known for Mediterranean beaches and whitewashed desert towns influenced by
+            Berber, Arab, Jewish and African cultures. Houmt Souk is the main city, known for its handicraft
+            markets, fishing port and 16th-century fortress, Borj el Kebir. To the south is El Ghriba synagogue, a
+            pilgrimage site for North African Jews')}}
+            <span class="more-less" style="color: rgb(0, 0, 0);"> See less</span>
+        </p> -->
 
-        <!-- <div class="about-me">
-      <h1>Other Pictures</h1>
-      <div class="image-slider">
-        <ion-slides [options]="sliderConfig">
-          <ion-slide>
-            <img src="../../../assets/banna.jpg" alt="">
-          </ion-slide>
-          <ion-slide>
-            <img src="../../../assets/taher.jpg" alt="">
-          </ion-slide>
-          <ion-slide>
-            <img src="../../../assets/Tunis.jpg" alt="">
-          </ion-slide>
-        </ion-slides>
-      </div>
-    </div> -->
+
+
+        <div class="about-me">
+            <h1>Position</h1>
+            <ion-card style="background: #F8F8FB; overflow-y: scroll; height: 300px; padding: 4px;">
+                <div #map id="map" style="width: 100%; height: 100%;"></div>
+            </ion-card>
+            <br>
+        </div>
+
     </div>
 </ion-content>
